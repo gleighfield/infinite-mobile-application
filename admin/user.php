@@ -1,7 +1,78 @@
 <?php
 	require_once('includes/header.php');
 ?>
-	<h2>User Administration</h2>
+		<div class="jumbotron">
+			<h1>User Administration</h1>
+			<p class="lead">Here, you can add, edit, or delete users.</p>
+			<button class="btn btn-large btn-success" data-target="#addUser" data-toggle="modal">Add a new user</button>
+			<a class="btn btn-large btn-success" href="#">Edit an existing user</a>
+		</div>
+		<hr>
+		
+		<div id="addUser" class="modal hide fade">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h3>Add a new user</h3>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal">
+					<div class="control-group">
+						<label class="control-label" for="inputFirstname">Firstname</label>
+						<div class="controls">
+							<div class="input-prepend">
+								<span class="add-on"><i class="icon-user"></i></span>
+								<input type="text" id="inputFirstname" placeholder="Firstname">
+							</div>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="inputLastname">Lastname</label>
+						<div class="controls">
+							<div class="input-prepend">
+								<span class="add-on"><i class="icon-user"></i></span>
+								<input type="text" id="inputLastname" placeholder="Lastname">
+							</div>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="inputEmail">Email</label>
+						<div class="controls">
+							<div class="input-prepend">
+								<span class="add-on"><i class="icon-envelope"></i></span>
+								<input type="text" id="inputEmail" placeholder="Email">
+							</div>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="inputChannel">Channel</label>
+						<div class="controls">
+							<div class="input-prepend">
+								<span class="add-on"><i class="icon-bell"></i></span>
+								<select>
+									<option>Select Channel...</option>
+									<option>1</option>
+									<option>2</option>
+									<option>3</option>
+									<option>4</option>
+									<option>5</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="control-group">
+						<div class="controls">
+							<label class="checkbox">
+								<input type="checkbox"> Admin User
+							</label>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+				<a href="#" class="btn btn-success">Add user</a>
+			</div>
+		</div>
 <?php
 	require_once('includes/footer.php');
 ?>
