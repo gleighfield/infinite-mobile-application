@@ -24,7 +24,10 @@
 									<a href="/"><i class="icon-home"></i> Home</a>
 								</li>
 								<li>
-									<a href="user.php"><i class="icon-user"></i> User</a>
+									<a href="user.php"><i class="icon-user"></i> Users</a>
+								</li>
+								<li>
+									<a href="channel.php"><i class="icon-eye-open"></i> Channels</a>
 								</li>
 								<!--<li>
 									<a href="#"><i class="icon-icon-question-sign"></i> Questionnaires</a>

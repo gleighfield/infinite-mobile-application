@@ -4,7 +4,7 @@
 		<div class="jumbotron">
 			<h1><?= $s['site_name']; ?></h1>
 			<p class="lead">From this administration area you can add users, create questionnaires, and create news articles.</p>
-			<a class="btn btn-large btn-success" href="users.php">User Area</a>
+			<a class="btn btn-large btn-success" href="user.php">User Area</a>
 			<!--<a class="btn btn-large btn-success" href="#">Questionnaires</a>
 			<a class="btn btn-large btn-success" href="#">Articles</a>//-->
 		</div>

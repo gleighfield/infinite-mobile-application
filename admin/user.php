@@ -47,7 +47,7 @@
 						<label class="control-label" for="inputChannel">Channel</label>
 						<div class="controls">
 							<div class="input-prepend">
-								<span class="add-on"><i class="icon-bell"></i></span>
+								<span class="add-on"><i class="icon-eye-open"></i></span>
 								<select>
 									<option>Select Channel...</option>
 									<option>1</option>
