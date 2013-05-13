@@ -20,17 +20,17 @@
 					<div class="navbar-inner">
 						<div class="container">
 							<ul class="nav">
-								<li class="active">
-									<a href="/">Home</a>
+								<li>
+									<a href="/"><i class="icon-home"></i> Home</a>
+								</li>
+								<li>
+									<a href="user.php"><i class="icon-user"></i> User</a>
 								</li>
 								<!--<li>
-									<a href="#">item</a>
+									<a href="#"><i class="icon-icon-question-sign"></i> Questionnaires</a>
 								</li>
 								<li>
-									<a href="#">item</a>
-								</li>
-								<li>
-									<a href="#">item</a>
+									<a href="#"><i class="icon-list"></i> Articles</a>
 								</li>
 								<li>
 									<a href="#">item</a>
