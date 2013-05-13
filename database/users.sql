@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 13, 2013 at 06:00 PM
+-- Generation Time: May 13, 2013 at 09:32 PM
 -- Server version: 5.1.68-cll
 -- PHP Version: 5.3.17
 
@@ -31,12 +31,13 @@ CREATE TABLE IF NOT EXISTS `users` (
   `firstname` varchar(100) NOT NULL,
   `lastname` varchar(100) NOT NULL,
   `email` varchar(255) NOT NULL,
-  `registered` int(11) NOT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `admin` int(1) NOT NULL DEFAULT '0',
   `status` int(1) NOT NULL DEFAULT '0',
+  `version` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`,`email`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
