@@ -2,10 +2,12 @@
 //Config file
 
 //DB CONNECTION
-$host = 'localhost';
-$user = 'gelst463_mobile';
-$pass = 'gelstud1oS';
+$db_host = 'localhost';
+$db_table = 'gelst463_infinite';
+$db_user = 'gelst463_mobile';
+$db_pass = 'gelstud1oS';
 
-$db = mysql_connect($host, $user, $pass) or die("MySQL PDO Connection Error");
+$db = mysql_connect($db_host, $db_user, $db_pass) or die("MySQL PDO Connection Error");
+mysql_select_db($db_table, $db);
 
 ?>
