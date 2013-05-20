@@ -67,6 +67,12 @@ border-radius: 3px 0 0 3px;
 border-right: 0;
 border-radius: 0 3px 3px 0;
 }
+
+/* Increase height of modal window to accomodate the slightly larger inputs that we want to display */
+.modal-body {
+	max-height:800px;
+}
+
 /* Notifications area */
 #notifications {
 	position:absolute;
