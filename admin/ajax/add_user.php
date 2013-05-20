@@ -5,7 +5,7 @@
 	
 	//Add a channel into the database, only one required field which is the name.
 	$data = array (
-		'user_id' 			=> '0',
+		'user_id' 			=> 0,
 		'firstname'			=> $_POST['firstname'],
 		'lastname'			=> $_POST['lastname'],
 		'email'				=> $_POST['email'],

@@ -5,7 +5,7 @@
 	
 	//Add a channel into the database, only one required field which is the name.
 	$data = array (
-		'user_id' 			=> '0',
+		'user_id' 			=> 0,
 		'name'				=> $_POST['name'],
 		'time_stamp'		=> date('Y-m-d H:i:s')
 	);
