@@ -1,18 +1,14 @@
 var site_url = "http://infinite.gelstudios.co.uk/ajax/device/";
 
-function userLogin (email) {
-	var formData = new FormData;
-		formData.append('user_email', email);
-		
+function userLogin (email) {		
 	$.ajax({
 		type: "POST",
 		url : site_url + 'user_login.php',
-		processData : false,
-		contentType : false,
-		data : formData,			
+		dataType : 'json',
+		data : 'user_email=' + email,			
 		success : function (data) {
 			$('#addChannel').modal('hide');
-			alert(data);
+			alert(data['firstname']);
 		},
 		error : function (xhr) {
   			alert(xhr.statusText);
