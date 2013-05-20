@@ -57,5 +57,11 @@
 						</div>
 					</div>
 				</div>
+				<div id="notifications">
+					<div id="alert" class="alert success fade in" data-alert="alert">
+						<a class="close" data-dismiss="alert" href="#">&times;</a>
+						<p class="text"><strong>Bold</strong> Message</p>
+					</div>
+				</div>
 			</div>
 <!-- HEADER END //-->

@@ -67,6 +67,13 @@ border-radius: 3px 0 0 3px;
 border-right: 0;
 border-radius: 0 3px 3px 0;
 }
+/* Notifications area */
+#notifications {
+	position:absolute;
+	width:1000px;
+	height:auto;
+	top:-70px;
+}
 
 /* CSS Loader */
 #loader {
