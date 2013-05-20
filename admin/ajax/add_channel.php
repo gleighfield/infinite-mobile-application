@@ -21,7 +21,7 @@
 	$sql = "INSERT INTO admin_log (user_id, comment, timestamp) VALUES (:user_id, :comment, :timestamp)";
 	$addLogEntry = $db->prepare($sql);
 	$addLogEntry->execute(array(
-		':user_id'		=> $data['name'],
+		':user_id'		=> $data['user_id'],
 		':comment'		=> 'Channel added titled "' . $data['name'] . '"',
 		':timestamp'	=> $data['time_stamp']
 	));
