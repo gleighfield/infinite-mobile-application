@@ -48,13 +48,17 @@
 						<div class="controls">
 							<div class="input-prepend">
 								<span class="add-on"><i class="icon-eye-open"></i></span>
-								<select>
+								<select id="inputChannel">
 									<option>Select Channel...</option>
-									<option>1</option>
-									<option>2</option>
-									<option>3</option>
-									<option>4</option>
-									<option>5</option>
+									
+<?
+	$query = $db->query("SELECT * FROM channels ORDER BY name");
+	while($data = $query->fetch(PDO::FETCH_ASSOC)) {
+?>
+									<option value="<?= $data['id'] ?>"><?= $data['name'] ?></option>
+<?
+	}
+?>
 								</select>
 							</div>
 						</div>
@@ -62,7 +66,7 @@
 					<div class="control-group">
 						<div class="controls">
 							<label class="checkbox">
-								<input type="checkbox"> Admin User
+								<input id="inputAdmin" type="checkbox"> Admin User
 							</label>
 						</div>
 					</div>
@@ -70,7 +74,7 @@
 			</div>
 			<div class="modal-footer">
 				<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
-				<a href="#" class="btn btn-success">Add user</a>
+				<a href="#" id="addUserSubmit" class="btn btn-success">Add user</a>
 			</div>
 		</div>
 <?php
