@@ -41,11 +41,11 @@
 								<li>
 									<a href="channel.php"><i class="icon-eye-open"></i> Channels</a>
 								</li>
+								<li>
+									<a href="articles.php"><i class="icon-list"></i> Articles</a>
+								</li>
 								<!--<li>
 									<a href="#"><i class="icon-icon-question-sign"></i> Questionnaires</a>
-								</li>
-								<li>
-									<a href="#"><i class="icon-list"></i> Articles</a>
 								</li>
 								<li>
 									<a href="#">item</a>
