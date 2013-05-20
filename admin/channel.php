@@ -3,7 +3,7 @@
 ?>
 		<div class="jumbotron">
 			<h1>Channels</h1>
-			<p class="lead">Here, you can add a new channel, which you can then assign questionnaires and news articles to.</p>
+			<p class="lead">Here, you can add a new channel, which you can then assign users, and articles to.</p>
 			<button class="btn btn-large btn-success" data-target="#addChannel" data-toggle="modal">Add a new channel</button>
 		</div>
 		<hr>
