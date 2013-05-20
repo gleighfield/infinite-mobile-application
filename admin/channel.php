@@ -28,9 +28,10 @@
 			</div>
 			<div class="modal-footer">
 				<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
-				<a href="#" class="btn btn-success">Add channel</a>
+				<a href="#" id="addChannelSubmit" class="btn btn-success">Add channel</a>
 			</div>
 		</div>
+		
 <?php
 	require_once('includes/footer.php');
 ?>
