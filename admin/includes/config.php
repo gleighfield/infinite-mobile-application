@@ -7,8 +7,8 @@ $db_table = 'gelst463_infinite';
 $db_user = 'gelst463_mobile';
 $db_pass = 'gelstud1oS';
 
-$db = mysql_connect($db_host, $db_user, $db_pass) or die("MySQL PDO Connection Error");
-mysql_select_db($db_table, $db);
+$db = new PDO('mysql:host='.$db_host.';dbname='.$db_table, $db_user, $db_pass);
+$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 //Application configuration options
 $s = array(
