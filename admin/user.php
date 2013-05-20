@@ -3,9 +3,9 @@
 ?>
 		<div class="jumbotron">
 			<h1>User Administration</h1>
-			<p class="lead">Here, you can add, edit, or delete users.</p>
+			<p class="lead">Here, you can add a user into the system</p>
 			<button class="btn btn-large btn-success" data-target="#addUser" data-toggle="modal">Add a new user</button>
-			<a class="btn btn-large btn-success" href="#">Edit an existing user</a>
+			<!--<a class="btn btn-large btn-success" href="#">Edit an existing user</a>//-->
 		</div>
 		<hr>
 		
