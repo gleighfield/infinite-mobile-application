@@ -151,6 +151,16 @@ function loadArticle(articleId) {
 };
 
 //**************************************************************************************************
+//Settings Page Functions
+function loadSettings() {
+		$('#settings_version').html(window.localStorage.getItem("settings_version"));
+		$('#settings_email').html(window.localStorage.getItem("email"));
+		$('#settings_channelName').html(window.localStorage.getItem("settings_channelName"));
+		$('#settings_articlesTotal').html(window.localStorage.getItem("settings_articlesTotal"));
+		$('#settings_emailTotal').html(window.localStorage.getItem("settings_emailTotal"));
+}
+
+//**************************************************************************************************
 
 /* Dom Ready */
 $(function () {
@@ -182,9 +192,6 @@ $(function () {
 	$('#home').live('pagecreate', function (e) {
 		console.log("HOME CREATED");
 		fetchArticles();
-		$('#lsClear').live('click', function () {
-			wipeData();
-		});
 	});
 	
 	//Get In Touch Page Functions
@@ -210,5 +217,15 @@ $(function () {
 		console.log("ARTICLES CONTAINER CREATED FOR ARTICLE ID " + loadedArticle);
 		loadArticle(loadedArticle);
 	});
+	
+	//Settings Page Functions
+	$('#settings').live('pagecreate', function (e) {
+		console.log("SETTINGS CREATED");
+		loadSettings();
+		
+		$('#lsClear').live('click', function () {
+			wipeData();
+		});
+	})
 
 });
