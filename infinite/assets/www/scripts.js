@@ -96,6 +96,7 @@ $(function () {
 	
 	//Login Page Functions
 	$('#login_user_submit').click(function () {
+		console.log("LOGIN CREATED");
 		var email = $('#login_user_email').val();
 		if (email != null) {
 			userLogin(email);
@@ -104,16 +105,23 @@ $(function () {
 	
 	//Home Page Functions
 	$('#home').live('pagecreate', function (e) {
-		$('#lsClear').click(function () {
+		console.log("HOME CREATED");
+		$('#lsClear').live('click', function () {
 			wipeData();
 		});
 	});
 	
 	//Get In Touch Page Functions
 	$('#getInTouch').live('pagecreate', function (e) {
+		console.log("GET IN TOUCH CREATED");
 		$('#getInTouch_submit').click(function () {
 			sendEmail();
 		});
+	});
+	
+	//Articles Page Functions
+	$('#articles').live('pagecreate', function (e) {
+		console.log("ARTICLES CREATED");
 	});
 
 });
