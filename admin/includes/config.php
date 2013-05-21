@@ -12,9 +12,11 @@ $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 //Application configuration options
 $s = array(
-	site_name 	=> 'Site Name',
-	copyright 	=> 'CR INFO',
-	login_error	=> 'Sorry, no user with that email address has been registered'
+	site_name 		=> 'Site Name',
+	copyright 		=> 'CR INFO',
+	login_error		=> 'Sorry, no user with that email address has been registered',
+	email_address	=> 'info@gelstudios.co.uk',
+	email_title		=> 'Email message from applicaion',
 );
 
 ?>
