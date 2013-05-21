@@ -4,12 +4,12 @@ var site_url = "http://infinite.gelstudios.co.uk/ajax/device/";
 //Init Functions
 function init () {
 	if (window.localStorage.getItem("email")) {
-		$.mobile.changePage("#home");
+		$.mobile.changePage("home.html");
 	}
 	else {
 		//User not yet registered
 		//$.mobile.changePage("#login", {transition:"slideup"});
-		$.mobile.changePage("#home", {transition:"slideup"});
+		$.mobile.changePage("home.html", {transition:"slideup"});
 	}
 }
 
@@ -23,7 +23,11 @@ function addUserToLocalStorage (user) {
 
 //Wipe the entire devices data
 function wipeData() {
-	window.localStorage.clear();
+	var x = confirm("Are you sure you want to wipe all data on this device?");
+	if (x) {
+		window.localStorage.clear();
+		navigator.app.exitApp(); //Andriod only
+	}
 }
 
 //**************************************************************************************************
@@ -98,15 +102,18 @@ $(function () {
 		}
 	});
 	
+	//Home Page Functions
+	$('#home').live('pagecreate', function (e) {
+		$('#lsClear').click(function () {
+			wipeData();
+		});
+	});
+	
 	//Get In Touch Page Functions
 	$('#getInTouch').live('pagecreate', function (e) {
 		$('#getInTouch_submit').click(function () {
 			sendEmail();
 		});
 	});
-	
-	$('#lsClear').click(function () {
-		wipeData();
-		navigator.app.exitApp(); //Andriod only
-	});
+
 });
