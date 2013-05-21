@@ -56,6 +56,10 @@ function addUserToLocalStorage (user) {
 	window.localStorage.setItem("lastname", user['lastname']);
 	window.localStorage.setItem("channel", user['channel']);
 	window.localStorage.setItem("email", user['email']);
+	window.localStorage.setItem("settings_version", 0.1);
+	window.localStorage.setItem("settings_channelName", user['channel_name']);
+	window.localStorage.setItem("settings_articlesTotal", 0);
+	window.localStorage.setItem("settings_emailTotal", 0);
 }
 
 //Wipe the entire devices data
@@ -155,6 +159,10 @@ $(function () {
 	window.localStorage.setItem("lastname", 'Leighfield');
 	window.localStorage.setItem("channel", 14);
 	window.localStorage.setItem("email", 'graeme@gelstudios.co.uk');
+	window.localStorage.setItem("settings_version", 0.1);
+	window.localStorage.setItem("settings_channelName", 'Channel One');
+	window.localStorage.setItem("settings_articlesTotal", 0);
+	window.localStorage.setItem("settings_emailTotal", 0);
 	
 	//Init Check after page has been rendered
 	$('#loading').live('pagecreate', function (e) {
