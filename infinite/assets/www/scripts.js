@@ -127,7 +127,7 @@ function sendEmail () {
 //Articles Page Functions
 function showArticle(articleId) {
 	loadedArticle = articleId;
-	$.mobile.changePage("articles_container.html", {transition:"pop"});
+	$.mobile.changePage("articles_container.html", {transition:"pop", changeHash:false});
 };
 
 //Load all articles in storage to the screen;
@@ -181,7 +181,7 @@ $(function () {
 	
 	//Login Page Functions
 	$('#login_user_submit').click(function () {
-		console.log("LOGIN CREATED");
+		console.log("LOGIN PAGE SHOWN");
 		var email = $('#login_user_email').val();
 		if (email != null) {
 			userLogin(email);
@@ -190,37 +190,49 @@ $(function () {
 	
 	//Home Page Functions
 	$('#home').live('pagecreate', function (e) {
-		console.log("HOME CREATED");
+		console.log("HOME PAGE SHOWN");
 		fetchArticles();
 	});
 	
 	//Get In Touch Page Functions
 	$('#getInTouch').live('pagecreate', function (e) {
-		console.log("GET IN TOUCH CREATED");
+		console.log("GET IN TOUCH PAGE SHOWN");
 		$('#getInTouch_submit').click(function () {
 			sendEmail();
 		});
 	});
 	
 	//Articles Page Functions
-	$('#articles').live('pagecreate', function (e) {
-		console.log("ARTICLES CREATED");
+	$('#articles').live('pagebeforecreate', function (e) {
+		console.log("ARTICLES LOADED");
 		//Load Articles
 		loadArticles();
+	});
+	
+	$('#articles').live('pagecreate', function (e) {
+		console.log("ARTICLES PAGE SHOWN");
 		$('.article').live('click', function () {
 			showArticle($(this).attr('data-articleId'));
 		});
 	});
 	
 	//Articles Container Page Functions
-	$('#articles_container').live('pagecreate', function (e) {
-		console.log("ARTICLES CONTAINER CREATED FOR ARTICLE ID " + loadedArticle);
+	$('#articles_container').live('pagebeforecreate', function (e) {
+		console.log("ARTICLES ID " + loadedArticle + " LOADED");
 		loadArticle(loadedArticle);
+	});
+	
+	$('#articles_container').live('pagecreate', function (e) {
+		console.log("ARTICLES PAGE SHOWN");
+		$('#backButton').live('click', function () {
+			console.log("BACKFIRED");
+			$.mobile.changePage("articles.html", {transition:"slideup", changeHash:false});
+		});
 	});
 	
 	//Settings Page Functions
 	$('#settings').live('pagecreate', function (e) {
-		console.log("SETTINGS CREATED");
+		console.log("SETTINGS PAGE SHOWN");
 		loadSettings();
 		
 		$('#lsClear').live('click', function () {
