@@ -1,4 +1,5 @@
 var site_url = "http://infinite.gelstudios.co.uk/ajax/device/";
+var loadedArticle = 0;
 
 //**************************************************************************************************
 //Init Functions
@@ -13,11 +14,47 @@ function init () {
 	}
 }
 
+//Fetch articles that are relavent to this user and channel
+function fetchArticles() {
+	$.ajax({
+		type: "POST",
+		url : site_url + 'fetch_articles.php',
+		dataType : 'json',
+		data : {
+			'channel' : window.localStorage.getItem("channel"),
+			'user_id' : window.localStorage.getItem("userid")
+		},			
+		success : function (data) {
+			storeArticles(data);
+		},
+		error : function (xhr) {
+  			console.log("ERROR LOADING ARTICLES");
+		}
+	});
+}
+
+function storeArticles(articles) {
+	var localArticles = {};
+	$.each(articles, function(i) {
+		var article = {};
+			article['id'] 			= articles[i]['id'];
+			article['title'] 		= articles[i]['title'];
+			article['content'] 		= articles[i]['content'];
+			article['alert']		= articles[i]['alert'];
+			article['published'] 	= articles[i]['timestamp'];
+		
+		localArticles["articleId_" + articles[i]['id']] = article;
+	});
+	
+	window.localStorage.setItem("Articles", JSON.stringify(localArticles));
+}
+
 //Adds the users details into DOM Local storage
 function addUserToLocalStorage (user) {
 	window.localStorage.setItem("userid", user['id']);
 	window.localStorage.setItem("firstname", user['firstname']);
 	window.localStorage.setItem("lastname", user['lastname']);
+	window.localStorage.setItem("channel", user['channel']);
 	window.localStorage.setItem("email", user['email']);
 }
 
@@ -37,7 +74,9 @@ function userLogin (email) {
 		type: "POST",
 		url : site_url + 'user_login.php',
 		dataType : 'json',
-		data : 'user_email=' + email,			
+		data : {
+			'user_email' : email
+		},			
 		success : function (data) {
 			addUserToLocalStorage(data);
 			alert("Thanks " + data['firstname'] + ", you have been successfully registered.");
@@ -81,12 +120,40 @@ function sendEmail () {
 }
 
 //**************************************************************************************************
+//Articles Page Functions
+function showArticle(articleId) {
+	loadedArticle = articleId;
+	$.mobile.changePage("articles_container.html", {transition:"pop"});
+};
+
+//Load all articles in storage to the screen;
+function loadArticles() {
+	var articles = $.parseJSON(window.localStorage.getItem("Articles"));	
+	var articlesHtml = "";
+	$.each(articles, function(i) {
+		var html = '<li><a href="#" data-articleId="' + articles[i]['id'] + '" data-icon="arrow-l" class="article">' + articles[i]['title'] + '</a></li>';
+		articlesHtml = articlesHtml + html;
+	});
+	
+	$('#articles_list').html(articlesHtml);
+}
+
+//**************************************************************************************************
+//Articles Container Page Functions
+function loadArticle(articleId) {
+	var articles = $.parseJSON(window.localStorage.getItem("Articles"));
+	$('#articles_title').html(articles["articleId_" + articleId]['title']);
+	$('#articles_content').html(articles["articleId_" + articleId]['content']);
+};
+
+//**************************************************************************************************
 
 /* Dom Ready */
 $(function () {
 	window.localStorage.setItem("userid", '2');
 	window.localStorage.setItem("firstname", 'Graeme');
 	window.localStorage.setItem("lastname", 'Leighfield');
+	window.localStorage.setItem("channel", 14);
 	window.localStorage.setItem("email", 'graeme@gelstudios.co.uk');
 	
 	//Init Check after page has been rendered
@@ -106,6 +173,7 @@ $(function () {
 	//Home Page Functions
 	$('#home').live('pagecreate', function (e) {
 		console.log("HOME CREATED");
+		fetchArticles();
 		$('#lsClear').live('click', function () {
 			wipeData();
 		});
@@ -122,6 +190,17 @@ $(function () {
 	//Articles Page Functions
 	$('#articles').live('pagecreate', function (e) {
 		console.log("ARTICLES CREATED");
+		//Load Articles
+		loadArticles();
+		$('.article').live('click', function () {
+			showArticle($(this).attr('data-articleId'));
+		});
+	});
+	
+	//Articles Container Page Functions
+	$('#articles_container').live('pagecreate', function (e) {
+		console.log("ARTICLES CONTAINER CREATED FOR ARTICLE ID " + loadedArticle);
+		loadArticle(loadedArticle);
 	});
 
 });

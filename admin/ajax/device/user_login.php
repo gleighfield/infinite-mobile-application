@@ -3,7 +3,7 @@
 	//Include global config file
 	require_once('../../includes/config.php');
 	
-	//Add a channel into the database, only one required field which is the name.
+	//Check the user is allowed to log into the system
 	$data = array (
 		'user_email'		=> $_POST['user_email'],
 		'time_stamp'		=> date('Y-m-d H:i:s'),
@@ -16,7 +16,7 @@
 		':email'	=> $data['user_email']
 	));
 	
-	$user = $userQuery->fetch();
+	$user = $userQuery->fetch(PDO::FETCH_ASSOC);
 	
 	if (!$user) {
 		header('HTTP/1.1 403 ' . $s['login_error']);
@@ -28,7 +28,7 @@
 	$addLogEntry = $db->prepare($sql);
 	$addLogEntry->execute(array(
 		':user_id'		=> $user['id'],
-		':comment'		=> $user['firstname'] . ' '. $user['lastname'] . ' (' . $data['user_email'] . ') linked!',
+		':comment'		=> $user['firstname'] . ' '. $user['lastname'] . '(' . $data['user_email'] . ') linked!',
 		':timestamp'	=> $data['time_stamp']
 	));
 	

@@ -3,7 +3,7 @@
 	//Include global config file
 	require_once('../../includes/config.php');
 	
-	//Add a channel into the database, only one required field which is the name.
+	//Submit an email to system admin
 	$data = array (
 		'user_id'		=> $_POST['user_id'],
 		'user_email'		=> $_POST['user_email'],
@@ -19,7 +19,7 @@
 		':userid'	=> $data['user_id']
 	));
 	
-	$user = $userQuery->fetch();
+	$user = $userQuery->fetch(PDO::FETCH_ASSOC);
 	
 	if (!$user) {
 		header('HTTP/1.1 403 No user with such ID here');
