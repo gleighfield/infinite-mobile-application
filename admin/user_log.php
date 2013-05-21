@@ -3,7 +3,7 @@
 ?>
 		<div class="jumbotron">
 			<h1>User Log</h1>
-			<p class="lead">A basic log of the last 25 things to have ats happened...</p>
+			<p class="lead">A basic log of the last 25 things to have happened...</p>
 			
 			<table class="table table-striped table-bordered">
 				<tr>
