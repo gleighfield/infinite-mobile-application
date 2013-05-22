@@ -13,7 +13,7 @@
 	
 	//print_r($questionnaire);
 ?>
-		<div class="jumbotron">
+		<div class="jumbotron" id="questionnaire" data-qid="<?= $qid ?>">
 			<h1><?= $questionnaire['title'] ?></h1>
 			<p class="lead">Here, you can add questions to this questionnaire, and arrange their order. When you are finshed, press published.</p>
 			<p class="lead">Once a questionnaire is published, changes <strong>cannot</strong> be made.</p>
@@ -27,7 +27,53 @@
 						<th width="100">Actions</th>
 					</tr>
 				</thead>
-				<tbody class="tableOptions" id="questions"></tbody>
+				<tbody class="tableOptions" id="questions">
+<?
+	$query = $db->query("
+	SELECT 
+		id,
+		title, 
+		`order`, 
+		type
+	FROM questions
+	WHERE questionnaire = ". $qid ."
+	ORDER BY `order` ASC");
+
+	while($question = $query->fetch(PDO::FETCH_ASSOC)) {
+		$qType = "";
+		switch($question['type']) {
+			case 0 :
+				$qType = "Text input";
+				break;
+			case 1 :
+				$qType = "Drop down list";
+				break;
+			case 2 :
+				$qType = "Slider";
+				break;
+			case 3 :
+				$qType = "Radio buttons";
+				break;
+			case 4 :
+				$qType = "Check boxes";
+				break;
+		}
+?>
+					<tr data-questionId="<?= $question['id'] ?>">
+						<td class="order"><?= $question['order'] ?></td>
+						<td><?= $question['title'] ?></td>
+						<td><?= $qType ?></td>
+						<td>
+							<button class="btn btn-danger removeRowAndDb">
+								<i class="icon-remove icon-white"></i>
+							</button>
+						</td>
+					</tr>
+<?
+	}
+?>
+				
+				</tbody>
 			</table>
 			<p>Drag a row up, or down by the "Order" column to re-order.</p>
 		</div>
