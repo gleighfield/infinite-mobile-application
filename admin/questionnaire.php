@@ -91,13 +91,14 @@
 						<p>Drop down lists are good for selecting single option values, without taking up much screen space.</p>
 					</div>
 					<div class="tab-pane fade" id="2">
-						<p>A slider can be used to obtain a number value.</p>
+						<p>A slider can be used to obtain a number value. Select a start, max and step value.</p>
+						<p>A step value indicates the increments to use.</p>
 						<form class="form-horizontal">
 							<div class="control-group">
 								<label class="control-label" for="inputSliderMaxValue">Max Value</label>
 								<div class="controls">
 									<div class="input-prepend">
-										<span class="add-on"><i class="icon-tag"></i></span>
+										<span class="add-on"><i class="icon-tasks"></i></span>
 										<input type="number" id="inputSliderMaxValue" placeholder="Max Value">
 									</div>
 								</div>
@@ -106,7 +107,7 @@
 								<label class="control-label" for="inputSliderStartValue">Start Value</label>
 								<div class="controls">
 									<div class="input-prepend">
-										<span class="add-on"><i class="icon-tag"></i></span>
+										<span class="add-on"><i class="icon-tasks"></i></span>
 										<input type="number" id="inputSliderStartValue" placeholder="Start Value" value="0">
 									</div>
 								</div>
@@ -115,7 +116,7 @@
 								<label class="control-label" for="inputSliderStepValue">Step Value</label>
 								<div class="controls">
 									<div class="input-prepend">
-										<span class="add-on"><i class="icon-tag"></i></span>
+										<span class="add-on"><i class="icon-tasks"></i></span>
 										<input type="number" id="inputSliderStepValue" placeholder="Step Value" value="5">
 									</div>
 								</div>
