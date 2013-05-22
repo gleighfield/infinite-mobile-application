@@ -231,7 +231,7 @@
 							<div class="control-group">
 								<label class="control-label" for="addQuestionnTextInputSubmit">&nbsp;</label>
 								<div class="controls">
-									<a href="#" id="addQuestionnSliderSubmit" class="btn btn-success">Add text input question</a>
+									<a href="#" id="addQuestionnSliderSubmit" class="btn btn-success">Add slider question</a>
 								</div>
 							</div>
 						</form>
