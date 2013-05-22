@@ -153,7 +153,7 @@ function addQuestion (title, questionType, questionDisplay, order, questionOptio
 	}
 	
 	var rowId = $('#questions').find('tr').length + 1;
-	var newRow = '<tr><td class="order">' + rowId + '</td><td>' + title + '</td><td>' + questionDisplay + '</td><td><button class="btn btn-danger removeRow"><i class="icon-remove icon-white"></i></button></td></tr>';
+	var newRow = '<tr><td class="order">' + rowId + '</td><td>' + title + '</td><td>' + questionDisplay + '</td><td><button class="btn btn-danger removeRowAndDb"><i class="icon-remove icon-white"></i></button></td></tr>';
 			
 	
 	var formData = new FormData;

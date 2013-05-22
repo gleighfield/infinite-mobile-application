@@ -31,7 +31,7 @@
 	$addLogEntry = $db->prepare($sql);
 	$addLogEntry->execute(array(
 		':user_id'		=> $data['user_id'],
-		':comment'		=> 'Question "' . $data['title'] . '" added to Questionnaire ID ' + $data['questionnaire'],
+		':comment'		=> 'Question "' . $data['title'] . '" added to Questionnaire ID ' . $data['questionnaire'],
 		':timestamp'	=> $data['time_stamp']
 	));
 
