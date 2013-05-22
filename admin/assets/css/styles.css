@@ -3,6 +3,10 @@ padding-top: 20px;
 padding-bottom: 60px;
 }
 
+.questionTypes {
+	display:none;
+}
+
 /* Custom container */
 .container {
 margin: 0 auto;

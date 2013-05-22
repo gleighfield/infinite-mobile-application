@@ -1,0 +1,151 @@
+<?php
+	require_once('includes/header.php');
+	
+	//Grab fed questionnaire
+	$qid = $_GET['qid'];
+	
+	if (!$qid) {
+		die("Not allowed to access directly");
+	}
+	
+	$query = $db->query("SELECT * FROM questionnaires WHERE id =" . $qid);
+	$questionnaire = $query->fetch(PDO::FETCH_ASSOC);
+	
+	print_r($questionnaire);
+?>
+		<div class="jumbotron">
+			<h1><?= $questionnaire['title'] ?></h1>
+			<p class="lead">Here, you can add questions to this questionnaire, and arrange their order. When you are finshed, press published.</p>
+			<p class="lead">Once a questionnaire is published, changes <strong>cannot</strong> be made.</p>
+			<button class="btn btn-large btn-success" data-target="#addQuestion" data-toggle="modal">Add a new question</button>
+		</div>
+		<hr>
+		
+		<div id="addQuestion" class="modal hide fade">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h3>Add a new question</h3>
+			</div>
+			<div class="modal-body">
+				<p>Question addition help</p>
+				<hr>
+				<form class="form-horizontal">
+					<div class="control-group">
+						<label class="control-label" for="inputQuestionTitle">Question</label>
+						<div class="controls">
+							<div class="input-prepend">
+								<span class="add-on"><i class="icon-tag"></i></span>
+								<input type="text" id="inputQuestionTitle" placeholder="Question">
+							</div>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="inputChannel">Type</label>
+						<div class="controls">
+							<div class="input-prepend">
+								<span class="add-on"><i class=" icon-question-sign"></i></span>
+								<select id="inputQuestionType">
+									<option value="0">Text input</option>
+									<option value="1">Drop down list</option>
+									<option value="2">Slider</option>
+									<option value="3">Radio buttons</option>
+									<option value="4">Check boxes</option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</form>
+				
+				<ul id="myTab" class="questionTypes nav nav-tabs">
+					<li class="active">
+						<a href="#0" data-toggle="tab">Text input</a>
+					</li>
+					<li class="">
+						<a href="#1" data-toggle="tab">Drop down list</a>
+					</li>
+					<li class="">
+						<a href="#2" data-toggle="tab">Slider</a>
+					</li>
+					<li class="">
+						<a href="#3" data-toggle="tab">Radio buttons</a>
+					</li>
+					<li class="">
+						<a href="#4" data-toggle="tab">Check boxes</a>
+					</li>
+				</ul>
+			
+				<div id="myTabContent" class="tab-content">
+					<div class="tab-pane fade active in" id="0">
+						<p>Text inputs are best used to gain feedback from a user. Such uses include "any comments/feedback" e.t.c</p>
+						<p>There is no 'correct' response for this question type.</p>
+						<form class="form-horizontal">
+							<div class="control-group">
+								<label class="control-label" for="addQuestionnTextInputSubmit">&nbsp;</label>
+								<div class="controls">
+									<a href="#" id="addQuestionnTextInputSubmit" class="btn btn-success">Add text input question</a>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="tab-pane fade" id="1">
+						<p>Drop down lists are good for selecting single option values, without taking up much screen space.</p>
+					</div>
+					<div class="tab-pane fade" id="2">
+						<p>A slider can be used to obtain a number value.</p>
+						<form class="form-horizontal">
+							<div class="control-group">
+								<label class="control-label" for="inputSliderMaxValue">Max Value</label>
+								<div class="controls">
+									<div class="input-prepend">
+										<span class="add-on"><i class="icon-tag"></i></span>
+										<input type="number" id="inputSliderMaxValue" placeholder="Max Value">
+									</div>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="inputSliderStartValue">Start Value</label>
+								<div class="controls">
+									<div class="input-prepend">
+										<span class="add-on"><i class="icon-tag"></i></span>
+										<input type="number" id="inputSliderStartValue" placeholder="Start Value" value="0">
+									</div>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="inputSliderStepValue">Step Value</label>
+								<div class="controls">
+									<div class="input-prepend">
+										<span class="add-on"><i class="icon-tag"></i></span>
+										<input type="number" id="inputSliderStepValue" placeholder="Step Value" value="5">
+									</div>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="addQuestionnTextInputSubmit">&nbsp;</label>
+								<div class="controls">
+									<a href="#" id="addQuestionnSliderSubmit" class="btn btn-success">Add text input question</a>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="tab-pane fade" id="3">
+						<p>Radio buttons</p>
+					</div>
+					<div class="tab-pane fade" id="4">
+						<p>Check boxes</p>
+					</div>
+				</div>
+				
+				
+				
+			</div>
+			<div class="modal-footer">
+				<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+				<a href="#" id="addQuestionnaireContainerSubmit" class="btn btn-success">Add question</a>
+			</div>
+		</div>
+<?php
+	require_once('includes/footer.php');
+?>
+		<script src="questionnaire.js"></script>
+
