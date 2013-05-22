@@ -98,10 +98,8 @@ function addQuestionnaireContainer(channel, title, date, time) {
 		processData : false,
 		contentType : false,
 		data : formData,			
-		success : function (data) {
-			loaderHide();
-			$('#addQuestionnaireContainer').modal('hide');
-			showNotice('<strong>Success!</strong> " Questionnaire container "' + title + '" was added!');
+		success : function (data) {			
+			window.location.href = "questionnaire.php?qid=" + data;
 		},
 		error : function (data) {
 			alert("There has been an error adding this questionnaire");

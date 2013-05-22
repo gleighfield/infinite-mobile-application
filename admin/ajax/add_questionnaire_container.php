@@ -24,6 +24,8 @@
 		':published'	=> $data['published'],
 	));
 	
+	$qid = $db->lastInsertId(); 
+	
 	//Add log entry
 	$sql = "INSERT INTO admin_log (user_id, comment, timestamp) VALUES (:user_id, :comment, :timestamp)";
 	$addLogEntry = $db->prepare($sql);
@@ -32,5 +34,7 @@
 		':comment'		=> 'Questionnaire container added "' . $data['title'] . '"',
 		':timestamp'	=> $data['time_stamp'],
 	));
+	
+	echo $qid;
 
 ?>
