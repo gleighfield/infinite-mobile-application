@@ -5,6 +5,46 @@
 			<h1>Articles</h1>
 			<p class="lead">Here, you can add news articles into the system on a per-channel basis</p>
 			<button class="btn btn-large btn-success" data-target="#addArticle" data-toggle="modal">Add a new article</button>
+			<table class="table table-striped table-bordered">
+				<tr>
+					<th>Title</th>
+					<th width="150">Channel</th>
+					<th width="40">Alertable</th>
+					<th width="120">Created</th>
+					<th width="40">Actions</th>
+				</tr>
+<?
+	$query = $db->query("
+	SELECT 
+		articles.id, 
+		articles.title, 
+		articles.channel, 
+		articles.alert,
+		articles.timestamp, 
+		channels.name
+	FROM articles
+	INNER JOIN channels 
+		ON articles.channel = channels.id
+	ORDER BY articles.timestamp DESC
+	LIMIT 100");
+
+	while($article = $query->fetch(PDO::FETCH_ASSOC)) {
+?>
+				<tr>
+					<td><?= $article['title'] ?></td>
+					<td><?= $article['name'] ?></td>
+					<td><?= $article['alert'] ?></td>
+					<td><?= date('d/m/y h:i A', strtotime($article['timestamp'])) ?></td>
+					<td>
+						<!--<a href="questionnaire.php?qid=<?= $article['id'] ?>" title="Edit this questionnaire" class="btn btn-success editQuestionsBtn">
+							Edit
+						</a>//-->
+					</td>
+				</tr>
+<?
+	}
+?>
+			</table>
 		</div>
 		<hr>
 		
