@@ -23,11 +23,24 @@
 			<div class="span4">
 				<h2>Questionnaires</h2>
 				<ul>
-					<li>Test Item One <i class="icon-search"></i></li>
-					<li>Test Item Two <i class="icon-search"></i></li>
-					<li>Test Item Three <i class="icon-search"></i></li>
-					<li>Test Item Four <i class="icon-search"></i></li>
-					<li>Test Item Five <i class="icon-search"></i></li>
+<?
+	$query = $db->query("
+	SELECT 
+		questionnaires.id, 
+		questionnaires.title, 
+		questionnaires.channel, 
+		channels.name
+		FROM questionnaires
+		INNER JOIN channels 
+			ON questionnaires.channel = channels.id
+		ORDER BY validto DESC");
+
+	while($questionnaire = $query->fetch(PDO::FETCH_ASSOC)) {
+?>
+					<li><?= $questionnaire['title'] ?> |  <?= $questionnaire['name'] ?> <a href="questionnaire.php?qid=<?= $questionnaire['id'] ?>"><i class="icon-search"></i></a></li>
+<?
+	}
+?>
 				</ul>
 			</div>
 			<div class="span4">
