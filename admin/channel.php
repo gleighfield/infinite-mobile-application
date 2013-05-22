@@ -5,6 +5,27 @@
 			<h1>Channels</h1>
 			<p class="lead">Here, you can add a new channel, which you can then assign users, and articles to.</p>
 			<button class="btn btn-large btn-success" data-target="#addChannel" data-toggle="modal">Add a new channel</button>
+			<table class="table table-striped table-bordered">
+				<tr>
+					<th>Name</th>
+				</tr>
+<?
+	$query = $db->query("
+	SELECT 
+		name
+	FROM channels
+	ORDER BY name DESC
+	LIMIT 100");
+
+	while($channel = $query->fetch(PDO::FETCH_ASSOC)) {
+?>
+				<tr>
+					<td><?= $channel['name'] ?></td>
+				</tr>
+<?
+	}
+?>
+			</table>
 		</div>
 		<hr>
 		
