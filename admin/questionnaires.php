@@ -13,12 +13,12 @@
 ?>
 				<table class="table table-striped table-bordered">
 					<tr>
-						<th width="40">Actions</th>
 						<th>Title</th>
 						<th width="40">Questions</th>
 						<th>Channel</th>
 						<th>Expires</th>
 						<th width="30">Published?</th>
+						<th width="40">Actions</th>
 					</tr>
 <?
 		$query = $db->query("
@@ -42,22 +42,22 @@
 				$publishedIcon = '<i class="icon-ok"></i>';
 			}
 ?>
-						<tr>
-							<td>
-								<a href="questionnaire.php?qid=<?= $questionnaire['id'] ?>" title="Edit this questionnaire">
-									<i class="icon-edit"></i>
-								</a>
-							</td>
-							<td><?= $questionnaire['title'] ?></td>
-							<td><?= $questionCount[0] ?></td>
-							<td><?= $questionnaire['name'] ?></td>
-							<td><?= date('d/m/y h:i A', strtotime($questionnaire['validto'])) ?></td>
-							<td><?= $publishedIcon ?></td>
-						</tr>
+					<tr>
+						<td><?= $questionnaire['title'] ?></td>
+						<td><?= $questionCount[0] ?></td>
+						<td><?= $questionnaire['name'] ?></td>
+						<td><?= date('d/m/y h:i A', strtotime($questionnaire['validto'])) ?></td>
+						<td><?= $publishedIcon ?></td>
+						<td>
+							<a href="questionnaire.php?qid=<?= $questionnaire['id'] ?>" title="Edit this questionnaire" class="btn btn-success editQuestionsBtn">
+								Edit
+							</a>
+						</td>
+					</tr>
 <?
 		}
 ?>
-				</table>
+			</table>
 <?
 	}
 ?>

@@ -37,11 +37,11 @@ padding-bottom: 60px;
 }
 
 
-#questions .btn {
-	margin-bottom:0;
-	padding:4px 12px;
+#questions .btn, .editQuestionsBtn {
+	margin-bottom:0 !important;
+	padding:4px 12px !important;
 	line-height:20px;
-	font-size:14px;
+	font-size:14px !important;
 }
 
 /* Custom container */
