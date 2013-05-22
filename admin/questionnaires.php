@@ -15,6 +15,7 @@
 					<tr>
 						<th width="40">Actions</th>
 						<th>Title</th>
+						<th width="40">Questions</th>
 						<th>Channel</th>
 						<th>Expires</th>
 						<th width="30">Published?</th>
@@ -34,6 +35,8 @@
 		ORDER BY validto DESC");
 
 		while($questionnaire = $query->fetch(PDO::FETCH_ASSOC)) {
+			$questionCount = $db->query("SELECT COUNT(id) FROM questions WHERE questionnaire = 3")->fetch(PDO::FETCH_NUM);			
+			
 			$publishedIcon = '<i class="icon-remove"></i>';
 			if ($questionnaire['published'] == 1) {
 				$publishedIcon = '<i class="icon-ok"></i>';
@@ -46,6 +49,7 @@
 								</a>
 							</td>
 							<td><?= $questionnaire['title'] ?></td>
+							<td><?= $questionCount[0] ?></td>
 							<td><?= $questionnaire['name'] ?></td>
 							<td><?= date('d/m/y h:i A', strtotime($questionnaire['validto'])) ?></td>
 							<td><?= $publishedIcon ?></td>
