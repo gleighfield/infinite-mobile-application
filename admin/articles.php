@@ -57,7 +57,7 @@
 			</div>
 			<div class="modal-footer">
 				<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
-				<a href="#" id="addArticleSubmit" class="btn btn-success">Add Article</a>
+				<a href="#" id="addArticleSubmit" class="btn btn-success">Add article</a>
 			</div>
 		</div>
 <?php
