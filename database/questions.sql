@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 22, 2013 at 05:22 PM
+-- Generation Time: May 22, 2013 at 05:48 PM
 -- Server version: 5.1.68-cll
 -- PHP Version: 5.3.17
 
@@ -33,6 +33,7 @@ CREATE TABLE IF NOT EXISTS `questions` (
   `order` int(2) NOT NULL,
   `type` int(1) NOT NULL,
   `options` longtext NOT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
