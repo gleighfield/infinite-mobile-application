@@ -32,7 +32,8 @@
 		FROM questionnaires
 		INNER JOIN channels 
 			ON questionnaires.channel = channels.id
-		ORDER BY validto DESC");
+		ORDER BY validto DESC
+		LIMIT 100");
 
 		while($questionnaire = $query->fetch(PDO::FETCH_ASSOC)) {
 			$questionCount = $db->query("SELECT COUNT(id) FROM questions WHERE questionnaire = " . $questionnaire['id'])->fetch(PDO::FETCH_NUM);			
