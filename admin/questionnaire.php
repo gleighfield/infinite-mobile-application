@@ -17,8 +17,8 @@
 			<h1><?= $questionnaire['title'] ?></h1>
 			<p class="lead">Here, you can add questions to this questionnaire, and arrange their order. When you are finshed, press published.</p>
 			<p class="lead">Once a questionnaire is published, changes <strong>cannot</strong> be made.</p>
-			<button class="btn btn-large btn-success" data-target="#addQuestion" data-toggle="modal">Add a new question</button>
 <? 	if ($questionnaire['published'] == 0) { ?>
+			<button class="btn btn-large btn-success" data-target="#addQuestion" data-toggle="modal">Add a new question</button>
 			<button class="btn btn-large btn-primary" id="publishQuestionnaire" data->Publish this questionnaire!</button>
 <? 	} else { ?>
 			<button class="btn btn-large btn-danger" id="unPublishQuestionnaire">Take this questionnaire offline!</button>
