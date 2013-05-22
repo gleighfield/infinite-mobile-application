@@ -31,6 +31,7 @@
 		ON user_log.user_id = users.id
 	ORDER BY timestamp DESC 
 	LIMIT 25");
+	
 	while($log = $query->fetch(PDO::FETCH_ASSOC)) {
 ?>
 						<tr>
