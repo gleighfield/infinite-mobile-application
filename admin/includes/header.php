@@ -44,13 +44,13 @@
 								<li>
 									<a href="articles.php"><i class="icon-list"></i> Articles</a>
 								</li>
+								<li>
+									<a href="questionnaires.php"><i class="icon-question-sign"></i> Questionnaires</a>
+								</li>
+								<li>
+									<a href="user_log.php"><i class="icon-book"></i> User Log</a>
+								</li>
 								<!--<li>
-									<a href="#"><i class="icon-icon-question-sign"></i> Questionnaires</a>
-								</li>
-								<li>
-									<a href="#">item</a>
-								</li>
-								<li>
 									<a href="#">item</a>
 								</li>//-->
 							</ul>

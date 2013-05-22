@@ -77,6 +77,35 @@ function addArticle(channel, title, alert, content) {
 	});
 };
 
+//Add a new questionnaire container into the system - attr = channel, title, validToDate, validToTime
+function addQuestionnaireContainer(channel, title, date, time) {
+	loaderShow();
+	
+	//Lets make the date something nice
+	var validTo = date + " " + time + ":00";
+	
+	var formData = new FormData;
+		formData.append('channel', channel);
+		formData.append('title', title);
+		formData.append('validto', validTo);
+	
+	$.ajax({
+		type: "POST",
+		url : 'ajax/add_questionnaire_container.php',
+		processData : false,
+		contentType : false,
+		data : formData,			
+		success : function (data) {
+			loaderHide();
+			$('#addQuestionnaireContainer').modal('hide');
+			showNotice('<strong>Success!</strong> " Questionnaire container "' + title + '" was added!');
+		},
+		error : function (data) {
+			alert("There has been an error adding this questionnaire");
+		}
+	});
+}
+
 //Show a notice to the user
 function showNotice(message) {
 	$('#alert').find('.text').html(message);
@@ -156,5 +185,20 @@ $(function () {
 		$('#inputTitle').val('');
 		$('#inputAlert').removeAttr('checked');
 		CKEDITOR.instances.textarea.setData('');
+	});
+	
+	// Add a new questionnaire container into the system
+	$('#addQuestionnaireContainerSubmit').click(function (e) {
+		e.preventDefault();
+		console.log("Add a questionnaire");
+		addQuestionnaireContainer($('#inputChannel').val(), $('#inputTitle').val(), $('#inputDate').val(), $('#inputTime').val());
+	})
+	
+	//Clear on hide
+	$('#addQuestionnaireContainer').on('hidden', function () {
+		$('#inputChannel').val($("#target option:first").val());
+		$('#inputTitle').val('');
+		$('#inputDate').val('');
+		$('#inputTime').val('12:00');
 	});
 });
