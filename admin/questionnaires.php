@@ -40,7 +40,11 @@
 			}
 ?>
 						<tr>
-							<td>ACTIONS</td>
+							<td>
+								<a href="questionnaire.php?qid=<?= $questionnaire['id'] ?>" title="Edit this questionnaire">
+									<i class="icon-edit"></i>
+								</a>
+							</td>
 							<td><?= $questionnaire['title'] ?></td>
 							<td><?= $questionnaire['name'] ?></td>
 							<td><?= date('d/m/y h:i A', strtotime($questionnaire['validto'])) ?></td>
