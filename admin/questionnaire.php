@@ -239,6 +239,4 @@
 <?php
 	require_once('includes/footer.php');
 ?>
-		<script src="assets/js/jquery-ui-1.10.3.custom.min.js"></script>
-		<script src="questionnaire.js"></script>
 

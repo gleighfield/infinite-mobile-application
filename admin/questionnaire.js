@@ -117,7 +117,7 @@ $(function () {
 		}
 	});
 	
-		//General multi purpose actions
+	//General multi purpose actions
 	$('.addTableOption').click(function () {
 		addOptionRow($(this).closest('.tab-pane').find('.table .tableOptions'));
 	});
