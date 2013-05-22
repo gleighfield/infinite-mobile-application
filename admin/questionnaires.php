@@ -6,6 +6,53 @@
 			<p class="lead">Here, you can add a basic questionnaire to users in a specific channel.</p>
 			<p class="lead">To get started, you need to add a questionnaire container.</p>
 			<button class="btn btn-large btn-success" data-target="#addQuestionnaireContainer" data-toggle="modal">Add a new questionnaire container</button>
+<?
+	$query = $db->query("SELECT * FROM questionnaires");
+	if ($query->fetch(PDO::FETCH_ASSOC)) {
+
+?>
+				<table class="table table-striped table-bordered">
+					<tr>
+						<th width="40">Actions</th>
+						<th>Title</th>
+						<th>Channel</th>
+						<th>Expires</th>
+						<th width="30">Published?</th>
+					</tr>
+<?
+		$query = $db->query("
+		SELECT 
+			questionnaires.id, 
+			questionnaires.title, 
+			questionnaires.channel, 
+			questionnaires.validto, 
+			questionnaires.published, 
+			channels.name
+		FROM questionnaires
+		INNER JOIN channels 
+			ON questionnaires.channel = channels.id
+		ORDER BY validto DESC");
+
+		while($questionnaire = $query->fetch(PDO::FETCH_ASSOC)) {
+			$publishedIcon = '<i class="icon-remove"></i>';
+			if ($questionnaire['published'] == 1) {
+				$publishedIcon = '<i class="icon-ok"></i>';
+			}
+?>
+						<tr>
+							<td>ACTIONS</td>
+							<td><?= $questionnaire['title'] ?></td>
+							<td><?= $questionnaire['name'] ?></td>
+							<td><?= date('d/m/y h:i A', strtotime($questionnaire['validto'])) ?></td>
+							<td><?= $publishedIcon ?></td>
+						</tr>
+<?
+		}
+?>
+				</table>
+<?
+	}
+?>
 		</div>
 		<hr>
 		
