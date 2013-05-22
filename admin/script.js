@@ -145,20 +145,49 @@ function reorderOptions(tableOptions) {
 }
 
 //Function add question to screen and hide window
-function addQuestion (title, questionType, questionDisplay) {
+function addQuestion (title, questionType, questionDisplay, order, questionOptions) {
+	loaderShow();
+	
+	if (questionOptions == undefined) {
+		questionOptions = ' ';
+	}
+	
 	var rowId = $('#questions').find('tr').length + 1;
 	var newRow = '<tr><td class="order">' + rowId + '</td><td>' + title + '</td><td>' + questionDisplay + '</td><td><button class="btn btn-danger removeRow"><i class="icon-remove icon-white"></i></button></td></tr>';
+			
 	
-	//To handle is no tr rows are present
-	if (rowId !== 1) {
-		target = $('#questions').find('tr:last');
-		$(target).after(newRow);
-	}
-	else {
-		$('#questions').html(newRow);
-	}
+	var formData = new FormData;
+		formData.append('questionnaire', $('#questionnaire').attr('data-qid'));
+		formData.append('title', title);
+		formData.append('order', order);
+		formData.append('type', questionType);
+		formData.append('options', questionOptions);
 	
-	$('#addQuestion').modal("hide");
+	$.ajax({
+		type: "POST",
+		url : 'ajax/add_question.php',
+		processData : false,
+		contentType : false,
+		data : formData,			
+		success : function (data) {
+			loaderHide();
+			
+			//To handle is no tr rows are present
+			if (rowId !== 1) {
+				target = $('#questions').find('tr:last');
+				$(target).after(newRow);
+			}
+			else {
+				$('#questions').html(newRow);
+			}
+			
+			$('#addQuestion').modal("hide");
+			showNotice('<strong>Success!</strong> " Question "' + title + '" added!');
+		},
+		error : function (data) {
+			alert("There has been an error adding this question");
+		}
+	});
 }
 //*********************************************************************************************
 //QUESTION FUNCTIONS END
@@ -185,6 +214,12 @@ function loaderHide() {
 	console.log("Loader hide");
 	$('#loader').stop().fadeOut(500);
 }
+
+//Fetchs the total number of trs in the question body, thus giving us this items order number
+function fetchQuestionOrder() {
+	return $('#questions tr').length + 1;
+}
+
 //*********************************************************************************************
 //GLOBAL FUNCTIONS END
 //*********************************************************************************************
@@ -277,13 +312,16 @@ $(function () {
 	$('#addQuestionnTextInputSubmit').click(function () {
 		var questionTitle = $('#inputQuestionTitle').val();
 		var questionType = $('#inputQuestionType').val();
-		addQuestion(questionTitle, questionType, "Text Input");
+		var order = fetchQuestionOrder();
+		
+		addQuestion(questionTitle, questionType, "Text Input", order);
 	});
 	
 	//Drop Down list	
 	$('#addQuestionnDropDownListSubmit').click(function () {
 		var questionTitle = $('#inputQuestionTitle').val();
 		var questionType = $('#inputQuestionType').val();
+		var order = fetchQuestionOrder();
 		var options = {};
 		
 		$('#dropDownListOptions tr').each(function (i) {
@@ -299,25 +337,27 @@ $(function () {
 			options[i] = question;
 		});
 		
-		addQuestion(questionTitle, questionType, "Drop down list", JSON.stringify(options));
+		addQuestion(questionTitle, questionType, "Drop down list", order, JSON.stringify(options));
 	});
 	
 	//Slider
 	$('#addQuestionnSliderSubmit').click(function () {
 		var questionTitle = $('#inputQuestionTitle').val();
 		var questionType = $('#inputQuestionType').val();
+		var order = fetchQuestionOrder();
 		var options = {};
 			options['slidermax'] = $('#inputSliderMaxValue').val();;
 			options['sliderstart'] = $('#inputSliderStartValue').val();
 			options['sliderstep'] = $('#inputSliderStepValue').val();
 		
-		addQuestion(questionTitle, questionType, "Slider", JSON.stringify(options));
+		addQuestion(questionTitle, questionType, "Slider", order, JSON.stringify(options));
 	});
 	
 	//Radio button
 	$('#addRadioButtonSubmit').click(function () {
 		var questionTitle = $('#inputQuestionTitle').val();
 		var questionType = $('#inputQuestionType').val();
+		var order = fetchQuestionOrder();
 		var options = {};
 		
 		$('#radioButtonOptions tr').each(function (i) {
@@ -333,7 +373,7 @@ $(function () {
 			options[i] = question;
 		});
 		
-		addQuestion(questionTitle, questionType, "Radio buttons", JSON.stringify(options));
+		addQuestion(questionTitle, questionType, "Radio buttons", order, JSON.stringify(options));
 	});
 	
 	//Sortable dropdownlist options
