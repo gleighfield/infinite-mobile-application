@@ -2,26 +2,54 @@
 	require_once('includes/header.php');
 ?>
 		<div class="jumbotron">
-			<h1>User Log</h1>
+			<h1>Logs</h1>
 			<p class="lead">A basic log of the last 25 things to have happened...</p>
 			
-			<table class="table table-striped table-bordered">
-				<tr>
-					<th>Log Entry</th>
-					<th>Date</th>
-				</tr>
+			<ul id="myTab" class="nav nav-tabs">
+				<li class="active"><a href="#userLogs" data-toggle="tab">User Logs</a></li>
+				<li class=""><a href="#adminLogs" data-toggle="tab">Admin Logs</a></li>
+            </ul>
+			
+			<div id="myTabContent" class="tab-content">
+				<div class="tab-pane fade active in" id="userLogs">
+					<table class="table table-striped table-bordered">
+						<tr>
+							<th>User Log Entry</th>
+							<th>Date</th>
+						</tr>
 <?
 	$query = $db->query("SELECT user_id, comment, timestamp FROM user_log ORDER BY timestamp DESC LIMIT 25");
 	while($log = $query->fetch(PDO::FETCH_ASSOC)) {
 ?>
-				<tr>
-					<td><?= $log['comment'] ?></td>
-					<td><?= date('d/m/y h:i A', strtotime($log['timestamp'])) ?></td>
-				</tr>
+						<tr>
+							<td><?= $log['comment'] ?></td>
+							<td><?= date('d/m/y h:i A', strtotime($log['timestamp'])) ?></td>
+						</tr>
 <?
 	}
 ?>
-			</table>
+					</table>
+				</div>
+				<div class="tab-pane fade" id="adminLogs">
+					<table class="table table-striped table-bordered">
+						<tr>
+							<th>Admin Log Entry</th>
+							<th>Date</th>
+						</tr>
+<?
+	$query = $db->query("SELECT user_id, comment, timestamp FROM admin_log ORDER BY timestamp DESC LIMIT 25");
+	while($log = $query->fetch(PDO::FETCH_ASSOC)) {
+?>
+						<tr>
+							<td><?= $log['comment'] ?></td>
+							<td><?= date('d/m/y h:i A', strtotime($log['timestamp'])) ?></td>
+						</tr>
+<?
+	}
+?>
+					</table>
+				</div>
+            </div>
 		</div>
 		<hr>
 		

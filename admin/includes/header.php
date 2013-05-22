@@ -48,7 +48,7 @@
 									<a href="questionnaires.php"><i class="icon-question-sign"></i> Questionnaires</a>
 								</li>
 								<li>
-									<a href="user_log.php"><i class="icon-book"></i> User Log</a>
+									<a href="logs.php"><i class="icon-book"></i> Logs</a>
 								</li>
 								<!--<li>
 									<a href="#">item</a>
