@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 22, 2013 at 09:44 AM
+-- Generation Time: May 22, 2013 at 10:15 AM
 -- Server version: 5.1.68-cll
 -- PHP Version: 5.3.17
 
@@ -30,6 +30,7 @@ CREATE TABLE IF NOT EXISTS `questions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `questionnaire` int(3) NOT NULL,
   `title` varchar(255) NOT NULL,
+  `order` int(2) NOT NULL,
   `type` int(1) NOT NULL,
   `choices` longtext NOT NULL,
   `answer` varchar(255) NOT NULL,
