@@ -117,11 +117,11 @@
 									<td>
 										<div class="input-prepend">
 											<span class="add-on"><i class="icon-tag"></i></span>
-											<input type="text" placeholder="Choice">
+											<input type="text" class="questionTitle" placeholder="Choice">
 										</div>
 									</td>
 									<td>
-										<input type="radio" name="correct" value="1">
+										<input type="radio" class="questionState" name="correct" value="1">
 									</td>
 									<td>
 										<button class="btn btn-danger removeRow"><i class="icon-remove icon-white"></i></button>
@@ -199,11 +199,11 @@
 									<td>
 										<div class="input-prepend">
 											<span class="add-on"><i class="icon-tag"></i></span>
-											<input type="text" placeholder="Choice">
+											<input type="text" class="questionTitle" placeholder="Choice">
 										</div>
 									</td>
 									<td>
-										<input type="radio" name="correct" value="1">
+										<input type="radio" class="questionState" name="correct" value="1">
 									</td>
 									<td>
 										<button class="btn btn-danger removeRow"><i class="icon-remove icon-white"></i></button>
