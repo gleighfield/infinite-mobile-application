@@ -11,13 +11,25 @@
 	$query = $db->query("SELECT * FROM questionnaires WHERE id =" . $qid);
 	$questionnaire = $query->fetch(PDO::FETCH_ASSOC);
 	
-	print_r($questionnaire);
+	//print_r($questionnaire);
 ?>
 		<div class="jumbotron">
 			<h1><?= $questionnaire['title'] ?></h1>
 			<p class="lead">Here, you can add questions to this questionnaire, and arrange their order. When you are finshed, press published.</p>
 			<p class="lead">Once a questionnaire is published, changes <strong>cannot</strong> be made.</p>
 			<button class="btn btn-large btn-success" data-target="#addQuestion" data-toggle="modal">Add a new question</button>
+			<table class="table table-striped table-bordered">
+				<thead>
+					<tr>
+						<th width="50">Order</th>
+						<th>Title</th>
+						<th width="150">Question Type</th>
+						<th width="100">Actions</th>
+					</tr>
+				</thead>
+				<tbody class="tableOptions" id="questions"></tbody>
+			</table>
+			<p>Drag a row up, or down by the "Order" column to re-order.</p>
 		</div>
 		<hr>
 		
@@ -49,7 +61,7 @@
 									<option value="1">Drop down list</option>
 									<option value="2">Slider</option>
 									<option value="3">Radio buttons</option>
-									<option value="4">Check boxes</option>
+									<!--<option value="4">Check boxes</option>//-->
 								</select>
 							</div>
 						</div>
@@ -89,6 +101,46 @@
 					</div>
 					<div class="tab-pane fade" id="1">
 						<p>Drop down lists are good for selecting single option values, without taking up much screen space.</p>
+						<p>Drag a row up, or down by the "Order" column to re-order.</p>
+						<table class="table table-striped table-bordered">
+							<thead>
+								<tr>
+									<th>Order</th>
+									<th>Option</th>
+									<th width="115">Correct Option?</th>
+									<th width="50">Remove</th>
+								</tr>
+							</thead>
+							<tbody class="tableOptions" id="dropDownListOptions">
+								<tr>
+									<td class="order">1</td>
+									<td>
+										<div class="input-prepend">
+											<span class="add-on"><i class="icon-tag"></i></span>
+											<input type="text" placeholder="Choice">
+										</div>
+									</td>
+									<td>
+										<input type="radio" name="correct" value="1">
+									</td>
+									<td>
+										<button class="btn btn-danger removeRow"><i class="icon-remove icon-white"></i></button>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						</form>
+						<a href="#" class="btn btn-primary rightBtn addTableOption">
+							<i class="icon-plus icon-white"></i> Add another drop down list option
+						</a>
+						<form class="form-horizontal">
+							<div class="control-group">
+								<label class="control-label" for="addQuestionnTextInputSubmit">&nbsp;</label>
+								<div class="controls">
+									<a href="#" id="addQuestionnDropDownListSubmit" class="btn btn-success">Add drop down list question</a>
+								</div>
+							</div>
+						</form>
 					</div>
 					<div class="tab-pane fade" id="2">
 						<p>A slider can be used to obtain a number value. Select a start, max and step value.</p>
@@ -130,7 +182,47 @@
 						</form>
 					</div>
 					<div class="tab-pane fade" id="3">
-						<p>Radio buttons</p>
+						<p>Radio buttons are similar to drop down lists, they just display differently.</p>
+						<p>Drag a row up, or down by the "Order" column to re-order.</p>
+						<table class="table table-striped table-bordered">
+							<thead>
+								<tr>
+									<th>Order</th>
+									<th>Option</th>
+									<th width="115">Correct Option?</th>
+									<th width="50">Remove</th>
+								</tr>
+							</thead>
+							<tbody class="tableOptions" id="radioButtonOptions">
+								<tr>
+									<td class="order">1</td>
+									<td>
+										<div class="input-prepend">
+											<span class="add-on"><i class="icon-tag"></i></span>
+											<input type="text" placeholder="Choice">
+										</div>
+									</td>
+									<td>
+										<input type="radio" name="correct" value="1">
+									</td>
+									<td>
+										<button class="btn btn-danger removeRow"><i class="icon-remove icon-white"></i></button>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						</form>
+						<a href="#" class="btn btn-primary rightBtn addTableOption">
+							<i class="icon-plus icon-white"></i> Add another radio button option
+						</a>
+						<form class="form-horizontal">
+							<div class="control-group">
+								<label class="control-label" for="addQuestionnTextInputSubmit">&nbsp;</label>
+								<div class="controls">
+									<a href="#" id="addRadioButtonSubmit" class="btn btn-success">Add radio button question</a>
+								</div>
+							</div>
+						</form>
 					</div>
 					<div class="tab-pane fade" id="4">
 						<p>Check boxes</p>
@@ -141,12 +233,12 @@
 				
 			</div>
 			<div class="modal-footer">
-				<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
-				<a href="#" id="addQuestionnaireContainerSubmit" class="btn btn-success">Add question</a>
+				<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
 			</div>
 		</div>
 <?php
 	require_once('includes/footer.php');
 ?>
+		<script src="assets/js/jquery-ui-1.10.3.custom.min.js"></script>
 		<script src="questionnaire.js"></script>
 

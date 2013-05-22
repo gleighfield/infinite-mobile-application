@@ -7,6 +7,43 @@ padding-bottom: 60px;
 	display:none;
 }
 
+.rightBtn {
+	float:right;
+	margin-bottom:20px;
+}
+
+.tableOptions  .input-prepend {
+	margin-bottom:0;
+}
+
+#questions .removeRow {
+	padding:0px 12px !important;
+}
+
+.tableOptions  tr:first-child  .removeRow {
+	display:none;
+}
+
+#questions  tr:first-child  .removeRow {
+	display:inline-block;
+}
+
+.tableOptions tr td:nth-child(1), 
+.tableOptions tr td:nth-child(3), 
+.tableOptions tr td:nth-child(4), 
+#questions tr td:nth-child(1), 
+#questions tr td:nth-child(1) {
+	text-align:center;
+}
+
+
+#questions .btn {
+	margin-bottom:0;
+	padding:4px 12px;
+	line-height:20px;
+	font-size:14px;
+}
+
 /* Custom container */
 .container {
 margin: 0 auto;
