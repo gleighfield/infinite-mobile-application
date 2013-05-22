@@ -407,13 +407,29 @@ $(function () {
 		}
 	});
 	
-	//General multi purpose actions
+	//General actions
 	$('.addTableOption').click(function () {
 		addOptionRow($(this).closest('.tab-pane').find('.table .tableOptions'));
 	});
 	
 	$('.removeRow').live('click', function () {
 		removeRow($(this).closest('tr'));
+	});
+	
+	$('#publishQuestionnaire').click(function () {
+		var qid = $("#questionnaire").attr("data-qid");
+		var x = confirm("Are you sure you want to publish this questionnaire? Changes cannot be made once published")
+		if (x) {
+		
+		}	
+	});
+	
+	$('#unPublishQuestionnaire').click(function () {
+		var qid = $("#questionnaire").attr("data-qid");
+		var x = confirm("Are you sure you want to take this offline? This action cannot be undone")
+		if (x) {
+		
+		}
 	});
 //*********************************************************************************************
 //QUESTION SCRIPTS END
