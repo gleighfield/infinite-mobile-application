@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 22, 2013 at 01:22 AM
+-- Generation Time: May 22, 2013 at 01:31 AM
 -- Server version: 5.1.68-cll
 -- PHP Version: 5.3.17
 
@@ -30,7 +30,8 @@ CREATE TABLE IF NOT EXISTS `questionnaires` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `channel` int(3) NOT NULL,
   `title` varchar(100) NOT NULL,
-  `validto` datetime NOT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `validto` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `published` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
