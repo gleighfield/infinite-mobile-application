@@ -124,7 +124,7 @@ function switchTabs (tab) {
 function addOptionRow(target) {
 	var rowId = target.find('tr').length + 1;	
 	target = target.find('tr:last');
-	var newRow = '<tr><td class="order">' + rowId + '</td><td><div class="input-prepend"><span class="add-on"><i class="icon-tag"></i></span><input type="text" placeholder="Choice"></div></td><td><input type="radio" name="correct" value="1"></td><td><button class="btn btn-danger removeRow"><i class="icon-remove icon-white"></i></button></td></tr>';
+	var newRow = '<tr><td class="order">' + rowId + '</td><td><div class="input-prepend"><span class="add-on"><i class="icon-tag"></i></span><input type="text" class="questionTitle" placeholder="Choice"></div></td><td><input type="radio" class="questionState" name="correct" value="1"></td><td><button class="btn btn-danger removeRow"><i class="icon-remove icon-white"></i></button></td></tr>';
 	$(target).after(newRow);
 }
 
@@ -145,9 +145,9 @@ function reorderOptions(tableOptions) {
 }
 
 //Function add question to screen and hide window
-function addQuestion (title, type) {
+function addQuestion (title, questionType, questionDisplay) {
 	var rowId = $('#questions').find('tr').length + 1;
-	var newRow = '<tr><td class="order">' + rowId + '</td><td>' + title + '</td><td>' + type + '</td><td><button class="btn btn-danger removeRow"><i class="icon-remove icon-white"></i></button></td></tr>';
+	var newRow = '<tr><td class="order">' + rowId + '</td><td>' + title + '</td><td>' + questionDisplay + '</td><td><button class="btn btn-danger removeRow"><i class="icon-remove icon-white"></i></button></td></tr>';
 	
 	//To handle is no tr rows are present
 	if (rowId !== 1) {
@@ -284,24 +284,56 @@ $(function () {
 	$('#addQuestionnDropDownListSubmit').click(function () {
 		var questionTitle = $('#inputQuestionTitle').val();
 		var questionType = $('#inputQuestionType').val();
-		addQuestion(questionTitle, "Drop down list");
+		var options = {};
+		
+		$('#dropDownListOptions tr').each(function (i) {
+			var question = {};
+				question['title'] = $(this).find(".questionTitle").val();
+				question['state'] = 0;
+				
+			if ($(this).find(".questionState").attr("checked")) {
+				//This is the correct answer
+				question['state'] = 1;
+			}
+				
+			options[i] = question;
+		});
+		
+		addQuestion(questionTitle, questionType, "Drop down list", JSON.stringify(options));
 	});
 	
 	//Slider
 	$('#addQuestionnSliderSubmit').click(function () {
 		var questionTitle = $('#inputQuestionTitle').val();
 		var questionType = $('#inputQuestionType').val();
-		var sliderMax =	$('#inputSliderMaxValue').val();
-		var sliderStart = $('#inputSliderStartValue').val();
-		var sliderStep = $('#inputSliderStepValue').val();
-		addQuestion(questionTitle, "Slider");
+		var options = {};
+			options['slidermax'] = $('#inputSliderMaxValue').val();;
+			options['sliderstart'] = $('#inputSliderStartValue').val();
+			options['sliderstep'] = $('#inputSliderStepValue').val();
+		
+		addQuestion(questionTitle, questionType, "Slider", JSON.stringify(options));
 	});
 	
 	//Radio button
 	$('#addRadioButtonSubmit').click(function () {
 		var questionTitle = $('#inputQuestionTitle').val();
 		var questionType = $('#inputQuestionType').val();
-		addQuestion(questionTitle, "Radio buttons");
+		var options = {};
+		
+		$('#radioButtonOptions tr').each(function (i) {
+			var question = {};
+				question['title'] = $(this).find(".questionTitle").val();
+				question['state'] = 0;
+				
+			if ($(this).find(".questionState").attr("checked")) {
+				//This is the correct answer
+				question['state'] = 1;
+			}
+				
+			options[i] = question;
+		});
+		
+		addQuestion(questionTitle, questionType, "Radio buttons", JSON.stringify(options));
 	});
 	
 	//Sortable dropdownlist options
