@@ -14,14 +14,27 @@
 				<div class="tab-pane fade active in" id="userLogs">
 					<table class="table table-striped table-bordered">
 						<tr>
+							<th>User </th>
 							<th>User Log Entry</th>
 							<th>Date</th>
 						</tr>
 <?
-	$query = $db->query("SELECT user_id, comment, timestamp FROM user_log ORDER BY timestamp DESC LIMIT 25");
+	$query = $db->query("
+	SELECT 
+		user_log.user_id, 
+		user_log.comment, 
+		user_log.timestamp, 
+		users.firstname,
+		users.lastname
+	FROM user_log 
+	INNER JOIN users
+		ON user_log.user_id = users.id
+	ORDER BY timestamp DESC 
+	LIMIT 25");
 	while($log = $query->fetch(PDO::FETCH_ASSOC)) {
 ?>
 						<tr>
+							<td><?= $log['firstname'] ?> <?= $log['lastname'] ?> (<?= $log['user_id'] ?>)</td>
 							<td><?= $log['comment'] ?></td>
 							<td><?= date('d/m/y h:i A', strtotime($log['timestamp'])) ?></td>
 						</tr>
