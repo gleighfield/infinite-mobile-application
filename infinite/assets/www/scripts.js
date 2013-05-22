@@ -211,7 +211,7 @@ $(function () {
 	
 	$('#articles').live('pagecreate', function (e) {
 		console.log("ARTICLES PAGE SHOWN");
-		$('.article').live('click', function () {
+		$('.article').die().live('click', function () {
 			showArticle($(this).attr('data-articleId'));
 		});
 	});
@@ -224,7 +224,7 @@ $(function () {
 	
 	$('#articles_container').live('pagecreate', function (e) {
 		console.log("ARTICLES PAGE SHOWN");
-		$('#backButton').live('click', function () {
+		$('#backButton').die().live('click', function () {
 			console.log("BACKFIRED");
 			$.mobile.changePage("articles.html", {transition:"slideup", changeHash:false});
 		});
@@ -239,5 +239,4 @@ $(function () {
 			wipeData();
 		});
 	})
-
 });
