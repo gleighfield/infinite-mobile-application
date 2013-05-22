@@ -277,7 +277,7 @@ $(function () {
 	$('#addQuestionnTextInputSubmit').click(function () {
 		var questionTitle = $('#inputQuestionTitle').val();
 		var questionType = $('#inputQuestionType').val();
-		addQuestion(questionTitle, "Text Input");
+		addQuestion(questionTitle, questionType, "Text Input");
 	});
 	
 	//Drop Down list	
