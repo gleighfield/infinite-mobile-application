@@ -35,7 +35,7 @@
 		ORDER BY validto DESC");
 
 		while($questionnaire = $query->fetch(PDO::FETCH_ASSOC)) {
-			$questionCount = $db->query("SELECT COUNT(id) FROM questions WHERE questionnaire = 3")->fetch(PDO::FETCH_NUM);			
+			$questionCount = $db->query("SELECT COUNT(id) FROM questions WHERE questionnaire = " . $questionnaire['id'])->fetch(PDO::FETCH_NUM);			
 			
 			$publishedIcon = '<i class="icon-remove"></i>';
 			if ($questionnaire['published'] == 1) {
