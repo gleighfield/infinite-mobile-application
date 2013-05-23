@@ -3,7 +3,7 @@
 	//Include global config file
 	require_once('../includes/config.php');
 	
-	//Add a channel into the database, only one required field which is the name.
+	//Add an article into the database
 	$data = array (
 		'user_id' 			=> 0,
 		'channel'			=> $_POST['channel'],
@@ -14,7 +14,6 @@
 		'status'			=> 1 //Enabled by default
 	);
 	
-	//Add channel to DB
 	$sql = "INSERT INTO articles (channel, title, alert, content, user_id, timestamp, status) VALUES (:channel, :title, :alert, :content, :user_id, :timestamp, :status)";
 	$addItem = $db->prepare($sql);
 	$addItem->execute(array(

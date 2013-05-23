@@ -80,6 +80,59 @@ function addArticle(channel, title, alert, content) {
 	});
 };
 
+//load an article and put into the DOM ready to be edited - attr id of article
+function loadEditArticle(articleId) {
+	loaderShow();
+	var formData = new FormData;
+		formData.append('id', articleId);
+		formData.append('loadOrEdit', 0);
+	
+	$.ajax({
+		type: "POST",
+		url : 'ajax/edit_article.php',
+		processData : false,
+		contentType : false,
+		data : formData,			
+		success : function (data) {
+			data = $.parseJSON(data);
+			loaderHide();
+
+			$('#inputEditChannel').val(data['channel']);
+			$('#inputEditTitle').val(data['title']);
+			CKEDITOR.instances.edittextarea.setData(data['content']);
+			$('#editArticleSubmit').attr('data-articleId', articleId);
+			$('#editArticle').modal('show');
+		},
+		error : function (data) {
+			alert("There has been an error fetching the data for this article");
+		}
+	});
+}
+
+function editArticle(articleId, channel, title, content) {
+	loaderShow();
+	var formData = new FormData;
+		formData.append('id', articleId);
+		formData.append('loadOrEdit', 1);
+		formData.append('channel', channel);
+		formData.append('title', title);
+		formData.append('content', content);
+	
+	$.ajax({
+		type: "POST",
+		url : 'ajax/edit_article.php',
+		processData : false,
+		contentType : false,
+		data : formData,			
+		success : function (data) {
+			location.reload();
+		},
+		error : function (data) {
+			alert("There has been an error editing this article");
+		}
+	});
+}
+
 //Add a new questionnaire container into the system - attr = channel, title, validToDate, validToTime
 function addQuestionnaireContainer(channel, title, date, time) {
 	loaderShow();
@@ -309,6 +362,13 @@ $(function () {
 		});
 	}
 	
+	if ($('#edittextarea').length != 0) {
+		CKEDITOR.config.toolbar_Custom=[ ['Format','Templates','Bold','Italic','Underline','-','Superscript','-',['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],'-','NumberedList','BulletedList'], ['Undo','Redo','Link','Unlink']];
+		CKEDITOR.replace('edittextarea', {
+			toolbar : 'Custom'
+		});
+	}
+	
 	// Add a new channel into the system, click
 	$('#addChannelSubmit').click(function (e) {
 		e.preventDefault();
@@ -350,7 +410,19 @@ $(function () {
 			checked = 1;
 		}
 		addArticle($('#inputChannel').val(), $('#inputTitle').val(), checked, CKEDITOR.instances.textarea.getData());
-	})
+	});
+	
+	//Edit an article fetch data GETTER
+	$('.editArticleBtn').click(function () {
+		var articleId = $(this).closest('tr').attr('data-articleId');
+		loadEditArticle(articleId);
+	});
+	
+	//Edit an article SETTER
+	$('#editArticleSubmit').click(function () {
+		var articleId = $(this).attr('data-articleId');
+		editArticle(articleId, $('#inputEditChannel').val(), $('#inputEditTitle').val(), CKEDITOR.instances.edittextarea.getData());
+	});
 	
 	//Clear on hide
 	$('#addArticle').on('hidden', function () {
