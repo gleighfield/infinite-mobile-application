@@ -265,8 +265,6 @@ function makeTextInput (q) {
 //Renders a dropDown question
 function makeDropDown (q) {
 	var options = $.parseJSON(q['options']);
-	console.log(options);
-
 	var question = '<select name="' + q['qid'] + '">';
 		$.each(options, function (k, v) {
 			question += '<option value="' + k + '" data-state="' + options[k]['state'] + '">' + options[k]['title'] + '</option>';
@@ -284,9 +282,7 @@ function makeSlider(q) {
 
 //Renders a radio selection box
 function makeRadio (q) {
-	var options = $.parseJSON(q['options']);
-	console.log(options);
-	
+	var options = $.parseJSON(q['options']);	
 	var question = '<fieldset data-role="controlgroup">';
 	var count = 0;
 		$.each(options, function (k, v) {
@@ -319,9 +315,7 @@ function wrapQuestions (questions, id) {
 //Add to DOM and make it all jquery mobile-ish
 function showQuestions(questions, id) {
 	$('#questionnaires_content').html(wrapQuestions(questions, id));
-	//$('#questionnaire').trigger('create');
 };
-
 
 //**************************************************************************************************
 // QUESTION RENDERING FUNCTIONS END
