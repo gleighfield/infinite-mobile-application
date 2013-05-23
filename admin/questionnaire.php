@@ -10,8 +10,6 @@
 	
 	$query = $db->query("SELECT * FROM questionnaires WHERE id =" . $qid);
 	$questionnaire = $query->fetch(PDO::FETCH_ASSOC);
-	
-	//print_r($questionnaire);
 ?>
 		<div class="jumbotron" id="questionnaire" data-qid="<?= $qid ?>">
 			<h1><?= $questionnaire['title'] ?></h1>
@@ -20,21 +18,28 @@
 <? 	if ($questionnaire['published'] == 0) { ?>
 			<button class="btn btn-large btn-success" data-target="#addQuestion" data-toggle="modal">Add a new question</button>
 			<button class="btn btn-large btn-primary" id="publishQuestionnaire" data->Publish this questionnaire!</button>
-<? 	} else { ?>
-			<button class="btn btn-large btn-danger" id="unPublishQuestionnaire">Take this questionnaire offline!</button>
-<? 	} ?>
 			<table class="table table-striped table-bordered">
 				<thead>
 					<tr>
 						<th width="50">Order</th>
 						<th>Title</th>
 						<th width="150">Question Type</th>
-<? 	if ($questionnaire['published'] == 0) { ?>
 						<th width="100">Actions</th>
-<? 	} ?>
 					</tr>
 				</thead>
 				<tbody class="tableOptions" id="questions">
+<? 	} else { ?>
+			<button class="btn btn-large btn-danger" id="unPublishQuestionnaire">Take this questionnaire offline!</button>
+			<table class="table table-striped table-bordered">
+				<thead>
+					<tr>
+						<th width="50">Order</th>
+						<th>Title</th>
+						<th width="150">Question Type</th>
+					</tr>
+				</thead>
+				<tbody class="tableOptions">
+<? 	} ?>
 <?
 	$query = $db->query("
 	SELECT 
