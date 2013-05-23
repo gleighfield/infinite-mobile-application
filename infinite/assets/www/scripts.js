@@ -215,11 +215,121 @@ function loadQuestionnaires() {
 
 //**************************************************************************************************
 //Questionnaires Container Page Functions
+//Load the questionnaire from local storage
 function loadQuestionnaire(questionnaireId) {
-	var questionnaires = $.parseJSON(window.localStorage.getItem("Questionnaires"));
-	$('#questionnaires_title').html(questionnaires["questionnaireId_" + questionnaireId]['title']);
-	$('#questionnaires_content').html(questionnaires["questionnaireId_" + questionnaireId]['content']);
+	var questionnaire = $.parseJSON(window.localStorage.getItem("Questionnaires"))["questionnaireId_" + questionnaireId];
+	$('#questionnaires_title').html(questionnaire['title']);
+	buildQuestions(questionnaire['options']);
 };
+
+//**************************************************************************************************
+// QUESTION RENDERING FUNCTIONS START
+//**************************************************************************************************
+
+//Determine type and build html
+function buildQuestions (questions) {
+	var html = "";
+	$.each(questions, function(k, v) {
+
+		switch (questions[k]['type']) {
+			case '0' :
+				html += makeTextInput(questions[k]);
+				break;
+			case '1' :
+				//				html += makeDropDown(questions[k]);
+				break;
+			case '2' :
+				//				html += makeSlider(questions[k]);
+				break;
+			case '3' :
+				//				html += makeRadio(questions[k]);
+				break;
+			case '4' :
+				//				html += makeCheckBox(questions[k]);
+				break;
+			default :
+				alert("Unknown Question Type - Abort");
+				return false;
+		}
+	});
+
+	showQuestions(html, questions['id']);
+}
+
+//Renders a text input question
+function makeTextInput (q) {
+	var question = '<input type="text" name="' + q['qid'] + '" value="">';
+	return makeQuestion(q['title'], question, q['qid']);
+}
+
+//Renders a dropDown question
+function makeDropDown (q) {
+	var options = $.parseJSON['options'];
+	console.log(options);
+	return;
+	var question = '<select name="' + q.id + '">';
+		$.each(q.options, function (k, v) {
+			question += '<option value="' + k + '">' + v + '</option>';
+		});
+	question += '</select>';
+	return makeQuestion(q['title'], question, q['id']);
+}
+
+//Renders a slider out to the screen
+function makeSlider(q) {
+	var options = $.parseJSON['options'];
+	console.log(options);
+	return;
+	
+	var question = '<input name="' + q.id + '" data-highlight="true" type="range" value="' + q.options.startVal + '" min="0" max="' + q.options.maxVal + '" step="' + q.options.step + '">';
+	return makeQuestion(q['title'], question, q['id']);
+}
+
+//Renders a radio selection box
+function makeRadio (q) {
+	var options = $.parseJSON['options'];
+	console.log(options);
+	return;
+	
+	var question = '<fieldset data-role="controlgroup">';
+	var count = 0;
+		$.each(q.options, function (k, v) {
+			question += '\
+			<input type="radio" name="' + q.id + '" id="' + q.id + '_' + count + '" value="' + k + '">\
+     			<label for="' + q.id + '_' + count + '">' + v + '</label>';
+			count ++;
+		});
+	question += '</fieldset>';
+	return makeQuestion(q.title, question, q.id);
+}
+
+//Constructs titles on a per question basis
+function makeQuestion (title, q, id) {
+	return '\
+		<div class="question">\
+			<h2>' + title + '</h2>\
+			<div id="' + id + '" class="answer">\
+				' + q + '\
+			</div>\
+		</div>';
+}
+
+//Wraps the questions with any header or footer bits and bobs
+function wrapQuestions (questions, id) {
+	var submit = '<hr><button id="submitQuestionnaire" data-questionnaire="' + id + '">Submit!</button>';
+	return questions + submit;
+}
+
+//Add to DOM and make it all jquery mobile-ish
+function showQuestions(questions, id) {
+	$('#questionnaires_content').html(wrapQuestions(questions, id));
+	//$('#questionnaire').trigger('create');
+};
+
+
+//**************************************************************************************************
+// QUESTION RENDERING FUNCTIONS END
+//**************************************************************************************************
 
 //**************************************************************************************************
 //Settings Page Functions
