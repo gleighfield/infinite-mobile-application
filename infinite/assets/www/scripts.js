@@ -210,20 +210,29 @@ function showQuestionnaire(questionnaireId) {
 function loadQuestionnaires() {
 	var questionnaires = $.parseJSON(window.localStorage.getItem("Questionnaires"));	
 	var questionnairesUnansweredHtml = '<li data-role="list-divider">Unanswered</li>';
+	var questionnairesSavedAnswersHtml = '<li data-role="list-divider">Saved Answers</li>';
 	var questionnairesAnsweredHtml = '<li data-role="list-divider">Answered</li>';
 	
 	$.each(questionnaires, function(i) {
+		//New
 		if (questionnaires[i]['status'] == 0) {
 			var html = '<li><a href="#" data-questionnaireId="' + questionnaires[i]['id'] + '" data-icon="arrow-l" class="questionnaire">' + questionnaires[i]['title'] + '</a></li>';
-			questionnairesUnansweredHtml = questionnairesUnansweredHtml + html;
+			questionnairesUnansweredHtml += html;
 		}
-		else {
+		//Saved questions
+		else if (questionnaires[i]['status'] == 1) {
+			var html = '<li><a href="#" data-questionnaireId="' + questionnaires[i]['id'] + '" data-icon="arrow-l" class="questionnaire">' + questionnaires[i]['title'] + '</a></li>';
+			questionnairesSavedAnswersHtml += html;
+		}
+		//Published
+		else if (questionnaires[i]['status'] == 2){
 			var html = '<li><span data-questionnaireId="' + questionnaires[i]['id'] + '" class="questionnaire">' + questionnaires[i]['title'] + '</span></li>';
-			questionnairesAnsweredHtml = questionnairesAnsweredHtml + html;
+			questionnairesAnsweredHtml += html;
 		}
 	});
 	
 	$('#questionnaireUnanswered_list').html(questionnairesUnansweredHtml);
+	$('#questionnaireSavedAnswers_list').html(questionnairesSavedAnswersHtml);
 	$('#questionnaireAnswered_list').html(questionnairesAnsweredHtml);
 }
 
@@ -398,6 +407,7 @@ function saveQuestions(qId, confirm) {
 	
 	//Update the answers field on the array
 	questionnaire['answers'] = answers;
+	questionnaire['status'] = 1; //Set as saved answers
 	
 	//Update the global object with the new id
 	questionnaires['questionnaireId_' + qId] = questionnaire;
