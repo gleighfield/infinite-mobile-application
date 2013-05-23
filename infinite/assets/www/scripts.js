@@ -276,7 +276,7 @@ function makeDropDown (q) {
 //Renders a slider out to the screen
 function makeSlider(q) {
 	var options = $.parseJSON(q['options']);	
-	var question = '<input name="' + q['id'] + '" data-highlight="true" type="range" value="' + options['sliderstart'] + '" min="0" max="' + options['slidermax'] + '" step="' + options['sliderstep'] + '">';
+	var question = '<input name="' + q['qid'] + '" data-highlight="true" type="range" value="' + options['sliderstart'] + '" min="0" max="' + options['slidermax'] + '" step="' + options['sliderstep'] + '">';
 	return makeQuestion(q['title'], question, q['id']);
 }
 
@@ -287,7 +287,7 @@ function makeRadio (q) {
 	var count = 0;
 		$.each(options, function (k, v) {
 			question += '\
-			<input type="radio" name="' + q['id'] + '" id="' + q['id'] + '_' + count + '" value="' + k + '">\
+			<input type="radio" name="' + q['qid'] + '" id="' + q['id'] + '_' + count + '" value="' + k + '">\
      			<label for="' + q['id'] + '_' + count + '">' + options[k]['title'] + '</label>';
 			count ++;
 		});
