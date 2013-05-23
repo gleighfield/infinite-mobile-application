@@ -431,6 +431,31 @@ $(function () {
 		
 		}
 	});
+	
+	//Reset to first form on hide, here to to non visible when hidden
+	$('#addQuestion').on('hide', function () {
+		$("#myTab a[href=#0]").tab('show');
+	});
+	
+	//Clear on hide
+	$('#addQuestion').on('hidden', function () {
+		$('#inputQuestionTitle').val('');
+		$('#inputQuestionType').val($("#target option:first").val());
+		//Reset all radio buttons
+		$('.questionState').prop('checked', false);
+
+		//Slider
+		$('#inputSliderMaxValue').val('');;
+		$('#inputSliderStartValue').val(0);
+		$('#inputSliderStepValue').val('5');
+		//DropDown
+		$('#dropDownListOptions tr:not(:first-child) td').remove();
+		$('#dropDownListOptions input').val('');
+		
+		//Radio
+		$('#radioButtonOptions tr:not(:first-child) td').remove();
+		$('#radioButtonOptions input').val('');
+	});
 //*********************************************************************************************
 //QUESTION SCRIPTS END
 //*********************************************************************************************
