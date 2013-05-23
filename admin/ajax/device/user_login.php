@@ -8,8 +8,6 @@
 		'user_email'		=> $_POST['user_email'],
 		'time_stamp'		=> date('Y-m-d H:i:s'),
 	);
-
-	$data['user_email'] = "graeme@gelstudios.co.uk";
 	
 	//Return user information
 	$sql = "SELECT id, firstname, lastname, channel FROM users WHERE email = :email";
