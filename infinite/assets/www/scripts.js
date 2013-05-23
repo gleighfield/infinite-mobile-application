@@ -177,6 +177,13 @@ function loadArticles() {
 	$('#articles_list').html(articlesHtml);
 }
 
+//Articles Container Page Functions
+function loadArticle(articleId) {
+	var articles = $.parseJSON(window.localStorage.getItem("Articles"));
+	$('#articles_title').html(articles["articleId_" + articleId]['title']);
+	$('#articles_content').html(articles["articleId_" + articleId]['content']);
+}
+
 //**************************************************************************************************
 //Questionnaires Container Page Functions
 function showQuestionnaire(questionnaireId) {
@@ -207,7 +214,7 @@ function loadQuestionnaires() {
 
 //**************************************************************************************************
 //Questionnaires Container Page Functions
-function loadArticle(questionnaireId) {
+function loadQuestionnaire(questionnaireId) {
 	console.log("LOAD QUESTIONNAIRE TO SCREEN");
 };
 
@@ -280,7 +287,7 @@ $(function () {
 	
 	//Articles Container Page Functions
 	$('#articles_container').live('pagebeforecreate', function (e) {
-		console.log("ARTICLES ID " + loadedArticle + " LOADED");
+		console.log("ARTICLE ID " + loadedArticle + " LOADED");
 		loadArticle(loadedArticle);
 	});
 	
