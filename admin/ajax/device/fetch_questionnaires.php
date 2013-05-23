@@ -59,7 +59,7 @@
 			$questions['order'] = $question['order'];
 			$questions['title'] = $question['title'];
 			$questions['type']	= $question['type'];
-			$questions['options'] = $question['options'];
+			$questions['options'] = stripslashes($question['options']);
 			$q['options'][$questions['order']] = $questions;
 		}
 		$questionnaires[$q['id']] = $q;
