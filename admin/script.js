@@ -185,6 +185,33 @@ function addQuestion (title, questionType, questionDisplay, order, questionOptio
 		}
 	});
 }
+
+//Remove a question from the database
+function removeQuestion(qid, row) {
+	loaderShow();
+	
+	var formData = new FormData;
+		formData.append('questionId', qid);
+	
+	$.ajax({
+		type: "POST",
+		url : 'ajax/remove_question.php',
+		processData : false,
+		contentType : false,
+		data : formData,			
+		success : function (data) {
+			loaderHide();
+
+			showNotice('<strong>Success!</strong> " Question removed');
+			row.fadeOut(350, function () {
+				$(this).remove();
+			});
+		},
+		error : function (data) {
+			alert("There has been an error removing this question");
+		}
+	});
+}
 //*********************************************************************************************
 //QUESTION FUNCTIONS END
 //*********************************************************************************************
@@ -457,8 +484,9 @@ $(function () {
 	
 	//Remove question from db
 	$('.removeRowAndDb').click(function () {
-		var questionId = $(this).closest('tr').attr('data-questionId');
-		console.log(questionId);
+		var row = $(this).closest('tr');
+		var qId = row.attr('data-questionId');
+		removeQuestion(qId, row)
 	});
 //*********************************************************************************************
 //QUESTION SCRIPTS END
