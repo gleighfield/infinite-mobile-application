@@ -171,6 +171,11 @@ function sendEmail () {
 		},			
 		success : function (data) {
 			alert("Thanks " + window.localStorage.getItem('firstname') + ", your email has been successfully sent.");
+			
+			var emailTotal = parseInt(window.localStorage.getItem("settings_emailTotal"));
+			emailTotal++;
+			window.localStorage.setItem("settings_emailTotal", emailTotal);
+			
 			$.mobile.changePage("home.html", {transition:"slidedown"});
 		},
 		error : function (xhr) {
@@ -468,7 +473,7 @@ $(function () {
 	});
 	
 	//Get In Touch Page Functions
-	$('#getInTouch').live('pagecreate', function (e) {
+	$('#getInTouch').die().live('pagecreate', function (e) {
 		console.log("GET IN TOUCH PAGE SHOWN");
 		$('#getInTouch_submit').click(function () {
 			sendEmail();
@@ -540,11 +545,11 @@ $(function () {
 	});
 	
 	//Settings Page Functions
-	$('#settings').live('pagecreate', function (e) {
+	$('#settings').die().live('pagecreate', function (e) {
 		console.log("SETTINGS PAGE SHOWN");
 		loadSettings();
 		
-		$('#lsClear').live('click', function () {
+		$('#lsClear').die().live('click', function () {
 			wipeData();
 		});
 	})
