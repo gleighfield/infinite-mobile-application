@@ -186,6 +186,35 @@ function addQuestion (title, questionType, questionDisplay, order, questionOptio
 	});
 }
 
+//Reorder main questions
+function reOrderQuestions () {
+	$('#questions .order').each(function (i) {
+		var order = i + 1;
+		var qid = $(this).closest('tr').attr('data-questionId');
+		
+		//Visually set to user then process due to potential delay
+		$(this).html(order);
+		
+		var formData = new FormData;
+			formData.append('questionId', qid);
+			formData.append('order', order);
+		
+		$.ajax({
+			type: "POST",
+			url : 'ajax/reorder_question.php',
+			processData : false,
+			contentType : false,
+			data : formData,			
+			success : function (data) {
+				console.log("QUESTIONS RE-OREDER SUCCESSFULLY");
+			},
+			error : function (data) {
+				console.log("THERE HAS BEEN A PROBLEM REORDERING THIS QUESTION ID = " + qid);
+			}
+		});
+	});
+}
+
 //Remove a question from the database
 function removeQuestion(qid, row) {
 	loaderShow();
@@ -200,8 +229,8 @@ function removeQuestion(qid, row) {
 		contentType : false,
 		data : formData,			
 		success : function (data) {
+			reOrderQuestions();
 			loaderHide();
-
 			showNotice('<strong>Success!</strong> " Question removed');
 			row.fadeOut(350, function () {
 				$(this).remove();
@@ -428,7 +457,7 @@ $(function () {
 		cursor		: "move",
 		opacity		: "0.7",
 		stop		: function (event, ui) {
-			reorderOptions('#questions');
+			reOrderQuestions();
 		}
 	});
 	

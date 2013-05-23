@@ -117,7 +117,7 @@ border-radius: 0 3px 3px 0;
 
 /* Notifications area */
 #notifications {
-	position:absolute;
+	position:fixed;
 	width:1000px;
 	height:auto;
 	top:-70px;
