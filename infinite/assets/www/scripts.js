@@ -431,6 +431,27 @@ function saveQuestions(qId, confirm) {
 	}
 }
 
+function submitQuestionnaire(qId) {
+	var answers = $.parseJSON(window.localStorage.getItem("Questionnaires"))['questionnaireId_' + qId]['answers'];
+	$.ajax({
+		type: "POST",
+		url : site_url + 'submit_questionnaire.php',
+		dataType : 'json',
+		data : {
+			'questionnaire' : qId,
+			'user_id' 		: window.localStorage.getItem("userid"),
+			'channel' 		: window.localStorage.getItem("channel"),
+			'answers'		: answers
+		},			
+		success : function (data) {
+			console.log(data);
+		},
+		error : function (xhr) {
+  			console.log("ERROR SUBMITTING QUESTIONNAIRE");
+		}
+	});
+}
+
 //**************************************************************************************************
 // QUESTION SUBMITTION AND SAVING FUNCTIONS END
 //**************************************************************************************************
@@ -541,6 +562,7 @@ $(function () {
 		$('#submitQuestionnaire').die().live('click', function () {
 			var questionnaire = $(this).attr('data-questionnaire');
 			saveQuestions(questionnaire);
+			submitQuestionnaire(questionnaire);
 		});
 	});
 	
