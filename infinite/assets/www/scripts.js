@@ -49,6 +49,41 @@ function storeArticles(articles) {
 	window.localStorage.setItem("Articles", JSON.stringify(localArticles));
 }
 
+//Fetch questionnaires that are relavent to this user and channel
+function fetchQuestionnaires() {
+	$.ajax({
+		type: "POST",
+		url : site_url + 'fetch_questionnaires.php',
+		dataType : 'json',
+		data : {
+			'channel' : window.localStorage.getItem("channel"),
+			'user_id' : window.localStorage.getItem("userid")
+		},			
+		success : function (data) {
+			storeQuestionnaires(data);
+		},
+		error : function (xhr) {
+  			console.log("ERROR LOADING QUESTIONNAIRES");
+		}
+	});
+}
+
+function storeQuestionnaires(questionnaires) {
+	var localQuestionnaires = {};
+	$.each(questionnaires, function(i) {
+		var questionnaire = {};
+			questionnaire['id'] 		= questionnaires[i]['id'];
+			questionnaire['title'] 		= questionnaires[i]['title'];
+			questionnaire['options'] 	= questionnaires[i]['options'];
+			questionnaire['answers']	= '';
+			questionnaire['status'] 	= 0; //Not completed
+		
+		localQuestionnaires["questionnaireId_" + questionnaires[i]['id']] = questionnaire;
+	});
+	
+	window.localStorage.setItem("Questionnaires", JSON.stringify(localQuestionnaires));
+}
+
 //Adds the users details into DOM Local storage
 function addUserToLocalStorage (user) {
 	window.localStorage.setItem("userid", user['id']);
@@ -143,11 +178,32 @@ function loadArticles() {
 }
 
 //**************************************************************************************************
-//Articles Container Page Functions
-function loadArticle(articleId) {
-	var articles = $.parseJSON(window.localStorage.getItem("Articles"));
-	$('#articles_title').html(articles["articleId_" + articleId]['title']);
-	$('#articles_content').html(articles["articleId_" + articleId]['content']);
+//Questionnaires Container Page Functions
+function showQuestionnaire(questionnaireId) {
+	loadededQuestionnaire = questionnaireId;
+	$.mobile.changePage("questionnaire_container.html", {transition:"pop", changeHash:false});
+}
+
+//Load all questionnaires in storage to the screen;
+function loadQuestionnaires() {
+	var questionnaires = $.parseJSON(window.localStorage.getItem("Questionnaires"));	
+	var questionnairesUnansweredHtml = '<li data-role="list-divider">Unanswered</li>';
+	var questionnairesAnsweredHtml = '<li data-role="list-divider">Answered</li>';
+	
+	$.each(questionnaires, function(i) {
+		var html = '<li><a href="#" data-questionnaireId="' + questionnaires[i]['id'] + '" data-icon="arrow-l" class="questionnaire">' + questionnaires[i]['title'] + '</a></li>';
+		questionnairesUnansweredHtml = questionnairesUnansweredHtml + html;
+		questionnairesAnsweredHtml = questionnairesAnsweredHtml + html;
+	});
+	
+	$('#questionnaireUnanswered_list').html(questionnairesUnansweredHtml);
+	$('#questionnaireAnswered_list').html(questionnairesAnsweredHtml);
+}
+
+//**************************************************************************************************
+//Questionnaires Container Page Functions
+function loadArticle(questionnaireId) {
+	console.log("LOAD QUESTIONNAIRE TO SCREEN");
 };
 
 //**************************************************************************************************
@@ -192,6 +248,7 @@ $(function () {
 	$('#home').live('pagecreate', function (e) {
 		console.log("HOME PAGE SHOWN");
 		fetchArticles();
+		fetchQuestionnaires();
 	});
 	
 	//Get In Touch Page Functions
@@ -204,7 +261,7 @@ $(function () {
 	
 	//Articles Page Functions
 	$('#articles').live('pagebeforecreate', function (e) {
-		console.log("ARTICLES LOADED");
+		console.log("ARTICLES LOADING");
 		//Load Articles
 		loadArticles();
 	});
@@ -223,10 +280,23 @@ $(function () {
 	});
 	
 	$('#articles_container').live('pagecreate', function (e) {
-		console.log("ARTICLES PAGE SHOWN");
+		console.log("AN ARTICLE SHOWN");
 		$('#backButton').die().live('click', function () {
-			console.log("BACKFIRED");
 			$.mobile.changePage("articles.html", {transition:"slideup", changeHash:false});
+		});
+	});
+	
+	//Questionnaires Page Functions
+	$('#questionnaires').live('pagebeforecreate', function (e) {
+		console.log("QUESTIONNAIRES LOADING");
+		//Load Questionnaires
+		loadQuestionnaires();
+	});
+	
+	$('#questionnaires').live('pagecreate', function (e) {
+		console.log("QUESTIONNAIRES PAGE SHOWN");
+		$('.questionnaire').die().live('click', function () {
+			showQuestionnaire($(this).attr('data-questionnaireId'));
 		});
 	});
 	
