@@ -150,9 +150,7 @@ function addQuestion (title, questionType, questionDisplay, order, questionOptio
 		questionOptions = ' ';
 	}
 	
-	var rowId = $('#questions').find('tr').length + 1;
-	var newRow = '<tr><td class="order">' + rowId + '</td><td>' + title + '</td><td>' + questionDisplay + '</td><td><button class="btn btn-danger removeRowAndDb"><i class="icon-remove icon-white"></i></button></td></tr>';
-			
+	var rowId = $('#questions').find('tr').length + 1;		
 	
 	var formData = new FormData;
 		formData.append('questionnaire', $('#questionnaire').attr('data-qid'));
@@ -169,7 +167,7 @@ function addQuestion (title, questionType, questionDisplay, order, questionOptio
 		data : formData,			
 		success : function (data) {
 			loaderHide();
-			
+			var newRow = '<tr data-questionId="' + data + '"><td class="order">' + rowId + '</td><td>' + title + '</td><td>' + questionDisplay + '</td><td><button class="btn btn-danger removeRowAndDb"><i class="icon-remove icon-white"></i></button></td></tr>';
 			//To handle is no tr rows are present
 			if (rowId !== 1) {
 				target = $('#questions').find('tr:last');
@@ -455,6 +453,12 @@ $(function () {
 		//Radio
 		$('#radioButtonOptions tr:not(:first-child) td').remove();
 		$('#radioButtonOptions input').val('');
+	});
+	
+	//Remove question from db
+	$('.removeRowAndDb').click(function () {
+		var questionId = $(this).closest('tr').attr('data-questionId');
+		console.log(questionId);
 	});
 //*********************************************************************************************
 //QUESTION SCRIPTS END
