@@ -36,6 +36,10 @@ function fetchArticles() {
 
 function storeArticles(articles) {
 	var localArticles = $.parseJSON(window.localStorage.getItem("Articles"));
+	//If no storage is returned, set as empty object
+	if (localArticles == null) {
+		localArticles = {};
+	}
 	$.each(articles, function(i) {
 		//If this already exsits, skip
 		if (!localArticles["articleId_" + articles[i]['id']]) {
@@ -74,7 +78,10 @@ function fetchQuestionnaires() {
 
 function storeQuestionnaires(questionnaires) {
 	var localQuestionnaires = $.parseJSON(window.localStorage.getItem("Questionnaires"));
-	
+	//If no storage is returned, set as empty object
+	if (localQuestionnaires == null) {
+		localQuestionnaires = {};
+	}
 	$.each(questionnaires, function(i) {
 		//If this already exsits, skip
 		if (!localQuestionnaires["questionnaireId_" + questionnaires[i]['id']]) {
