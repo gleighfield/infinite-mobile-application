@@ -239,7 +239,7 @@ function buildQuestions (questions) {
 				//				html += makeDropDown(questions[k]);
 				break;
 			case '2' :
-				//				html += makeSlider(questions[k]);
+				html += makeSlider(questions[k]);
 				break;
 			case '3' :
 				//				html += makeRadio(questions[k]);
@@ -264,7 +264,7 @@ function makeTextInput (q) {
 
 //Renders a dropDown question
 function makeDropDown (q) {
-	var options = $.parseJSON['options'];
+	var options = $.parseJSON(q['options']);
 	console.log(options);
 	return;
 	var question = '<select name="' + q.id + '">';
@@ -277,17 +277,14 @@ function makeDropDown (q) {
 
 //Renders a slider out to the screen
 function makeSlider(q) {
-	var options = $.parseJSON['options'];
-	console.log(options);
-	return;
-	
-	var question = '<input name="' + q.id + '" data-highlight="true" type="range" value="' + q.options.startVal + '" min="0" max="' + q.options.maxVal + '" step="' + q.options.step + '">';
+	var options = $.parseJSON(q['options']);	
+	var question = '<input name="' + q['id'] + '" data-highlight="true" type="range" value="' + options['sliderstart'] + '" min="0" max="' + options['slidermax'] + '" step="' + options['sliderstep'] + '">';
 	return makeQuestion(q['title'], question, q['id']);
 }
 
 //Renders a radio selection box
 function makeRadio (q) {
-	var options = $.parseJSON['options'];
+	var options = $.parseJSON(q['options']);
 	console.log(options);
 	return;
 	
