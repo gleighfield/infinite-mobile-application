@@ -241,6 +241,28 @@ function removeQuestion(qid, row) {
 		}
 	});
 }
+
+function publishQuestionnaire(published) {
+	loaderShow();
+	
+	var formData = new FormData;
+		formData.append('published', published);
+		formData.append('qid', $('#questionnaire').attr('data-qid'));
+	
+	$.ajax({
+		type: "POST",
+		url : 'ajax/publish_questionnaire.php',
+		processData : false,
+		contentType : false,
+		data : formData,			
+		success : function (data) {
+			location.reload();
+		},
+		error : function (data) {
+			alert("There has been an error removing this question");
+		}
+	});
+}
 //*********************************************************************************************
 //QUESTION FUNCTIONS END
 //*********************************************************************************************
@@ -474,7 +496,7 @@ $(function () {
 		var qid = $("#questionnaire").attr("data-qid");
 		var x = confirm("Are you sure you want to publish this questionnaire? Changes cannot be made once published")
 		if (x) {
-		
+			publishQuestionnaire(1);
 		}	
 	});
 	
@@ -482,7 +504,7 @@ $(function () {
 		var qid = $("#questionnaire").attr("data-qid");
 		var x = confirm("Are you sure you want to take this offline? This action cannot be undone")
 		if (x) {
-		
+			publishQuestionnaire(0);
 		}
 	});
 	
