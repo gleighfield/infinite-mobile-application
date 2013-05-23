@@ -20,7 +20,7 @@
 
 	//Return questionnaires matching channel ID and published status of 1
 	$sql = "
-	SELECT id, title
+	SELECT id, title, created
 	FROM questionnaires 
 	WHERE validto > :validto
 		AND channel = :channel
@@ -40,6 +40,7 @@
 		$q = array();
 		$q['id'] = $questionnaire['id'];
 		$q['title'] = $questionnaire['title'];
+		$q['created'] = $questionnaire['created'];
 		
 		
 		$sql = "

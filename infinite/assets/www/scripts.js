@@ -41,8 +41,8 @@ function storeArticles(articles) {
 		localArticles = {};
 	}
 	$.each(articles, function(i) {
-		//If this already exsits, skip
-		if (!localArticles["articleId_" + articles[i]['id']]) {
+		//If this already exsits or the published time stamp is not equal to that of the remote version, skip
+		if (!localArticles["articleId_" + articles[i]['id']] || localArticles["articleId_" + articles[i]['id']]['published'] != articles[i]['timestamp']) {
 			var article = {};
 				article['id'] 			= articles[i]['id'];
 				article['title'] 		= articles[i]['title'];
@@ -83,13 +83,14 @@ function storeQuestionnaires(questionnaires) {
 		localQuestionnaires = {};
 	}
 	$.each(questionnaires, function(i) {
-		//If this already exsits, skip
-		if (!localQuestionnaires["questionnaireId_" + questionnaires[i]['id']]) {
+		//If this already exsits or the created time stamp is not equal to that of the remote version, skip
+		if (!localQuestionnaires["questionnaireId_" + questionnaires[i]['id']] || localQuestionnaires["questionnaireId_" + questionnaires[i]['id']]['published'] != questionnaires[i]['created']) {
 			var questionnaire = {};
 				questionnaire['id'] 		= questionnaires[i]['id'];
 				questionnaire['title'] 		= questionnaires[i]['title'];
 				questionnaire['options'] 	= questionnaires[i]['options'];
 				questionnaire['answers']	= '';
+				questionnaire['published']  = questionnaires[i]['created'];
 				questionnaire['status'] 	= 0; //Not completed
 			
 			localQuestionnaires["questionnaireId_" + questionnaires[i]['id']] = questionnaire;
