@@ -45,7 +45,6 @@ function initApplication (user, email) {
 	window.localStorage.setItem("email", email);
 	window.localStorage.setItem("settings_version", applicationVersion);
 	window.localStorage.setItem("settings_channelName", user['channel_name']);
-	window.localStorage.setItem("settings_articlesTotal", 0);
 	window.localStorage.setItem("settings_emailTotal", 0);
 	
 	alert("Thanks " + window.localStorage.getItem('firstname') + ", you have been successfully registered.");
@@ -444,6 +443,7 @@ function loadSettings() {
 		$('#settings_email').html(window.localStorage.getItem("email"));
 		$('#settings_channelName').html(window.localStorage.getItem("settings_channelName"));
 		$('#settings_articlesTotal').html(window.localStorage.getItem("settings_articlesTotal"));
+		$('#settings_questionnairesTotal').html(window.localStorage.getItem("settings_questionnairesTotal"));
 		$('#settings_emailTotal').html(window.localStorage.getItem("settings_emailTotal"));
 }
 
