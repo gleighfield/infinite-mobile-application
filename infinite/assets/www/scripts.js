@@ -242,7 +242,7 @@ function buildQuestions (questions) {
 				html += makeSlider(questions[k]);
 				break;
 			case '3' :
-				//				html += makeRadio(questions[k]);
+				html += makeRadio(questions[k]);
 				break;
 			case '4' :
 				//				html += makeCheckBox(questions[k]);
@@ -269,7 +269,7 @@ function makeDropDown (q) {
 
 	var question = '<select name="' + q['qid'] + '">';
 		$.each(options, function (k, v) {
-			question += '<option value="' + options[v] + '" data-state="' + options[k]['state'] + '">' + options[k]['title'] + '</option>';
+			question += '<option value="' + k + '" data-state="' + options[k]['state'] + '">' + options[k]['title'] + ' ' + k + '</option>';
 		});
 	question += '</select>';
 	return makeQuestion(q['title'], question, q['id']);
