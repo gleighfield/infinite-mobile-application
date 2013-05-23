@@ -1,5 +1,6 @@
 var site_url = "http://infinite.gelstudios.co.uk/ajax/device/";
 var loadedArticle = 0;
+var loadedQuestionnaire = 0;
 
 //**************************************************************************************************
 //Init Functions
@@ -187,8 +188,8 @@ function loadArticle(articleId) {
 //**************************************************************************************************
 //Questionnaires Container Page Functions
 function showQuestionnaire(questionnaireId) {
-	loadededQuestionnaire = questionnaireId;
-	$.mobile.changePage("questionnaire_container.html", {transition:"pop", changeHash:false});
+	loadedQuestionnaire = questionnaireId;
+	$.mobile.changePage("questionnaires_container.html", {transition:"pop", changeHash:false});
 }
 
 //Load all questionnaires in storage to the screen;
@@ -215,7 +216,9 @@ function loadQuestionnaires() {
 //**************************************************************************************************
 //Questionnaires Container Page Functions
 function loadQuestionnaire(questionnaireId) {
-	console.log("LOAD QUESTIONNAIRE TO SCREEN");
+	var questionnaires = $.parseJSON(window.localStorage.getItem("Questionnaires"));
+	$('#questionnaires_title').html(questionnaires["questionnaireId_" + questionnaireId]['title']);
+	$('#questionnaires_content').html(questionnaires["questionnaireId_" + questionnaireId]['content']);
 };
 
 //**************************************************************************************************
@@ -292,7 +295,7 @@ $(function () {
 	});
 	
 	$('#articles_container').live('pagecreate', function (e) {
-		console.log("AN ARTICLE SHOWN");
+		console.log("ARTICLE SHOWN");
 		$('#backButton').die().live('click', function () {
 			$.mobile.changePage("articles.html", {transition:"slideup", changeHash:false});
 		});
@@ -309,6 +312,19 @@ $(function () {
 		console.log("QUESTIONNAIRES PAGE SHOWN");
 		$('.questionnaire').die().live('click', function () {
 			showQuestionnaire($(this).attr('data-questionnaireId'));
+		});
+	});
+	
+	//Questionnaires Container Page Functions
+	$('#questionnaires_container').live('pagebeforecreate', function (e) {
+		console.log("QUESTIONNAIRE ID " + loadedQuestionnaire + " LOADED");
+		loadQuestionnaire(loadedQuestionnaire);
+	});
+	
+	$('#questionnaires_container').live('pagecreate', function (e) {
+		console.log("QUESTIONNAIRE SHOWN");
+		$('#backButton').die().live('click', function () {
+			$.mobile.changePage("questionnaires.html", {transition:"slideup", changeHash:false});
 		});
 	});
 	
