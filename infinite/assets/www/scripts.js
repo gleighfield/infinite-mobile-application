@@ -236,7 +236,7 @@ function buildQuestions (questions) {
 				html += makeTextInput(questions[k]);
 				break;
 			case '1' :
-				//				html += makeDropDown(questions[k]);
+				html += makeDropDown(questions[k]);
 				break;
 			case '2' :
 				html += makeSlider(questions[k]);
@@ -266,10 +266,10 @@ function makeTextInput (q) {
 function makeDropDown (q) {
 	var options = $.parseJSON(q['options']);
 	console.log(options);
-	return;
-	var question = '<select name="' + q.id + '">';
-		$.each(q.options, function (k, v) {
-			question += '<option value="' + k + '">' + v + '</option>';
+
+	var question = '<select name="' + q['qid'] + '">';
+		$.each(options, function (k, v) {
+			question += '<option value="' + options[v] + '" data-state="' + options[k]['state'] + '">' + options[k]['title'] + '</option>';
 		});
 	question += '</select>';
 	return makeQuestion(q['title'], question, q['id']);
@@ -304,7 +304,7 @@ function makeRadio (q) {
 function makeQuestion (title, q, id) {
 	return '\
 		<div class="question">\
-			<h2>' + title + '</h2>\
+			<h3>' + title + '</h3>\
 			<div id="' + id + '" class="answer">\
 				' + q + '\
 			</div>\
