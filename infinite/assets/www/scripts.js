@@ -35,18 +35,21 @@ function fetchArticles() {
 }
 
 function storeArticles(articles) {
-	var localArticles = {};
+	var localArticles = $.parseJSON(window.localStorage.getItem("Articles"));
 	$.each(articles, function(i) {
-		var article = {};
-			article['id'] 			= articles[i]['id'];
-			article['title'] 		= articles[i]['title'];
-			article['content'] 		= articles[i]['content'];
-			article['alert']		= articles[i]['alert'];
-			article['published'] 	= articles[i]['timestamp'];
-		
-		localArticles["articleId_" + articles[i]['id']] = article;
+		//If this already exsits, skip
+		if (!localArticles["articleId_" + articles[i]['id']]) {
+			var article = {};
+				article['id'] 			= articles[i]['id'];
+				article['title'] 		= articles[i]['title'];
+				article['content'] 		= articles[i]['content'];
+				article['alert']		= articles[i]['alert'];
+				article['published'] 	= articles[i]['timestamp'];
+			
+			localArticles["articleId_" + articles[i]['id']] = article;
+			console.log('SAVED ARTICLE' + articles[i]['id']);
+		}
 	});
-	
 	window.localStorage.setItem("Articles", JSON.stringify(localArticles));
 }
 
@@ -70,18 +73,22 @@ function fetchQuestionnaires() {
 }
 
 function storeQuestionnaires(questionnaires) {
-	var localQuestionnaires = {};
-	$.each(questionnaires, function(i) {
-		var questionnaire = {};
-			questionnaire['id'] 		= questionnaires[i]['id'];
-			questionnaire['title'] 		= questionnaires[i]['title'];
-			questionnaire['options'] 	= questionnaires[i]['options'];
-			questionnaire['answers']	= '';
-			questionnaire['status'] 	= 0; //Not completed
-		
-		localQuestionnaires["questionnaireId_" + questionnaires[i]['id']] = questionnaire;
-	});
+	var localQuestionnaires = $.parseJSON(window.localStorage.getItem("Questionnaires"));
 	
+	$.each(questionnaires, function(i) {
+		//If this already exsits, skip
+		if (!localQuestionnaires["questionnaireId_" + questionnaires[i]['id']]) {
+			var questionnaire = {};
+				questionnaire['id'] 		= questionnaires[i]['id'];
+				questionnaire['title'] 		= questionnaires[i]['title'];
+				questionnaire['options'] 	= questionnaires[i]['options'];
+				questionnaire['answers']	= '';
+				questionnaire['status'] 	= 0; //Not completed
+			
+			localQuestionnaires["questionnaireId_" + questionnaires[i]['id']] = questionnaire;
+			console.log('SAVED QUESTIONNAIRE' + questionnaires[i]['id']);
+		}
+	});
 	window.localStorage.setItem("Questionnaires", JSON.stringify(localQuestionnaires));
 }
 
@@ -353,7 +360,7 @@ function showQuestions(questions, id) {
 // QUESTION SUBMITTION AND SAVING FUNCTIONS START
 //**************************************************************************************************
 
-function saveQuestions(qId) {
+function saveQuestions(qId, confirm) {
 	var questionnaires = $.parseJSON(window.localStorage.getItem("Questionnaires"));
 	var questionnaire = questionnaires['questionnaireId_' + qId];
 	var answers = {};
@@ -390,6 +397,11 @@ function saveQuestions(qId) {
 	
 	//Save back to storage
 	window.localStorage.setItem("Questionnaires", JSON.stringify(questionnaires));
+	
+	if (confirm) {
+		alert("Answers saved");
+		$.mobile.changePage("questionnaires.html", {transition:"slideup", changeHash:false});
+	}
 }
 
 //**************************************************************************************************
@@ -501,6 +513,11 @@ $(function () {
 		console.log("QUESTIONNAIRE SHOWN");
 		$('#backButton').die().live('click', function () {
 			$.mobile.changePage("questionnaires.html", {transition:"slideup", changeHash:false});
+		});
+		
+		$('#saveAnswers').die().live('click', function () {
+			var questionnaire = $('#submitQuestionnaire').attr('data-questionnaire');
+			saveQuestions(questionnaire, true);
 		});
 		
 		$('#submitQuestionnaire').die().live('click', function () {
