@@ -219,7 +219,7 @@ function loadQuestionnaires() {
 function loadQuestionnaire(questionnaireId) {
 	var questionnaire = $.parseJSON(window.localStorage.getItem("Questionnaires"))["questionnaireId_" + questionnaireId];
 	$('#questionnaires_title').html(questionnaire['title']);
-	buildQuestions(questionnaire['options'], questionnaire['id']);
+	buildQuestions(questionnaire['options'], questionnaire['id'], questionnaire['answers']);
 };
 
 //**************************************************************************************************
@@ -227,25 +227,26 @@ function loadQuestionnaire(questionnaireId) {
 //**************************************************************************************************
 
 //Determine type and build html
-function buildQuestions (questions, qId) {
+function buildQuestions (questions, qId, answers) {
+	console.log(answers);
+
 	var html = "";
 	$.each(questions, function(k, v) {
-
 		switch (questions[k]['type']) {
 			case '0' :
-				html += makeTextInput(questions[k]);
+				html += makeTextInput(questions[k], answers[questions[k]['qid']]);
 				break;
 			case '1' :
-				html += makeDropDown(questions[k]);
+				html += makeDropDown(questions[k], answers[questions[k]['qid']]);
 				break;
 			case '2' :
-				html += makeSlider(questions[k]);
+				html += makeSlider(questions[k], answers[questions[k]['qid']]);
 				break;
 			case '3' :
-				html += makeRadio(questions[k]);
+				html += makeRadio(questions[k], answers[questions[k]['qid']]);
 				break;
 			case '4' :
-				//				html += makeCheckBox(questions[k]);
+				//				html += makeCheckBox(questions[k], answers);
 				break;
 			default :
 				alert("Unknown Question Type - Abort");
@@ -257,37 +258,64 @@ function buildQuestions (questions, qId) {
 }
 
 //Renders a text input question
-function makeTextInput (q) {
-	var question = '<input type="text" name="' + q['qid'] + '" value="">';
+function makeTextInput (q, answer) {
+	if (answer == undefined) {
+		answer = '';
+	}
+	
+	var question = '<input type="text" name="' + q['qid'] + '" value="' + answer + '">';
 	return makeQuestion(q['title'], question, q['qid']);
 }
 
 //Renders a dropDown question
-function makeDropDown (q) {
+function makeDropDown (q, answer) {
 	var options = $.parseJSON(q['options']);
+	
+	if (answer == undefined) {
+		answer = '';
+	}	
+	
 	var question = '<select name="' + q['qid'] + '">';
 		$.each(options, function (k, v) {
-			question += '<option value="' + k + '" data-state="' + options[k]['state'] + '">' + options[k]['title'] + '</option>';
+			var selected = '';
+			if (k == answer) {
+				selected = 'selected'
+			}
+			question += '<option value="' + k + '" data-state="' + options[k]['state'] + '" ' + selected + '>' + options[k]['title'] + '</option>';
 		});
 	question += '</select>';
 	return makeQuestion(q['title'], question, q['qid']);
 }
 
 //Renders a slider out to the screen
-function makeSlider(q) {
-	var options = $.parseJSON(q['options']);	
-	var question = '<input name="' + q['qid'] + '" data-highlight="true" type="range" value="' + options['sliderstart'] + '" min="0" max="' + options['slidermax'] + '" step="' + options['sliderstep'] + '">';
+function makeSlider(q, answer) {
+	var options = $.parseJSON(q['options']);
+	
+	if (answer == undefined) {
+		answer = options['sliderstart'];
+	}	
+	var question = '<input name="' + q['qid'] + '" data-highlight="true" type="range" value="' + answer + '" min="0" max="' + options['slidermax'] + '" step="' + options['sliderstep'] + '">';
 	return makeQuestion(q['title'], question, q['qid']);
 }
 
 //Renders a radio selection box
-function makeRadio (q) {
+function makeRadio (q, answer) {
 	var options = $.parseJSON(q['options']);	
+	
+	if (answer == undefined) {
+		answer = '';
+	}
+	
 	var question = '<fieldset data-role="controlgroup">';
 	var count = 0;
 		$.each(options, function (k, v) {
+			var checked = '';
+			if (k == answer) {
+				checked = 'checked="checked"';
+			}
+			
 			question += '\
-			<input type="radio" name="' + q['qid'] + '" id="' + q['id'] + '_' + count + '" value="' + k + '">\
+			<input type="radio" name="' + q['qid'] + '" id="' + q['id'] + '_' + count + '" value="' + k + '" ' + checked + '>\
      			<label for="' + q['id'] + '_' + count + '">' + options[k]['title'] + '</label>';
 			count ++;
 		});
@@ -362,8 +390,6 @@ function saveQuestions(qId) {
 	
 	//Save back to storage
 	window.localStorage.setItem("Questionnaires", JSON.stringify(questionnaires));
-	
-	console.log($.parseJSON(window.localStorage.getItem("Questionnaires")));
 }
 
 //**************************************************************************************************
