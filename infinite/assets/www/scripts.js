@@ -1,4 +1,5 @@
 var site_url = "http://infinite.gelstudios.co.uk/ajax/device/";
+var applicationVersion = 0.1;
 var loadedArticle = 0;
 var loadedQuestionnaire = 0;
 
@@ -10,9 +11,47 @@ function init () {
 	}
 	else {
 		//User not yet registered
-		//$.mobile.changePage("#login", {transition:"slideup"});
-		$.mobile.changePage("home.html", {transition:"slideup"});
+		console.log("LOGIN PAGE SHOWN DUE TO NO STORED LOCAL DATA");
+		$.mobile.changePage("#login", {transition:"slideup"});
 	}
+}
+
+//**************************************************************************************************
+//Login Page Functions
+function userLogin (email) {		
+	$.ajax({
+		type: "POST",
+		url : site_url + 'user_login.php',
+		dataType : 'json',
+		data : {
+			'user_email' : email
+		},			
+		success : function (data) {
+			initApplication(data, email);
+		},
+		error : function (xhr) {
+  			alert(xhr.statusText);
+		}
+	});
+}
+
+//Basic init of the application including all placeholders for content as and when required
+function initApplication (user, email) {
+
+	window.localStorage.setItem("userid", user['id']);
+	window.localStorage.setItem("firstname", user['firstname']);
+	window.localStorage.setItem("lastname", user['lastname']);
+	window.localStorage.setItem("channel", user['channel']);
+	window.localStorage.setItem("email", email);
+	window.localStorage.setItem("settings_version", applicationVersion);
+	window.localStorage.setItem("settings_channelName", user['channel_name']);
+	window.localStorage.setItem("settings_articlesTotal", 0);
+	window.localStorage.setItem("settings_emailTotal", 0);
+	
+	alert("Thanks " + window.localStorage.getItem('firstname') + ", you have been successfully registered.");
+	
+	console.log("USER REGISTERED");
+	$.mobile.changePage("home.html", {transition:"slidedown"});
 }
 
 //Fetch articles that are relavent to this user and channel
@@ -100,19 +139,6 @@ function storeQuestionnaires(questionnaires) {
 	window.localStorage.setItem("Questionnaires", JSON.stringify(localQuestionnaires));
 }
 
-//Adds the users details into DOM Local storage
-function addUserToLocalStorage (user) {
-	window.localStorage.setItem("userid", user['id']);
-	window.localStorage.setItem("firstname", user['firstname']);
-	window.localStorage.setItem("lastname", user['lastname']);
-	window.localStorage.setItem("channel", user['channel']);
-	window.localStorage.setItem("email", user['email']);
-	window.localStorage.setItem("settings_version", 0.1);
-	window.localStorage.setItem("settings_channelName", user['channel_name']);
-	window.localStorage.setItem("settings_articlesTotal", 0);
-	window.localStorage.setItem("settings_emailTotal", 0);
-}
-
 //Wipe the entire devices data
 function wipeData() {
 	var x = confirm("Are you sure you want to wipe all data on this device?");
@@ -120,27 +146,6 @@ function wipeData() {
 		window.localStorage.clear();
 		navigator.app.exitApp(); //Andriod only
 	}
-}
-
-//**************************************************************************************************
-//Login Page Functions
-function userLogin (email) {		
-	$.ajax({
-		type: "POST",
-		url : site_url + 'user_login.php',
-		dataType : 'json',
-		data : {
-			'user_email' : email
-		},			
-		success : function (data) {
-			addUserToLocalStorage(data);
-			alert("Thanks " + data['firstname'] + ", you have been successfully registered.");
-			$.mobile.changePage("#home", {transition:"slidedown"});
-		},
-		error : function (xhr) {
-  			alert(xhr.statusText);
-		}
-	});
 }
 
 //**************************************************************************************************
@@ -441,15 +446,6 @@ function loadSettings() {
 
 /* Dom Ready */
 $(function () {
-	window.localStorage.setItem("userid", '2');
-	window.localStorage.setItem("firstname", 'Graeme');
-	window.localStorage.setItem("lastname", 'Leighfield');
-	window.localStorage.setItem("channel", 14);
-	window.localStorage.setItem("email", 'graeme@gelstudios.co.uk');
-	window.localStorage.setItem("settings_version", 0.1);
-	window.localStorage.setItem("settings_channelName", 'Channel One');
-	window.localStorage.setItem("settings_articlesTotal", 0);
-	window.localStorage.setItem("settings_emailTotal", 0);
 	
 	//Init Check after page has been rendered
 	$('#loading').live('pagecreate', function (e) {
@@ -458,7 +454,6 @@ $(function () {
 	
 	//Login Page Functions
 	$('#login_user_submit').click(function () {
-		console.log("LOGIN PAGE SHOWN");
 		var email = $('#login_user_email').val();
 		if (email != null) {
 			userLogin(email);
