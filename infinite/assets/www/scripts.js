@@ -191,9 +191,14 @@ function loadQuestionnaires() {
 	var questionnairesAnsweredHtml = '<li data-role="list-divider">Answered</li>';
 	
 	$.each(questionnaires, function(i) {
-		var html = '<li><a href="#" data-questionnaireId="' + questionnaires[i]['id'] + '" data-icon="arrow-l" class="questionnaire">' + questionnaires[i]['title'] + '</a></li>';
-		questionnairesUnansweredHtml = questionnairesUnansweredHtml + html;
-		questionnairesAnsweredHtml = questionnairesAnsweredHtml + html;
+		if (questionnaires[i]['status'] == 0) {
+			var html = '<li><a href="#" data-questionnaireId="' + questionnaires[i]['id'] + '" data-icon="arrow-l" class="questionnaire">' + questionnaires[i]['title'] + '</a></li>';
+			questionnairesUnansweredHtml = questionnairesUnansweredHtml + html;
+		}
+		else {
+			var html = '<li><span data-questionnaireId="' + questionnaires[i]['id'] + '" class="questionnaire">' + questionnaires[i]['title'] + '</span></li>';
+			questionnairesAnsweredHtml = questionnairesAnsweredHtml + html;
+		}
 	});
 	
 	$('#questionnaireUnanswered_list').html(questionnairesUnansweredHtml);
