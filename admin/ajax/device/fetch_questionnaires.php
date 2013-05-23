@@ -58,6 +58,7 @@
 			$questions['qid'] = $question['id'];
 			$questions['order'] = $question['order'];
 			$questions['title'] = $question['title'];
+			$questions['type']	= $question['type'];
 			$questions['options'] = $question['options'];
 			$q['options'][$questions['order']] = $questions;
 		}
