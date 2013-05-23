@@ -219,7 +219,7 @@ function loadQuestionnaires() {
 function loadQuestionnaire(questionnaireId) {
 	var questionnaire = $.parseJSON(window.localStorage.getItem("Questionnaires"))["questionnaireId_" + questionnaireId];
 	$('#questionnaires_title').html(questionnaire['title']);
-	buildQuestions(questionnaire['options']);
+	buildQuestions(questionnaire['options'], questionnaire['id']);
 };
 
 //**************************************************************************************************
@@ -227,7 +227,7 @@ function loadQuestionnaire(questionnaireId) {
 //**************************************************************************************************
 
 //Determine type and build html
-function buildQuestions (questions) {
+function buildQuestions (questions, qId) {
 	var html = "";
 	$.each(questions, function(k, v) {
 
@@ -253,7 +253,7 @@ function buildQuestions (questions) {
 		}
 	});
 
-	showQuestions(html, questions['id']);
+	showQuestions(html, qId);
 }
 
 //Renders a text input question
@@ -270,14 +270,14 @@ function makeDropDown (q) {
 			question += '<option value="' + k + '" data-state="' + options[k]['state'] + '">' + options[k]['title'] + '</option>';
 		});
 	question += '</select>';
-	return makeQuestion(q['title'], question, q['id']);
+	return makeQuestion(q['title'], question, q['qid']);
 }
 
 //Renders a slider out to the screen
 function makeSlider(q) {
 	var options = $.parseJSON(q['options']);	
 	var question = '<input name="' + q['qid'] + '" data-highlight="true" type="range" value="' + options['sliderstart'] + '" min="0" max="' + options['slidermax'] + '" step="' + options['sliderstep'] + '">';
-	return makeQuestion(q['title'], question, q['id']);
+	return makeQuestion(q['title'], question, q['qid']);
 }
 
 //Renders a radio selection box
@@ -292,7 +292,7 @@ function makeRadio (q) {
 			count ++;
 		});
 	question += '</fieldset>';
-	return makeQuestion(q.title, question, q.id);
+	return makeQuestion(q['title'], question, q['qid']);
 }
 
 //Constructs titles on a per question basis
@@ -320,6 +320,56 @@ function showQuestions(questions, id) {
 //**************************************************************************************************
 // QUESTION RENDERING FUNCTIONS END
 //**************************************************************************************************
+
+//**************************************************************************************************
+// QUESTION SUBMITTION AND SAVING FUNCTIONS START
+//**************************************************************************************************
+
+function saveQuestions(qId) {
+	var questionnaires = $.parseJSON(window.localStorage.getItem("Questionnaires"));
+	var questionnaire = questionnaires['questionnaireId_' + qId];
+	var answers = {};
+	var questionsLength = $('.answer').length;
+	$('.answer').each(function (i) {
+		var ele = $(this);
+		var l = ele.find('input[name]').length;
+		var id = ele.attr('id');
+		var a = '';
+		
+		//Drop down list
+		if(l == 0) {
+			a = ele.find('option:selected').val();
+		}
+		
+		//Normal text value box or slider
+		if(l == 1) {
+			a = ele.find('input').val();
+		}
+		
+		//Radio options
+		if(l > 1) {
+			a = ele.find('label.ui-radio-on').closest('.ui-radio').find('input').val();
+		}
+		
+		answers[id] = a;		
+	});
+	
+	//Update the answers field on the array
+	questionnaire['answers'] = answers;
+	
+	//Update the global object with the new id
+	questionnaires['questionnaireId_' + qId] = questionnaire;
+	
+	//Save back to storage
+	window.localStorage.setItem("Questionnaires", JSON.stringify(questionnaires));
+	
+	console.log($.parseJSON(window.localStorage.getItem("Questionnaires")));
+}
+
+//**************************************************************************************************
+// QUESTION SUBMITTION AND SAVING FUNCTIONS END
+//**************************************************************************************************
+
 
 //**************************************************************************************************
 //Settings Page Functions
@@ -425,6 +475,11 @@ $(function () {
 		console.log("QUESTIONNAIRE SHOWN");
 		$('#backButton').die().live('click', function () {
 			$.mobile.changePage("questionnaires.html", {transition:"slideup", changeHash:false});
+		});
+		
+		$('#submitQuestionnaire').die().live('click', function () {
+			var questionnaire = $(this).attr('data-questionnaire');
+			saveQuestions(questionnaire);
 		});
 	});
 	
