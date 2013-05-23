@@ -269,7 +269,7 @@ function makeDropDown (q) {
 
 	var question = '<select name="' + q['qid'] + '">';
 		$.each(options, function (k, v) {
-			question += '<option value="' + k + '" data-state="' + options[k]['state'] + '">' + options[k]['title'] + ' ' + k + '</option>';
+			question += '<option value="' + k + '" data-state="' + options[k]['state'] + '">' + options[k]['title'] + '</option>';
 		});
 	question += '</select>';
 	return makeQuestion(q['title'], question, q['id']);
@@ -286,14 +286,13 @@ function makeSlider(q) {
 function makeRadio (q) {
 	var options = $.parseJSON(q['options']);
 	console.log(options);
-	return;
 	
 	var question = '<fieldset data-role="controlgroup">';
 	var count = 0;
-		$.each(q.options, function (k, v) {
+		$.each(options, function (k, v) {
 			question += '\
-			<input type="radio" name="' + q.id + '" id="' + q.id + '_' + count + '" value="' + k + '">\
-     			<label for="' + q.id + '_' + count + '">' + v + '</label>';
+			<input type="radio" name="' + q['id'] + '" id="' + q['id'] + '_' + count + '" value="' + k + '">\
+     			<label for="' + q['id'] + '_' + count + '">' + options[k]['title'] + '</label>';
 			count ++;
 		});
 	question += '</fieldset>';
@@ -313,7 +312,7 @@ function makeQuestion (title, q, id) {
 
 //Wraps the questions with any header or footer bits and bobs
 function wrapQuestions (questions, id) {
-	var submit = '<hr><button id="submitQuestionnaire" data-questionnaire="' + id + '">Submit!</button>';
+	var submit = '<button id="submitQuestionnaire" data-questionnaire="' + id + '">Submit!</button>';
 	return questions + submit;
 }
 
