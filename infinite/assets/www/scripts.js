@@ -432,7 +432,10 @@ function saveQuestions(qId, confirm) {
 }
 
 function submitQuestionnaire(qId) {
-	var answers = $.parseJSON(window.localStorage.getItem("Questionnaires"))['questionnaireId_' + qId]['answers'];
+	var questionnaires = $.parseJSON(window.localStorage.getItem("Questionnaires"));
+	var questionnaire = questionnaires['questionnaireId_' + qId];
+	var answers = questionnaire['answers'];
+	
 	$.ajax({
 		type: "POST",
 		url : site_url + 'submit_questionnaire.php',
@@ -444,7 +447,17 @@ function submitQuestionnaire(qId) {
 			'answers'		: answers
 		},			
 		success : function (data) {
-			console.log(data);
+			//Set questionnaire as submitted
+			questionnaire['status'] = 2; //Answered
+	
+			//Update the global object with the new id
+			questionnaires['questionnaireId_' + qId] = questionnaire;
+	
+			//Save back to storage
+			window.localStorage.setItem("Questionnaires", JSON.stringify(questionnaires));
+
+			alert("Questionnaire submitted");
+			$.mobile.changePage("questionnaires.html", {transition:"slideup", changeHash:false});
 		},
 		error : function (xhr) {
   			console.log("ERROR SUBMITTING QUESTIONNAIRE");
