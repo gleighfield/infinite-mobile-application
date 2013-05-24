@@ -11,17 +11,26 @@
 		'answers'		=> $_POST['answers']
 	);
 
-	$answers = array();
-
+	$answers = "";
 	foreach ($data['answers'] as $key => $value) {
 		//Questionnaire ID, Question ID, UserID, response
-		$answer = array($data['questionnaire'], $key, $data['user_id'], $value);
-		array_push($answers, $answer);
+		$answers .= "(" . $data['questionnaire'] . ", " . $key . ", " . $data['user_id'] . ", '" .  $value. "'), ";
 	}
-
-	echo print_r($answers);
-
-	return true;
+	$answers = substr($answers, 0, -2);
+	
+	//Add completion entry into DB
+	$sql = "INSERT INTO completed_questionnaires (questionnaire, user_id, completed) VALUES (:questionnaire, :user_id, :completed)";
+	$addQuestionnaireEntry = $db->prepare($sql);
+	$addQuestionnaireEntry->execute(array(
+		':questionnaire'=> $data['questionnaire'],
+		':user_id'		=> $data['user_id'],
+		':completed'	=> $data['completed'],
+	));
+	
+	//Add answers into DB
+	$sql = "INSERT INTO answers (questionnaireid, questionid, userid, response) VALUES " . $answers;
+	$addAnswersEntry = $db->prepare($sql);
+	$addAnswersEntry->execute();
 
 	$sql = "SELECT id, firstname, lastname, channel FROM users WHERE id = :id";
 	$userQuery = $db->prepare($sql);
