@@ -17,21 +17,28 @@
 	));
 	
 	$user = $userQuery->fetch(PDO::FETCH_ASSOC);
-
-	//Return questionnaires matching channel ID and published status of 1
+	
 	$sql = "
-	SELECT id, title, created
+	SELECT questionnaires.id, questionnaires.title, questionnaires.created
 	FROM questionnaires 
 	WHERE validto > :validto
 		AND channel = :channel
 		AND published = 1
+		AND NOT EXISTS (
+			SELECT id 
+			FROM completed_questionnaires
+			WHERE completed_questionnaires.user_id = :user_id
+				AND completed_questionnaires.questionnaire = questionnaires.id)
 	ORDER BY validto DESC";
+	
 	$questionnairesQuery = $db->prepare($sql);
+	
 	$questionnairesQuery->execute(array(
 		':validto'	=> $data['time_stamp'],
-		':channel'	=> $data['channel']
+		':channel'	=> $data['channel'],
+		':user_id'	=> $data['user_id']
 	));
-
+	
 	//Array to hold all the questionnaires and there answers
 	$questionnaires = array();
 	
