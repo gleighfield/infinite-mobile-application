@@ -3,3 +3,11 @@
 textarea {
 	resize:none;
 }
+
+/* Set the correct height for images full width only */
+#articles_content img {
+	display:block;
+	margin:0 auto;
+	width:100% !important;
+	height:auto !important;
+}

@@ -9,7 +9,7 @@
 		'channel'			=> $_POST['channel'],
 		'title'				=> $_POST['title'],
 		'alert'				=> $_POST['alert'],
-		'content'			=> $_POST['content'],
+		'content'			=> stripslashes($_POST['content']),
 		'time_stamp'		=> date('Y-m-d H:i:s'),
 		'status'			=> 1 //Enabled by default
 	);

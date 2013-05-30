@@ -10,7 +10,7 @@
 		'user_id' 		=> 0,
 		'channel'		=> $_POST['channel'],
 		'title'			=> $_POST['title'],
-		'content'		=> $_POST['content'],
+		'content'		=> stripslashes($_POST['content']),
 		'time_stamp'	=> date('Y-m-d H:i:s'),
 	);
 	
