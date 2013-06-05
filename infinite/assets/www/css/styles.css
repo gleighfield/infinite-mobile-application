@@ -11,3 +11,21 @@ textarea {
 	width:100% !important;
 	height:auto !important;
 }
+
+
+/* Logo positioning */
+#home .logo {
+	width:100%;
+	height:auto;
+	margin:10px 0 50px;
+}
+
+#home {
+	background-image:url(../img/homepageBg.jpg) !important;
+	-webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+/* CSS OVERLOADS FOR TOMTOM */
