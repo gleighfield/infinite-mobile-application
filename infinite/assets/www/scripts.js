@@ -1,4 +1,8 @@
 var site_url = "http://infinite.gelstudios.co.uk/ajax/device/";
+
+//For development production site
+site_url = "http://infinite.gelstudios.co.uk/live/ajax/device/";
+
 var applicationVersion = 0.1;
 var loadedArticle = 0;
 var loadedQuestionnaire = 0;
