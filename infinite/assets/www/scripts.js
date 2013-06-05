@@ -485,10 +485,22 @@ function loadSettings() {
 		$('#settings_emailTotal').html(window.localStorage.getItem("settings_emailTotal"));
 }
 
+//External url trigger
+function externalLink(url) {
+	window.open(url, '_system');
+}
+
 //**************************************************************************************************
 
 /* Dom Ready */
 $(function () {
+	
+	//ExternalLink handler
+	$('.externalLink, #articles_content a').live('click', function (e) {
+		e.preventDefault();
+		var url = $(this).attr('href');
+		externalLink(url);
+	});
 	
 	//Init Check after page has been rendered
 	$('#loading').live('pagecreate', function (e) {
