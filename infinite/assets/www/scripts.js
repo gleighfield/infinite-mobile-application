@@ -628,9 +628,204 @@ var startTest = function() {
 };
 
 if (typeof(cordova) !== 'undefined') {
-	// cordova test
 	document.addEventListener('deviceready', startTest, false);
 } else {
-	// normal browser test
 	$(document).ready(startTest);
 }
+
+/* PUSH NOTIFICATIONS */
+function phonegapInit() {
+	document.addEventListener("deviceready", function() {		
+		
+    	push = window.pushNotification
+
+    	// Reset Badge on resume
+    	document.addEventListener("resume", function() {
+      		push.resetBadge()
+    	})
+
+    	push.getIncoming(function (incoming) {
+      		if(incoming.message) {
+        		console.log("Incoming push: " + incoming.message)
+      		} else {
+        		console.log("No incoming message")
+      		}
+    	})
+
+    	function on_push(data) {
+      		console.log("GEL STUDIOS - RECIVED PUSH : " + data.message);
+    	}
+
+    	function on_reg(error, pushID) {
+	      	if (!error) {
+	        	console.log("GEL STUDIOS - REG SUCCESS ID : " + pushId);
+	        	alert(pushId);
+	      	}
+    	}
+
+    	push.registerEvent('registration', on_reg)
+    	push.registerEvent('push', on_push)
+
+	/* GETTERS */
+	
+	    push.isPushEnabled(function(has_push) {
+	      	if (has_push) {
+	      		console.log("GEL STUDIOS - PUSH ENABLED");
+	      	} else {
+	        	console.log("GEL STUDIOS - PUSH DISABLED");
+	      	}
+	    })
+	    push.isSoundEnabled(function(has_sound) {
+	      	if (has_sound) {
+	      		console.log("GEL STUDIOS - SOUND ENABLED");
+	      	} else {
+	      		console.log("GEL STUDIOS - SOUND DISABLED");
+	      	}
+	    })
+	    push.isVibrateEnabled(function(has_vibrate) {
+	      	if (has_vibrate) {
+	      		console.log("GEL STUDIOS - VIBRATE ENABLED");
+	      	} else {
+	      		console.log("GEL STUDIOS - VIBRATE DISABLED");
+	      	}
+	    })
+	    push.isQuietTimeEnabled(function(has_quiettime) {
+	      	if (has_quiettime) {
+	      		console.log("GEL STUDIOS - QUIET TIME ENABLED");
+	        	$('#quietTimeEnabled').val('on').change();
+	      	} else {
+	      		console.log("GEL STUDIOS - QUIET TIME DISABLED");
+	      	}
+	    })
+	    push.isLocationEnabled(function(enabled) {
+	      	if (enabled) {
+	        	console.log("GEL STUDIOS - LOCATION ENABLED");
+	      	} else {
+	      		console.log("GEL STUDIOS - LOCATION DISABLED");
+	      	}
+	    })
+	    
+	/* SETTERS */
+
+		//Enable of disable push notifications
+	    $('#pushEnabled').change(function() {
+	      	if ($('#pushEnabled').val() == "on") {
+	        	// This means we want to turn it on
+	        	push.enablePush()
+	      	} else {
+	        	push.disablePush()
+	      	}
+	    })
+
+		//Enable of disable sound
+	    $('#soundEnabled').change(function() {
+	      	if ($('#soundEnabled').val() == "on") {
+	        	//This means we want to turn it on
+	        	push.setSoundEnabled(true)
+	      	} else {
+	        	push.setSoundEnabled(false)
+	      	}
+	    })
+
+		//Enable of disable vibrate
+    	$('#vibrateEnabled').change(function() {
+      		if ($('#vibrateEnabled').val() == "on") {
+        		//This means we want to turn it on
+        		push.setVibrateEnabled(true)
+      		} else {
+        		push.setVibrateEnabled(false)
+      		}
+    	})
+
+		//Enable of disable quiet time 
+	    $('#quietTimeEnabled').change(function() {
+	      	if ($('#quietTimeEnabled').val() == "on") {
+	        	//This means we want to turn it on
+	        	push.setQuietTimeEnabled(true)
+	      	} else {
+	        	push.setQuietTimeEnabled(false)
+	      	}
+	    })
+
+		//Enable or disable location based services 
+	    $('#locationEnabled').change(function() {
+	      if ($('#locationEnabled').val() == "on") {
+	        //This means we want to turn it on
+	        push.enableLocation()
+	      } else {
+	        push.disableLocation()
+	      }
+	    })
+
+		//Add a tag
+	    $("#addTagButton").click(function(ev) {
+		      var new_tag = $("#addTagField").val()
+			      console.log("Adding new tag: " + new_tag)
+			      push.getTags(function(obj) {
+				        if (obj.tags.indexOf(new_tag) == -1) {
+					          console.log("Valid tag: " + new_tag)
+					          obj.tags = obj.tags.concat([new_tag])
+					          push.setTags(obj.tags, function() {
+						            add_tag(new_tag)
+						            $("#addTagField").val('')
+					          })
+				        }
+		      })
+	    })
+
+		//Set the quiet time
+	    $("#setQuietTimeButton").click(function(ev) {
+		      var startHour = parseInt($("#startHour").val())
+		      var startMinute = parseInt($("#startMinute").val())
+		      var endHour = parseInt($("#endHour").val())
+		      var endMinute = parseInt($("#endMinute").val())
+		
+		      push.setQuietTime(startHour, startMinute, endHour, endMinute, function() {
+		        	console.log("Set quiet time from JS")
+		      })
+	    })
+
+		//Set alias
+	    $("#setAliasButton").click(function(ev) {
+		      var new_alias = $("#setAliasField").val()
+		      push.setAlias(new_alias, function() {
+		        	//on complete do alias = new_alias
+		      })
+	    })
+
+		//Fetch ID
+	    push.getPushID(function (id) {
+		      if(id) {
+			         console.log("GEL STUDIOS GOT PUSH ID : " + id)
+		      }
+	    })
+
+		//Fetch alias
+	    push.getAlias(function (alias) {
+		      if(alias) {
+		      		
+			        console.log("GEL STUDIOS ALIAS PRESENT : " + alias)
+		      } else {
+		        	console.log("GEL STUDIOS NO ALIAS");
+		      }
+	    })
+
+		//Fetch tags
+	    push.getTags(function(obj) {
+	      	obj.tags.forEach(function(tag) {
+	      		console.log("GEL STUDIOS TAG : " + tag)
+	      	})
+	    })
+
+		//Fetch Quiet Time
+	    push.getQuietTime(function(obj) {
+		      //start hour val = obj.startHour, //start min val = obj.startMinute, //end hour val = obj.endHour, //end min val = valobj.endMinute
+	    })
+
+	    push.registerForNotificationTypes(push.notificationType.badge | push.notificationType.sound | push.notificationType.alert)
+	    
+	    //If android do something unique
+	    if (device.platform != "Android") {}
+	}, false)
+}
+/* PUSH NOTIFICATIONS END*/

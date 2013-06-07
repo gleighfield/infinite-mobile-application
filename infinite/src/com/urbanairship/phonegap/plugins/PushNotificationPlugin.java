@@ -1,4 +1,4 @@
-package com.gelstudios.infinite;
+package com.urbanairship.phonegap.plugins;
 
 import android.os.RemoteException;
 
@@ -9,6 +9,7 @@ import com.urbanairship.location.UALocationManager;
 import com.urbanairship.push.PushManager;
 import com.urbanairship.push.PushPreferences;
 import com.urbanairship.util.ServiceNotBoundException;
+import com.gelstudios.infinite.PushNotificationPluginIntentReceiver;
 
 import org.apache.cordova.api.CallbackContext;
 import org.apache.cordova.api.CordovaPlugin;

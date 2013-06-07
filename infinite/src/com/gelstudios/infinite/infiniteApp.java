@@ -5,7 +5,6 @@ import android.os.Bundle;
 import org.apache.cordova.*;
 
 import com.urbanairship.UAirship;
-import com.gelstudios.infinite.PushNotificationPluginIntentReceiver;
 import com.urbanairship.push.PushManager;
 import com.urbanairship.AirshipConfigOptions;
 

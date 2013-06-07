@@ -1,12 +1,12 @@
-developmentAppKey = z6H846nbSlGBWY-7_Bk-TA
-developmentAppSecret = xsCwUPV8Q92b5FJQl5lMOA
-productionAppKey = z6H846nbSlGBWY-7_Bk-TA
-productionAppSecret = xsCwUPV8Q92b5FJQl5lMOA
+developmentAppKey = "z6H846nbSlGBWY-7_Bk-TA"
+developmentAppSecret = "xsCwUPV8Q92b5FJQl5lMOA"
+productionAppKey = "z6H846nbSlGBWY-7_Bk-TA"
+productionAppSecret = "xsCwUPV8Q92b5FJQl5lMOA"
 
 #transport is "gcm" or "helium".
-transport = gcm
+transport = "gcm"
 
-gcmSender = 699992632864
+gcmSender = "699992632864"
 inProduction = false
 
 iapEnabled = false

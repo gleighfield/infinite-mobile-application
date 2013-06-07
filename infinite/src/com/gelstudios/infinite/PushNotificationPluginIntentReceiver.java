@@ -10,6 +10,7 @@ import com.urbanairship.UAirship;
 import com.urbanairship.location.UALocationManager;
 import com.urbanairship.push.PushManager;
 import com.urbanairship.util.ServiceNotBoundException;
+import com.urbanairship.phonegap.plugins.PushNotificationPlugin;
 
 import java.util.Arrays;
 import java.util.HashMap;

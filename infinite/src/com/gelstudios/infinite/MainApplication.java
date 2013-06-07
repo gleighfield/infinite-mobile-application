@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.Context;
 
 import com.urbanairship.UAirship;
-import com.gelstudios.infinite.PushNotificationPluginIntentReceiver;
 import com.urbanairship.push.PushManager;
 import com.urbanairship.AirshipConfigOptions;
 
@@ -20,7 +19,7 @@ public class MainApplication extends Application {
     public static Context getContext() {
         return instance;
     }
-
+    
     @Override
     public void onCreate() {
         super.onCreate();
