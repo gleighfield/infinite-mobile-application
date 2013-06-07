@@ -1,0 +1,17 @@
+developmentAppKey = z6H846nbSlGBWY-7_Bk-TA
+developmentAppSecret = xsCwUPV8Q92b5FJQl5lMOA
+productionAppKey = z6H846nbSlGBWY-7_Bk-TA
+productionAppSecret = xsCwUPV8Q92b5FJQl5lMOA
+
+#transport is "gcm" or "helium".
+transport = gcm
+
+gcmSender = 699992632864
+inProduction = false
+
+iapEnabled = false
+
+# 2 = Log.VERBOSE; 3 = Log.DEBUG; 4 = Log.INFO;
+# 5 = Log.WARN; 6 = Log.ERROR; 7 = Log.ASSERT;
+developmentLogLevel = 3
+productionLogLevel = 6
