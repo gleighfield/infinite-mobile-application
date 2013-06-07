@@ -12,15 +12,14 @@ textarea {
 	height:auto !important;
 }
 
-
 /* Logo positioning */
-#home .logo {
+#home .logo, #loading .logo {
 	width:100%;
 	height:auto;
 	margin:10px 0 50px;
 }
 
-#home {
+#home, #loading {
 	background-image:url(../img/homepagebg.jpg) !important;
 	-webkit-background-size: cover;
     -moz-background-size: cover;
