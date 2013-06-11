@@ -575,6 +575,11 @@ $(function () {
 	});
 	
 	$('#publishQuestionnaire').click(function () {
+        if ($('.ourQuestions tr').length == 0) {
+            alert("Cannot make a questionnaire live with no questions in it.");
+            return false;
+        }
+
 		var qid = $("#questionnaire").attr("data-qid");
 		var x = confirm("Are you sure you want to publish this questionnaire? Changes cannot be made once published")
 		if (x) {
@@ -616,7 +621,7 @@ $(function () {
 	});
 	
 	//Remove question from db
-	$('.removeRowAndDb').click(function () {
+    $('.table').on('click', '.removeRowAndDb', function () {
 		var row = $(this).closest('tr');
 		var qId = row.attr('data-questionId');
 		removeQuestion(qId, row)

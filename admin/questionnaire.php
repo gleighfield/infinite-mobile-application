@@ -27,7 +27,7 @@
 						<th width="100">Actions</th>
 					</tr>
 				</thead>
-				<tbody class="tableOptions" id="questions">
+				<tbody class="tableOptions ourQuestions" id="questions">
 <? 	} else { ?>
 			<button class="btn btn-large btn-danger" id="unPublishQuestionnaire">Take this questionnaire offline!</button>
 			<table class="table table-striped table-bordered">
@@ -38,7 +38,7 @@
 						<th width="150">Question Type</th>
 					</tr>
 				</thead>
-				<tbody class="tableOptions">
+				<tbody class="tableOptions ourQuestions">
 <? 	} ?>
 <?
 	$query = $db->query("
