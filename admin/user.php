@@ -7,15 +7,18 @@
 			<button class="btn btn-large btn-success" data-target="#addUser" data-toggle="modal">Add a new user</button>
 			<!--<a class="btn btn-large btn-success" href="#">Edit an existing user</a>//-->
 			<table class="table table-striped table-bordered">
-				<tr>
-					<th width="40">User ID</th>
-					<th width="150">Firstname</th>
-					<th width="150">Lastname</th>
-					<th width="40">Email</th>
-					<th width="120">Channel Assigned</th>
-					<th width="120">Created</th>
-					<th width="40">Actions</th>
-				</tr>
+                <thead>
+                    <tr>
+                        <th width="40">User ID</th>
+                        <th width="150">Firstname</th>
+                        <th width="150">Lastname</th>
+                        <th width="40">Email</th>
+                        <th width="120">Channel Assigned</th>
+                        <th width="120">Created</th>
+                        <th width="40">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
 <?
 	$query = $db->query("
 	SELECT 
@@ -34,22 +37,23 @@
 
 	while($user = $query->fetch(PDO::FETCH_ASSOC)) {
 ?>
-				<tr>
-					<td><?= $user['id'] ?></td>
-					<td><?= $user['firstname'] ?></td>
-					<td><?= $user['lastname'] ?></td>
-					<td><?= $user['email'] ?></td>
-					<td><?= $user['name'] ?></td>
-					<td><?= date('d/m/y h:i A', strtotime($user['created'])) ?></td>
-					<td>
-						<!--<a href="questionnaire.php?qid=<?= $article['id'] ?>" title="Edit this questionnaire" class="btn btn-success editQuestionsBtn">
-							Edit
-						</a>//-->
-					</td>
-				</tr>
+                    <tr>
+                        <td><?= $user['id'] ?></td>
+                        <td><?= $user['firstname'] ?></td>
+                        <td><?= $user['lastname'] ?></td>
+                        <td><?= $user['email'] ?></td>
+                        <td><?= $user['name'] ?></td>
+                        <td><?= date('d/m/y h:i A', strtotime($user['created'])) ?></td>
+                        <td>
+                            <!--<a href="questionnaire.php?qid=<?= $article['id'] ?>" title="Edit this questionnaire" class="btn btn-success editQuestionsBtn">
+                                Edit
+                            </a>//-->
+                        </td>
+                    </tr>
 <?
 	}
 ?>
+                </tbody>
 			</table>
 		</div>
 		<hr>

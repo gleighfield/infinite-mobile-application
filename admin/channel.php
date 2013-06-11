@@ -6,9 +6,12 @@
 			<p class="lead">Here, you can add a new channel, which you can then assign users, and articles to.</p>
 			<button class="btn btn-large btn-success" data-target="#addChannel" data-toggle="modal">Add a new channel</button>
 			<table class="table table-striped table-bordered">
-				<tr>
-					<th>Name</th>
-				</tr>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                    </tr>
+                </thead>
+                <tbody>
 <?
 	$query = $db->query("
 	SELECT 
@@ -19,12 +22,13 @@
 
 	while($channel = $query->fetch(PDO::FETCH_ASSOC)) {
 ?>
-				<tr>
-					<td><?= $channel['name'] ?></td>
-				</tr>
+                    <tr>
+                        <td><?= $channel['name'] ?></td>
+                    </tr>
 <?
 	}
 ?>
+                </tbody>
 			</table>
 		</div>
 		<hr>

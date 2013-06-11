@@ -6,13 +6,16 @@
 			<p class="lead">Here, you can add or edit news articles. If editing, the edit will appear on the users device, next time they have a valid data signal.</p>
 			<button class="btn btn-large btn-success" data-target="#addArticle" data-toggle="modal">Add a new article</button>
 			<table class="table table-striped table-bordered">
-				<tr>
-					<th>Title</th>
-					<th width="150">Channel</th>
-					<!--<th width="40">Alertable</th>//-->
-					<th width="120">Created</th>
-					<th width="40">Actions</th>
-				</tr>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th width="150">Channel</th>
+                        <!--<th width="40">Alertable</th>//-->
+                        <th width="120">Created</th>
+                        <th width="40">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
 <?
 	$query = $db->query("
 	SELECT 
@@ -30,20 +33,21 @@
 
 	while($article = $query->fetch(PDO::FETCH_ASSOC)) {
 ?>
-				<tr data-articleId="<?= $article['id'] ?>">
-					<td><?= $article['title'] ?></td>
-					<td><?= $article['name'] ?></td>
-					<!--<td><?= $article['alert'] ?></td>//-->
-					<td><?= date('d/m/y h:i A', strtotime($article['timestamp'])) ?></td>
-					<td>
-						<button title="Edit this article" class="btn btn-success editArticleBtn editQuestionsBtn">
-								Edit
-						</button>
-					</td>
-				</tr>
+                    <tr data-articleId="<?= $article['id'] ?>">
+                        <td><?= $article['title'] ?></td>
+                        <td><?= $article['name'] ?></td>
+                        <!--<td><?= $article['alert'] ?></td>//-->
+                        <td><?= date('d/m/y h:i A', strtotime($article['timestamp'])) ?></td>
+                        <td>
+                            <button title="Edit this article" class="btn btn-success editArticleBtn editQuestionsBtn">
+                                    Edit
+                            </button>
+                        </td>
+                    </tr>
 <?
 	}
 ?>
+                </tbody>
 			</table>
 		</div>
 		<hr>
