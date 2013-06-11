@@ -1,11 +1,12 @@
 var site_url = "http://infinite.gelstudios.co.uk/ajax/device/";
 
 //For development production site
-site_url = "http://infinite.gelstudios.co.uk/live/ajax/device/";
+//site_url = "http://infinite.gelstudios.co.uk/live/ajax/device/";
 
 var applicationVersion = 0.1;
 var loadedArticle = 0;
 var loadedQuestionnaire = 0;
+var push;
 
 //**************************************************************************************************
 //Init Functions
@@ -54,6 +55,28 @@ function initApplication (user, email) {
 	alert("Thanks " + window.localStorage.getItem('firstname') + ", you have been successfully registered.");
 	
 	console.log("USER REGISTERED");
+	
+	var new_tag = window.localStorage.getItem('settings_channelName');
+	var new_alias = window.localStorage.getItem('email');
+	
+	//Add a push tag
+	console.log("GEL STUDIOS ADDING NEW PUSH TAG : " + new_tag)
+	push.getTags(function(obj) {
+		if (obj.tags.indexOf(new_tag) == -1) {
+			console.log("GEL STUDIOS VALID TAG : " + new_tag)
+			obj.tags = obj.tags.concat([new_tag])
+			push.setTags(obj.tags, function() {
+				add_tag(new_tag)
+				console.log("GEL STUDIOS TAG ADDED : " + new_tag)
+			})
+		}
+	})
+		
+	//Add an alias
+    push.setAlias(new_alias, function() {
+		console.log("GEL STUDIOS ALIAS SET : " + new_alias)
+	})
+	
 	$.mobile.changePage("home.html", {transition:"slidedown"});
 }
 
@@ -144,7 +167,7 @@ function storeQuestionnaires(questionnaires) {
 
 //Wipe the entire devices data
 function wipeData() {
-	var x = confirm("Are you sure you want to wipe all data on this device?");
+	var x = confirm("Are you sure you want to wipe all data and reset this application?");
 	if (x) {
 		window.localStorage.clear();
 		navigator.app.exitApp(); //Andriod only
@@ -485,14 +508,30 @@ function loadSettings() {
 		$('#settings_emailTotal').html(window.localStorage.getItem("settings_emailTotal"));
 }
 
+//External url trigger
+function externalLink(url) {
+	window.open(url, '_system');
+}
+
 //**************************************************************************************************
 
 /* Dom Ready */
 $(function () {
 	
+	//ExternalLink handler
+	$('.externalLink, #articles_content a').live('click', function (e) {
+		e.preventDefault();
+		var url = $(this).attr('href');
+		externalLink(url);
+	});
+	
 	//Init Check after page has been rendered
 	$('#loading').live('pagecreate', function (e) {
 		init();
+		
+		$('.lsClear').die().live('click', function () {
+			wipeData();
+		});
 	});
 	
 	//Login Page Functions
@@ -588,7 +627,7 @@ $(function () {
 		console.log("SETTINGS PAGE SHOWN");
 		loadSettings();
 		
-		$('#lsClear').die().live('click', function () {
+		$('.lsClear').die().live('click', function () {
 			wipeData();
 		});
 	})
@@ -616,9 +655,106 @@ var startTest = function() {
 };
 
 if (typeof(cordova) !== 'undefined') {
-	// cordova test
 	document.addEventListener('deviceready', startTest, false);
 } else {
-	// normal browser test
 	$(document).ready(startTest);
 }
+
+/* PUSH NOTIFICATIONS FUNCTIONS *
+//Set the quiet time
+function setPushQuietTime(startHour, startMinute, endHour, endMinute) {
+      push.setQuietTime(startHour, startMinute, endHour, endMinute, function() {
+        	console.log("GEL STUDIOS QUIET TIME SET")
+      })
+})
+
+/* PUSH NOTIFICATIONS INIT*/
+function pushInit() {
+	document.addEventListener("deviceready", function() {		
+		
+    	push = window.pushNotification
+    	
+    	function on_push(data) {
+			console.log("GEL STUDIOS - RECIVED PUSH : " + data.message);
+		}
+		
+		function on_reg(error, pushID) {
+		  	if (!error) {
+		    	console.log("GEL STUDIOS - REG SUCCESS ID : " + pushId);
+		  	}
+		}
+
+    	// Reset Badge on resume
+    	document.addEventListener("resume", function() {
+      		push.resetBadge()
+    	})
+
+    	push.getIncoming(function (incoming) {
+      		if(incoming.message) {
+        		console.log("GEL STUDIOS INCOMING PUSH : " + incoming.message)
+      		} else {
+        		console.log("No incoming message")
+      		}
+    	})
+
+    	push.registerEvent('registration', on_reg)
+    	push.registerEvent('push', on_push)
+
+	/* GETTERS */
+	
+	    //push.isPushEnabled(function(has_push) {})
+	    //push.isSoundEnabled(function(has_sound) {})
+	    //push.isVibrateEnabled(function(has_vibrate) {})
+	    //push.isQuietTimeEnabled(function(has_quiettime) {})
+	    //push.isLocationEnabled(function(enabled) {})
+	    //push.getAlias(function (alias) {});
+	    
+	   	//Fetch tags
+/*	    push.getTags(function(obj) {
+	      	obj.tags.forEach(function(tag) {
+	      		console.log("GEL STUDIOS TAG : " + tag)
+	      	})
+	    }) */
+	    
+	    //Fetch Quiet Time
+/*	    push.getQuietTime(function(obj) {
+		      //start hour val = obj.startHour, //start min val = obj.startMinute, //end hour val = obj.endHour, //end min val = valobj.endMinute
+	    }) */
+	    
+	/* SETTERS */
+
+		//Enable of disable push notifications
+	    //push.enablePush()
+	    //push.disablePush()
+
+		//Enable of disable sound
+		//push.setSoundEnabled(true)
+	    //push.setSoundEnabled(false)
+
+		//Enable of disable vibrate
+        //push.setVibrateEnabled(true)
+        //push.setVibrateEnabled(false)
+
+		//Enable of disable quiet time 
+	    //push.setQuietTimeEnabled(true)
+	    //push.setQuietTimeEnabled(false)
+
+		//Enable or disable location based services 
+	    //push.enableLocation()
+	    //push.disableLocation()
+
+		//Fetch ID
+	    push.getPushID(function (id) {
+		      if(id) {
+			         console.log("GEL STUDIOS GOT PUSH ID : " + id)
+		      }
+	    })
+
+	    push.registerForNotificationTypes(push.notificationType.badge | push.notificationType.sound | push.notificationType.alert)
+	    
+	    //If android do something unique
+	    if (device.platform != "Android") {}
+	    
+	}, false)
+}
+/* PUSH NOTIFICATIONS END*/
