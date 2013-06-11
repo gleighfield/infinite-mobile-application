@@ -169,6 +169,31 @@ function addQuestionnaireContainer(channel, title, date, time) {
 		}
 	});
 }
+
+//Add a new questionnaire container into the system - attr = channel, title, validToDate, validToTime
+function editQuestionnaireContainer(channel, title, validTo, qId) {
+    loaderShow();
+
+    var formData = new FormData;
+    formData.append('qId', qId);
+    formData.append('channel', channel);
+    formData.append('title', title);
+    formData.append('validto', validTo);
+
+    $.ajax({
+        type: "POST",
+        url : 'ajax/edit_questionnaire_container.php',
+        processData : false,
+        contentType : false,
+        data : formData,
+        success : function (data) {
+            window.location.href = "questionnaire.php?qid=" + qId;
+        },
+        error : function (data) {
+            alert("There has been an error adding this questionnaire");
+        }
+    });
+}
 //*********************************************************************************************
 //AJAX FUNCTIONS END
 //*********************************************************************************************
@@ -357,12 +382,37 @@ function fetchQuestionOrder() {
 	return $('#questions tr').length + 1;
 }
 
+//Loops over the required fields, highlighting errors as we go.
+function validate() {
+    var errorCount = 0;
+
+    $('.required').each(function () {
+        if ($(this).val() == "" || $(this).val() == "Select Channel...") {
+            $(this).css({'background-color' : '#ffdbdb'});
+            errorCount++;
+        }
+    });
+
+    if (errorCount == 0) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
 //*********************************************************************************************
 //GLOBAL FUNCTIONS END
 //*********************************************************************************************
 
 $(function () {
 	console.log("Scripts loaded");
+
+    //Change bg color of required fields on hover.
+    $('.required').focus(function () {
+       $(this).css({'background-color' : '#fff'});
+
+    });
 	
 	//Init CKE (if any)
 	if ($('#textarea').length != 0) {
@@ -383,12 +433,18 @@ $(function () {
 	$('#addChannelSubmit').click(function (e) {
 		e.preventDefault();
 		console.log("Add a channel");
-		addChannel($('#inputChannelname').val());
+
+        if (validate()) {
+            addChannel($('#inputChannelname').val());
+        }
+        else {
+            alert("There are errors. Please correct");
+        }
 	});
 	
 	//Clear on hide
 	$('#addChannel').on('hidden', function () {
-		$('#inputChannelname').val('');
+		$('#inputChannelname').val('').css({'background-color' : '#fff'});
 	});
 	
 	// Add a new user into the system, click
@@ -399,15 +455,21 @@ $(function () {
 		if ($('#inputAdmin').attr('checked')) {
 			checked = 1;
 		}
-		addUser($('#inputFirstname').val(), $('#inputLastname').val(), $('#inputEmail').val(), $('#inputChannel').val(), checked);
+
+        if (validate()) {
+            addUser($('#inputFirstname').val(), $('#inputLastname').val(), $('#inputEmail').val(), $('#inputChannel').val(), checked);
+        }
+        else {
+            alert("There are errors. Please correct");
+        }
 	});
 	
 	//Clear on hide
 	$('#addUser').on('hidden', function () {
-		$('#inputFirstname').val('');
-		$('#inputLastname').val('');
-		$('#inputEmail').val('');
-		$('#inputChannel').val($("#target option:first").val());
+		$('#inputFirstname').val('').css({'background-color' : '#fff'});
+		$('#inputLastname').val('').css({'background-color' : '#fff'});
+		$('#inputEmail').val('').css({'background-color' : '#fff'});
+		$('#inputChannel').val($("#target option:first").val()).css({'background-color' : '#fff'});
 		$('#inputAdmin').removeAttr('checked');
 	});
 	
@@ -419,7 +481,13 @@ $(function () {
 		if ($('#inputAlert').attr('checked')) {
 			checked = 1;
 		}
-		addArticle($('#inputChannel').val(), $('#inputTitle').val(), checked, CKEDITOR.instances.textarea.getData());
+
+        if (validate()) {
+            addArticle($('#inputChannel').val(), $('#inputTitle').val(), checked, CKEDITOR.instances.textarea.getData());
+        }
+        else {
+            alert("There are errors. Please correct");
+        }
 	});
 	
 	//Edit an article fetch data GETTER
@@ -436,9 +504,9 @@ $(function () {
 	
 	//Clear on hide
 	$('#addArticle').on('hidden', function () {
-		$('#inputChannel').val($("#target option:first").val());
-		$('#inputTitle').val('');
-		$('#inputAlert').removeAttr('checked');
+		$('#inputChannel').val($("#target option:first").val()).css({'background-color' : '#fff'});
+		$('#inputTitle').val('').css({'background-color' : '#fff'});
+		$('#inputAlert').removeAttr('checked').css({'background-color' : '#fff'});
 		CKEDITOR.instances.textarea.setData('');
 	});
 	
@@ -446,16 +514,38 @@ $(function () {
 	$('#addQuestionnaireContainerSubmit').click(function (e) {
 		e.preventDefault();
 		console.log("Add a questionnaire");
-		addQuestionnaireContainer($('#inputChannel').val(), $('#inputTitle').val(), $('#inputDate').val(), $('#inputTime').val());
+
+        if (validate()) {
+            addQuestionnaireContainer($('#inputChannel').val(), $('#inputTitle').val(), $('#inputDate').val(), $('#inputTime').val());
+        }
+        else {
+            alert("There are errors. Please correct");
+        }
 	})
 	
 	//Clear on hide
 	$('#addQuestionnaireContainer').on('hidden', function () {
-		$('#inputChannel').val($("#target option:first").val());
-		$('#inputTitle').val('');
-		$('#inputDate').val('');
-		$('#inputTime').val('12:00');
+		$('#inputChannel').val($("#target option:first").val()).css({'background-color' : '#fff'});
+		$('#inputTitle').val('').css({'background-color' : '#fff'});
+		$('#inputDate').val('').css({'background-color' : '#fff'});
+		$('#inputTime').val('12:00').css({'background-color' : '#fff'});
 	});
+
+    // Edit a questionnaire container on the system
+    $('#editQuestionnaireContainerSubmit').click(function (e) {
+        e.preventDefault();
+        console.log("Edit a questionnaire");
+
+        editQuestionnaireContainer($('#inputChannel').val(), $('#inputTitle').val(), $('#inputDate').val(), $(this).attr('data-qid'));
+
+    })
+
+    //Clear on hide
+    $('#editQuestionnaireContainer').on('hidden', function () {
+        $('#inputChannel').val($("#target option:first").val()).css({'background-color' : '#fff'});
+        $('#inputTitle').val('').css({'background-color' : '#fff'});
+        $('#inputDate').val('').css({'background-color' : '#fff'});
+    });
 	
 //*********************************************************************************************
 //QUESTION SCRIPTS START
@@ -514,6 +604,7 @@ $(function () {
 		var questionTitle = $('#inputQuestionTitle').val();
 		var questionType = $('#inputQuestionType').val();
 		var order = fetchQuestionOrder();
+
 		var options = {};
 		
 		$('#radioButtonOptions tr').each(function (i) {
@@ -608,7 +699,7 @@ $(function () {
 		$('.questionState').prop('checked', false);
 
 		//Slider
-		$('#inputSliderMaxValue').val('');;
+		$('#inputSliderMaxValue').val('');
 		$('#inputSliderStartValue').val(0);
 		$('#inputSliderStepValue').val('5');
 		//DropDown

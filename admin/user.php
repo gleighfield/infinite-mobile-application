@@ -70,7 +70,7 @@
 						<div class="controls">
 							<div class="input-prepend">
 								<span class="add-on"><i class="icon-user"></i></span>
-								<input type="text" id="inputFirstname" placeholder="Firstname">
+								<input type="text" id="inputFirstname" placeholder="Firstname" class="required">
 							</div>
 						</div>
 					</div>
@@ -79,7 +79,7 @@
 						<div class="controls">
 							<div class="input-prepend">
 								<span class="add-on"><i class="icon-user"></i></span>
-								<input type="text" id="inputLastname" placeholder="Lastname">
+								<input type="text" id="inputLastname" placeholder="Lastname" class="required">
 							</div>
 						</div>
 					</div>
@@ -88,7 +88,7 @@
 						<div class="controls">
 							<div class="input-prepend">
 								<span class="add-on"><i class="icon-envelope"></i></span>
-								<input type="text" id="inputEmail" placeholder="Email">
+								<input type="text" id="inputEmail" placeholder="Email" class="required">
 							</div>
 						</div>
 					</div>
@@ -97,7 +97,7 @@
 						<div class="controls">
 							<div class="input-prepend">
 								<span class="add-on"><i class="icon-eye-open"></i></span>
-								<select id="inputChannel">
+								<select id="inputChannel" class="required">
 									<option>Select Channel...</option>
 									
 <?

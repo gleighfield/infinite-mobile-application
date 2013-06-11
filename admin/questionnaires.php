@@ -81,7 +81,7 @@
 						<div class="controls">
 							<div class="input-prepend">
 								<span class="add-on"><i class="icon-eye-open"></i></span>
-								<select id="inputChannel">
+								<select id="inputChannel" class="required">
 									<option>Select Channel...</option>
 									
 <?
@@ -101,7 +101,7 @@
 						<div class="controls">
 							<div class="input-prepend">
 								<span class="add-on"><i class="icon-th-list"></i></span>
-								<input type="text" id="inputTitle" placeholder="Article Title">
+								<input type="text" id="inputTitle" placeholder="Article Title" class="required">
 							</div>
 						</div>
 					</div>
@@ -110,7 +110,7 @@
 						<div class="controls">
 							<div class="input-prepend">
 								<span class="add-on"><i class="icon-calendar"></i></span>
-								<input type="date" id="inputDate" placeholder="Article Title">
+								<input type="date" id="inputDate" placeholder="" class="required">
 							</div>
 						</div>
 					</div>
@@ -119,7 +119,7 @@
 						<div class="controls">
 							<div class="input-prepend">
 								<span class="add-on"><i class="icon-time"></i></span>
-								<input type="time" id="inputTime" value="12:00" placeholder="Article Title">
+								<input type="time" id="inputTime" value="12:00" placeholder="" class="required">
 							</div>
 						</div>
 					</div>

@@ -1,6 +1,7 @@
 <?php
 	require_once('includes/header.php');
 ?>
+
 		<div class="jumbotron">
 			<h1>Articles</h1>
 			<p class="lead">Here, you can add or edit news articles. If editing, the edit will appear on the users device, next time they have a valid data signal.</p>
@@ -117,7 +118,7 @@
 						<div class="controls">
 							<div class="input-prepend">
 								<span class="add-on"><i class="icon-eye-open"></i></span>
-								<select id="inputChannel">
+								<select id="inputChannel" class="required">
 									<option>Select Channel...</option>
 									
 <?
@@ -137,7 +138,7 @@
 						<div class="controls">
 							<div class="input-prepend">
 								<span class="add-on"><i class="icon-th-list"></i></span>
-								<input type="text" id="inputTitle" placeholder="Article Title">
+								<input type="text" id="inputTitle" placeholder="Article Title" class="required">
 							</div>
 						</div>
 					</div>

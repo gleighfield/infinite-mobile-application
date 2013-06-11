@@ -45,7 +45,7 @@
 						<div class="controls">
 							<div class="input-prepend">
 								<span class="add-on"><i class="icon-eye-open"></i></span>
-								<input type="text" id="inputChannelname" placeholder="Name">
+								<input type="text" id="inputChannelname" placeholder="Name" class="required">
 							</div>
 						</div>
 					</div>

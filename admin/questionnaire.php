@@ -17,6 +17,7 @@
 			<p class="lead">Once a questionnaire is published, changes <strong>cannot</strong> be made.</p>
 <? 	if ($questionnaire['published'] == 0) { ?>
 			<button class="btn btn-large btn-success" data-target="#addQuestion" data-toggle="modal">Add a new question</button>
+            <button class="btn btn-large btn-success" data-target="#editQuestionnaire" data-toggle="modal">Edit questionnaire</button>
 			<button class="btn btn-large btn-primary" id="publishQuestionnaire" data->Publish this questionnaire!</button>
 			<table class="table table-striped table-bordered">
 				<thead>
@@ -288,14 +289,65 @@
 						<p>Check boxes</p>
 					</div>
 				</div>
-				
-				
-				
+
 			</div>
 			<div class="modal-footer">
 				<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
 			</div>
 		</div>
+
+        <div id="editQuestionnaire" class="modal hide fade">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3>Edit questionnaire container</h3>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="control-group">
+                        <label class="control-label" for="inputChannel">Channel</label>
+                        <div class="controls">
+                            <div class="input-prepend">
+                                <span class="add-on"><i class="icon-eye-open"></i></span>
+                                <select id="inputChannel">
+                                    <option>Select Channel...</option>
+
+                                    <?
+                                    $query = $db->query("SELECT * FROM channels ORDER BY name");
+                                    while($data = $query->fetch(PDO::FETCH_ASSOC)) {
+                                        ?>
+                                        <option value="<?= $data['id'] ?>"><?= $data['name'] ?></option>
+                                    <?
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="inputTitle">Title</label>
+                        <div class="controls">
+                            <div class="input-prepend">
+                                <span class="add-on"><i class="icon-th-list"></i></span>
+                                <input type="text" id="inputTitle" placeholder="Article Title" value="<?= $questionnaire['title'] ?>">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="inputDate">Open until date</label>
+                        <div class="controls">
+                            <div class="input-prepend">
+                                <span class="add-on"><i class="icon-calendar"></i></span>
+                                <input type="text" id="inputDate" placeholder="" value="<?= $questionnaire['validto'] ?>">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                    <a href="#" data-qid="<?= $qid ?>" id="editQuestionnaireContainerSubmit" class="btn btn-success">Edit questionnaire container</a>
+            </div>
+        </div>
 <?php
 	require_once('includes/footer.php');
 ?>
