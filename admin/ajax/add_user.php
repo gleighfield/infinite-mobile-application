@@ -27,8 +27,10 @@
 		':admin'		=> $data['admin'],
 		':status'		=> $data['status']
 	));
-	
-	//Add log entry
+
+    $data['user_id'] = $db->lastInsertId();
+
+    //Add log entry
 	$sql = "INSERT INTO admin_log (user_id, comment, timestamp) VALUES (:user_id, :comment, :timestamp)";
 	$addLogEntry = $db->prepare($sql);
 	$addLogEntry->execute(array(
@@ -36,5 +38,17 @@
 		':comment'		=> 'User added "' . $data['firstname'] . ' ' . $data['lastname'] . '" with an email address of "' . $data['email'] . '"',
 		':timestamp'	=> $data['time_stamp']
 	));
+
+    //Fetch the cat name to return to the user to display on screen, and make the created date and time nice
+    $sql = "SELECT name FROM channels WHERE id = :id";
+    $returnCatName = $db->prepare($sql);
+    $returnCatName->execute(array(
+        ':id'           => $data['channel'],
+    ));
+
+    $data['channel'] = $returnCatName->fetchColumn();
+    $data['time_stamp'] = date('d/m/y h:i A', strtotime($data['time_stamp']));
+
+    echo json_encode($data);
 
 ?>

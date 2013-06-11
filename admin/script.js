@@ -1,3 +1,8 @@
+//Add a new row to the table on the page, regardless of type
+function addTableRow(row) {
+    $('.table').find('tbody').append(row);
+}
+
 //*********************************************************************************************
 //AJAX FUNCTIONS START
 //*********************************************************************************************
@@ -18,6 +23,7 @@ function addChannel(name) {
 			loaderHide();
 			$('#addChannel').modal('hide');
 			showNotice('<strong>Success!</strong> Channel titled "' + name + '" added!');
+            addTableRow('<tr><td>' + name + '</td></tr>');
 		},
 		error : function (data) {
 			alert("There has been an error adding this channel");
@@ -43,9 +49,11 @@ function addUser(firstname, lastname, email, channel, admin) {
 		contentType : false,
 		data : formData,			
 		success : function (data) {
+            data = $.parseJSON(data);
 			loaderHide();
 			$('#addUser').modal('hide');
 			showNotice('<strong>Success!</strong> "' + firstname + ' ' + lastname + '" was added!');
+            addTableRow('<tr><td>' + data['user_id'] +'</td><td>' + firstname + '</td><td>' + lastname + '</td><td>' + email + '</td><td>' + data['channel'] + '</td><td>' + data['time_stamp'] + '</td><td>Actions</td></tr>');
 		},
 		error : function (data) {
 			alert("There has been an error adding this user");
@@ -70,10 +78,12 @@ function addArticle(channel, title, alert, content) {
 		contentType : false,
 		data : formData,			
 		success : function (data) {
+            data = $.parseJSON(data);
 			loaderHide();
 			$('#addArticle').modal('hide');
 			showNotice('<strong>Success!</strong> " Article "' + title + '" was added!');
-		},
+            addTableRow('<tr data-articleId="' + data['article_id'] + '"><td>' + title +'</td><td>' + data['channel'] + '</td><td>' + data['time_stamp'] + '</td><td><button title="Edit this article" class="btn btn-success editArticleBtn editQuestionsBtn">Edit</button></td></tr>');
+        },
 		error : function (data) {
 			alert("There has been an error adding this article");
 		}
@@ -413,7 +423,7 @@ $(function () {
 	});
 	
 	//Edit an article fetch data GETTER
-	$('.editArticleBtn').click(function () {
+    $('.table').on('click', '.editArticleBtn', function () {
 		var articleId = $(this).closest('tr').attr('data-articleId');
 		loadEditArticle(articleId);
 	});
