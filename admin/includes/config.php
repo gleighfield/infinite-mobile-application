@@ -22,6 +22,6 @@ $s = array(
 //Application push settings
 define('APPKEY','z6H846nbSlGBWY-7_Bk-TA');
 define('PUSHSECRET', 'SKcQwae0QTWjwLtGXnxouA'); // Master Secret
-define('PUSHURL', 'https://go.urbanairship.com/api/push/broadcast/');
+define('PUSHURL', 'https://go.urbanairship.com/api/push/');
 
 ?>

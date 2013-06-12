@@ -42,7 +42,7 @@
     if ($data['published'] == 1) {
     //Start alert
     $alert = json_encode(array(
-        "tags"      => $data['channel'],
+        "tags"      => array($data['channel']),
         "android"   => array(
             "alert"     => "New questionnaire '" . $data['qName'] . "'",
         ),
