@@ -676,6 +676,14 @@ function pushInit() {
     	
     	function on_push(data) {
 			console.log("GEL STUDIOS - RECIVED PUSH : " + data.message);
+			//We got a push, lets now fetch our new data.
+			fetchArticles();
+			fetchQuestionnaires();
+			jQuery.mobile.changePage(window.location.href, {
+		        allowSamePageTransition: true,
+		        transition: 'none',
+		        reloadPage: true
+		    });
 		}
 		
 		function on_reg(error, pushID) {
@@ -687,6 +695,7 @@ function pushInit() {
     	// Reset Badge on resume
     	document.addEventListener("resume", function() {
       		push.resetBadge()
+
     	})
 
     	push.getIncoming(function (incoming) {
