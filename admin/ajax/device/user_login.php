@@ -6,6 +6,7 @@
 	//Check the user is allowed to log into the system
 	$data = array (
 		'user_email'		=> $_POST['user_email'],
+        'device_id'           => $_POST['push_id'],
 		'time_stamp'		=> date('Y-m-d H:i:s'),
 	);
 	
@@ -22,6 +23,16 @@
 		header('HTTP/1.1 403 ' . $s['login_error']);
 		return false;
 	}
+
+    //We have a user, lets now add there device id to there profile
+    $sql = "UPDATE users
+            SET deviceid = :device_id
+            WHERE id = :id";
+    $addDeviceId = $db->prepare($sql);
+    $addDeviceId->execute(array(
+        ':device_id'	=> $data['device_id'],
+        ':id'           => $user['id']
+    ));
 
 	//Return user information
 	$sql = "SELECT name FROM channels WHERE id = :channelId";

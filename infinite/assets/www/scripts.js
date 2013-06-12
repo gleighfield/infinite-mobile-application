@@ -7,6 +7,7 @@ var applicationVersion = 0.1;
 var loadedArticle = 0;
 var loadedQuestionnaire = 0;
 var push;
+var deviceId;
 
 //**************************************************************************************************
 //Init Functions
@@ -23,13 +24,19 @@ function init () {
 
 //**************************************************************************************************
 //Login Page Functions
-function userLogin (email) {		
+function userLogin (email) {	
+
+	push.getPushID(function (id) {
+		deviceId = id;
+	});
+	
 	$.ajax({
 		type: "POST",
 		url : site_url + 'user_login.php',
 		dataType : 'json',
 		data : {
-			'user_email' : email
+			'user_email' 	: email,
+			'push_id'		: deviceId
 		},			
 		success : function (data) {
 			initApplication(data, email);
@@ -686,9 +693,9 @@ function pushInit() {
 		    });
 		}
 		
-		function on_reg(error, pushID) {
+		function on_reg(error, appID) {
 		  	if (!error) {
-		    	console.log("GEL STUDIOS - REG SUCCESS ID : " + pushId);
+		    	console.log("GEL STUDIOS - REG SUCCESS ID : " + appId);
 		  	}
 		}
 
@@ -754,9 +761,9 @@ function pushInit() {
 
 		//Fetch ID
 	    push.getPushID(function (id) {
-		      if(id) {
-			         console.log("GEL STUDIOS GOT PUSH ID : " + id)
-		      }
+		      	if(id) {
+			        console.log("GEL STUDIOS GOT PUSH ID : " + id);		         
+		      	}
 	    })
 
 	    push.registerForNotificationTypes(push.notificationType.badge | push.notificationType.sound | push.notificationType.alert)
