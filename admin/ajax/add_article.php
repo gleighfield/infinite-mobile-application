@@ -13,7 +13,7 @@
 		'time_stamp'		=> date('Y-m-d H:i:s'),
 		'status'			=> 1 //Enabled by default
 	);
-	
+
 	$sql = "INSERT INTO articles (channel, title, alert, content, user_id, timestamp, status) VALUES (:channel, :title, :alert, :content, :user_id, :timestamp, :status)";
 	$addItem = $db->prepare($sql);
 	$addItem->execute(array(
@@ -47,6 +47,33 @@
     $data['channel'] = $returnCatName->fetchColumn();
     $data['time_stamp'] = date('d/m/y h:i A', strtotime($data['time_stamp']));
 
-    echo json_encode($data);
+//Start alert
+    $alert = json_encode(array(
+        "tags"      => $data['channel'],
+        "android"   => array(
+            "alert"     => "New article '" . $data['title'] . "'",
+        ),
+    ));
+
+    $session = curl_init(PUSHURL);
+    curl_setopt($session, CURLOPT_USERPWD, APPKEY . ':' . PUSHSECRET);
+    curl_setopt($session, CURLOPT_POST, True);
+    curl_setopt($session, CURLOPT_POSTFIELDS, $alert);
+    curl_setopt($session, CURLOPT_HEADER, False);
+    curl_setopt($session, CURLOPT_RETURNTRANSFER, True);
+    curl_setopt($session, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+    $content = curl_exec($session);
+
+    // Check if any error occured
+    $response = curl_getinfo($session);
+    if($response['http_code'] != 200) {
+        echo "Not sent ".
+            $response['http_code'] . "\n";
+    } else {
+        echo json_encode($data);
+    }
+
+    curl_close($session);
+//End alert
 
 ?>
