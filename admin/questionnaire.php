@@ -11,7 +11,7 @@
 	$query = $db->query("SELECT * FROM questionnaires WHERE id =" . $qid);
 	$questionnaire = $query->fetch(PDO::FETCH_ASSOC);
 ?>
-		<div class="jumbotron" id="questionnaire" data-qid="<?= $qid ?>">
+		<div class="jumbotron" id="questionnaire" data-qid="<?= $questionnaire['id'] ?>" data-channel="<?= $questionnaire['channel'] ?>" data-qname="<?= $questionnaire['title'] ?>">
 			<h1><?= $questionnaire['title'] ?></h1>
 			<p class="lead">Here, you can add questions to this questionnaire, and arrange their order. When you are finshed, press published.</p>
 			<p class="lead">Once a questionnaire is published, changes <strong>cannot</strong> be made.</p>

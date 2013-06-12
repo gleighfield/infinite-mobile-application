@@ -336,6 +336,8 @@ function publishQuestionnaire(published) {
 	var formData = new FormData;
 		formData.append('published', published);
 		formData.append('qid', $('#questionnaire').attr('data-qid'));
+        formData.append('qName', $('#questionnaire').attr('data-qname'));
+        formData.append('channel', $('#questionnaire').attr('data-channel'));
 	
 	$.ajax({
 		type: "POST",

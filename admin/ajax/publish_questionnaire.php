@@ -7,6 +7,8 @@
 	$data = array (
 		'user_id' 			=> 0,
 		'id'				=> $_POST['qid'],
+        'channel'           => $_POST['channel'],
+        'qName'             => $_POST['qName'],
 		'published'			=> $_POST['published'],
 		'time_stamp'		=> date('Y-m-d H:i:s')
 	);
@@ -27,4 +29,47 @@
 		':timestamp'	=> $data['time_stamp'],
 	));
 
+    //Fetch the cat name
+    $sql = "SELECT name FROM channels WHERE id = :id";
+    $returnCatName = $db->prepare($sql);
+    $returnCatName->execute(array(
+        ':id'           => $data['channel'],
+    ));
+
+    $data['channel'] = $returnCatName->fetchColumn();
+
+    //Are we pusblishing or un publishing? We only want an alert for a publish.
+    if ($data['published'] == 1) {
+    //Start alert
+    $alert = json_encode(array(
+        "tags"      => $data['channel'],
+        "android"   => array(
+            "alert"     => "New questionnaire '" . $data['qName'] . "'",
+        ),
+    ));
+
+    $session = curl_init(PUSHURL);
+    curl_setopt($session, CURLOPT_USERPWD, APPKEY . ':' . PUSHSECRET);
+    curl_setopt($session, CURLOPT_POST, True);
+    curl_setopt($session, CURLOPT_POSTFIELDS, $alert);
+    curl_setopt($session, CURLOPT_HEADER, False);
+    curl_setopt($session, CURLOPT_RETURNTRANSFER, True);
+    curl_setopt($session, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+    $content = curl_exec($session);
+
+    // Check if any error occured
+    $response = curl_getinfo($session);
+    if($response['http_code'] != 200) {
+        echo "Not sent ".
+            $response['http_code'] . "\n";
+    } else {
+        echo json_encode($data);
+    }
+
+    curl_close($session);
+    }
+    else {
+        echo json_encode($data);
+    }
+    //End alert
 ?>
