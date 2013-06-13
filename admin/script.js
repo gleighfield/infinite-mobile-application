@@ -82,7 +82,7 @@ function addArticle(channel, title, alert, content) {
 			loaderHide();
 			$('#addArticle').modal('hide');
 			showNotice('<strong>Success!</strong> " Article "' + title + '" was added!');
-            addTableRow('<tr data-articleId="' + data['article_id'] + '"><td>' + title +'</td><td>' + data['channel'] + '</td><td>' + data['time_stamp'] + '</td><td><button title="Edit this article" class="btn btn-success editArticleBtn editQuestionsBtn">Edit</button></td></tr>');
+            addTableRow('<tr data-articleTitle="' + title + '" data-articleId="' + data['article_id'] + '" data-channelId="' + channel + '"><td>' + title +'</td><td>' + data['channel'] + '</td><td>' + data['time_stamp'] + '</td><td><button title="Edit this article" class="btn btn-success editArticleBtn editQuestionsBtn">Edit</button> <button title="Publish this article" class="btn btn-primary editQuestionsBtn publishArticle">Publish</button></td></tr>');
         },
 		error : function (data) {
 			alert("There has been an error adding this article");
@@ -141,6 +141,30 @@ function editArticle(articleId, channel, title, content) {
 			alert("There has been an error editing this article");
 		}
 	});
+}
+
+function publishArticle(published, articleId, channelId, articleTitle) {
+    loaderShow();
+
+    var formData = new FormData;
+    formData.append('published', published);
+    formData.append('aid', articleId);
+    formData.append('channel', channelId);
+    formData.append('name', articleTitle);
+
+    $.ajax({
+        type: "POST",
+        url : 'ajax/publish_article.php',
+        processData : false,
+        contentType : false,
+        data : formData,
+        success : function (data) {
+            location.reload();
+        },
+        error : function (data) {
+            alert("There has been an error setting the publish state of this article");
+        }
+    });
 }
 
 //Add a new questionnaire container into the system - attr = channel, title, validToDate, validToTime
@@ -349,7 +373,7 @@ function publishQuestionnaire(published) {
 			location.reload();
 		},
 		error : function (data) {
-			alert("There has been an error removing this question");
+			alert("There has been an error setting the publish state of this questionnaire");
 		}
 	});
 }
@@ -511,6 +535,26 @@ $(function () {
 		$('#inputAlert').removeAttr('checked').css({'background-color' : '#fff'});
 		CKEDITOR.instances.textarea.setData('');
 	});
+
+    $('.articlesContainer').on('click', '.publishArticle', function () {
+        var aId = $(this).closest('tr').attr("data-articleId");
+        var cId = $(this).closest('tr').attr("data-channelId");
+        var aTitle = $(this).closest('tr').attr("data-articleTitle");
+        var x = confirm("Are you sure you want to publish this article?");
+        if (x) {
+            publishArticle(1, aId, cId, aTitle);
+        }
+    });
+
+    $('.articlesContainer').on('click', '.unPublishArticle', function () {
+        var aId = $(this).closest('tr').attr("data-articleId");
+        var cId = $(this).closest('tr').attr("data-channelId");
+        var aTitle = $(this).closest('tr').attr("data-articleTitle");
+        var x = confirm("Are you sure you want to unpublish this article?")
+        if (x) {
+            publishArticle(0, aId, cId, aTitle);
+        }
+    });
 	
 	// Add a new questionnaire container into the system
 	$('#addQuestionnaireContainerSubmit').click(function (e) {

@@ -6,14 +6,14 @@
 			<h1>Articles</h1>
 			<p class="lead">Here, you can add or edit news articles. If editing, the edit will appear on the users device, next time they have a valid data signal.</p>
 			<button class="btn btn-large btn-success" data-target="#addArticle" data-toggle="modal">Add a new article</button>
-			<table class="table table-striped table-bordered">
+			<table class="table table-striped table-bordered articlesContainer">
                 <thead>
                     <tr>
                         <th>Title</th>
-                        <th width="150">Channel</th>
+                        <th width="110">Channel</th>
                         <!--<th width="40">Alertable</th>//-->
                         <th width="120">Created</th>
-                        <th width="40">Actions</th>
+                        <th width="145">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -24,6 +24,7 @@
 		articles.title, 
 		articles.channel, 
 		articles.alert,
+		articles.status,
 		articles.timestamp, 
 		channels.name
 	FROM articles
@@ -34,20 +35,22 @@
 
 	while($article = $query->fetch(PDO::FETCH_ASSOC)) {
 ?>
-                    <tr data-articleId="<?= $article['id'] ?>">
+                    <tr data-articleTitle="<?= $article['title'] ?>" data-articleId="<?= $article['id'] ?>" data-channelId="<?= $article['channel'] ?>">
                         <td><?= $article['title'] ?></td>
                         <td><?= $article['name'] ?></td>
                         <!--<td><?= $article['alert'] ?></td>//-->
                         <td><?= date('d/m/y h:i A', strtotime($article['timestamp'])) ?></td>
                         <td>
-                            <button title="Edit this article" class="btn btn-success editArticleBtn editQuestionsBtn">
-                                    Edit
-                            </button>
+                            <button title="Edit this article" class="btn btn-success editArticleBtn editQuestionsBtn">Edit</button>
+<?      if ($article['status'] == 1) {
+?>
+                            <button title="Unpublish this article" class="btn btn-danger editQuestionsBtn unPublishArticle">Unpublish</button>
+<?      } else {    ?>
+                            <button title="Publish this article" class="btn btn-primary editQuestionsBtn publishArticle">Publish</button>
+<?      }           ?>
                         </td>
                     </tr>
-<?
-	}
-?>
+<?  }   ?>
                 </tbody>
 			</table>
 		</div>

@@ -10,9 +10,6 @@
 		'time_stamp'	=> date('Y-m-d H:i:s'),
 	);
 
-    $data['user_id'] = 1;
-    $data['channel'] = 1;
-
 	$sql = "SELECT id, firstname, lastname, channel FROM users WHERE id = :id";
 	$userQuery = $db->prepare($sql);
 	$userQuery->execute(array(

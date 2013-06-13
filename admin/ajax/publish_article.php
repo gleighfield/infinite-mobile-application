@@ -6,14 +6,14 @@
 	//Publish or unpublish a questionnaire
 	$data = array (
 		'user_id' 			=> 0,
-		'id'				=> $_POST['qid'],
+		'id'				=> $_POST['aid'],
         'channel'           => $_POST['channel'],
-        'qName'             => $_POST['qName'],
+        'aName'              => $_POST['name'],
 		'published'			=> $_POST['published'],
 		'time_stamp'		=> date('Y-m-d H:i:s')
 	);
 	
-	$sql = "UPDATE questionnaires SET published = :published WHERE id = :id";
+	$sql = "UPDATE articles SET status = :published WHERE id = :id";
 	$addQuestionnaire = $db->prepare($sql);
 	$addQuestionnaire->execute(array(
 		':id'			=> $data['id'],
@@ -25,16 +25,9 @@
 	$addLogEntry = $db->prepare($sql);
 	$addLogEntry->execute(array(
 		':user_id'		=> $data['user_id'],
-		':comment'		=> 'Questionnaire id ' . $data['id'] . ' published state set to ' . $data['published'],
+		':comment'		=> 'Article "' . $data['id'] . '" published state set to ' . $data['published'],
 		':timestamp'	=> $data['time_stamp'],
 	));
-
-    //Fetch the cat name
-    $sql = "SELECT name FROM channels WHERE id = :id";
-    $returnCatName = $db->prepare($sql);
-    $returnCatName->execute(array(
-        ':id'           => $data['channel'],
-    ));
 
     //Are we pusblishing or un publishing? We only want an alert for a publish.
     if ($data['published'] == 1) {
@@ -42,7 +35,7 @@
         $alert = json_encode(array(
             "tags"      => array($data['channel']),
             "android"   => array(
-                "alert"     => "Questionnaire published '" . $data['qName'] . "'",
+                "alert"     => "New article '" . $data['aName'] . "'",
             ),
         ));
 
