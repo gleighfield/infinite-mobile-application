@@ -109,6 +109,7 @@ function fetchArticles() {
 
 function storeArticles(articles) {
 	var localArticles = $.parseJSON(window.localStorage.getItem("Articles"));
+	var newLocalArticles = {};
 	//If no storage is returned, set as empty object
 	if (localArticles == null) {
 		localArticles = {};
@@ -123,11 +124,14 @@ function storeArticles(articles) {
 				article['alert']		= articles[i]['alert'];
 				article['published'] 	= articles[i]['timestamp'];
 			
-			localArticles["articleId_" + articles[i]['id']] = article;
-			console.log('SAVED ARTICLE' + articles[i]['id']);
+			newLocalArticles["articleId_" + articles[i]['id']] = article;
+			console.log('NEW OR UPDATED ARTICLE' + articles[i]['id']);
+		}
+		else {
+			newLocalArticles["articleId_" + articles[i]['id']] = localArticles["articleId_" + articles[i]['id']];
 		}
 	});
-	window.localStorage.setItem("Articles", JSON.stringify(localArticles));
+	window.localStorage.setItem("Articles", JSON.stringify(newLocalArticles));
 }
 
 //Fetch questionnaires that are relavent to this user and channel

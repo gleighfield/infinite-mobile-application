@@ -19,7 +19,7 @@
 	$user = $userQuery->fetch(PDO::FETCH_ASSOC);
 
 	//Return articles matching channel ID
-	$sql = "SELECT id, title, alert, content, status, timestamp FROM articles WHERE channel = :channel ORDER BY timestamp DESC";
+	$sql = "SELECT id, title, alert, content, status, timestamp FROM articles WHERE channel = :channel AND status = 1 ORDER BY timestamp DESC";
 	$articlesQuery = $db->prepare($sql);
 	$articlesQuery->execute(array(
 		':channel'	=> $data['channel']
