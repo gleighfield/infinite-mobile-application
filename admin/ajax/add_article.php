@@ -44,7 +44,6 @@
         ':id'           => $data['channel'],
     ));
 
-    $data['channel'] = $returnCatName->fetchColumn();
     $data['time_stamp'] = date('d/m/y h:i A', strtotime($data['time_stamp']));
 
 //Start alert

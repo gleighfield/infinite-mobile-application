@@ -36,8 +36,6 @@
         ':id'           => $data['channel'],
     ));
 
-    $data['channel'] = $returnCatName->fetchColumn();
-
     //Are we pusblishing or un publishing? We only want an alert for a publish.
     if ($data['published'] == 1) {
     //Start alert

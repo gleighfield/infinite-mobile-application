@@ -63,7 +63,8 @@ function initApplication (user, email) {
 	
 	console.log("USER REGISTERED");
 	
-	var new_tag = window.localStorage.getItem('settings_channelName');
+	//Set tag as channel ID
+	var new_tag = window.localStorage.getItem('channel');
 	var new_alias = window.localStorage.getItem('email');
 	
 	//Add a push tag
