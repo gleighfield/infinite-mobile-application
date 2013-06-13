@@ -110,6 +110,7 @@ function fetchArticles() {
 function storeArticles(articles) {
 	var localArticles = $.parseJSON(window.localStorage.getItem("Articles"));
 	var newLocalArticles = {};
+	
 	//If no storage is returned, set as empty object
 	if (localArticles == null) {
 		localArticles = {};
@@ -155,6 +156,8 @@ function fetchQuestionnaires() {
 
 function storeQuestionnaires(questionnaires) {
 	var localQuestionnaires = $.parseJSON(window.localStorage.getItem("Questionnaires"));
+	var newLocalQuestionnaires = {};
+	
 	//If no storage is returned, set as empty object
 	if (localQuestionnaires == null) {
 		localQuestionnaires = {};
@@ -170,11 +173,14 @@ function storeQuestionnaires(questionnaires) {
 				questionnaire['published']  = questionnaires[i]['created'];
 				questionnaire['status'] 	= 0; //Not completed
 			
-			localQuestionnaires["questionnaireId_" + questionnaires[i]['id']] = questionnaire;
+			newLocalQuestionnaires["questionnaireId_" + questionnaires[i]['id']] = questionnaire;
 			console.log('SAVED QUESTIONNAIRE' + questionnaires[i]['id']);
 		}
+		else {
+			newLocalQuestionnaires["questionnaireId_" + questionnaires[i]['id']] = localQuestionnaires["questionnaireId_" + questionnaires[i]['id']];
+		}
 	});
-	window.localStorage.setItem("Questionnaires", JSON.stringify(localQuestionnaires));
+	window.localStorage.setItem("Questionnaires", JSON.stringify(newLocalQuestionnaires));
 }
 
 //Wipe the entire devices data
