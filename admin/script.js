@@ -61,6 +61,61 @@ function addUser(firstname, lastname, email, channel, admin) {
 	});
 };
 
+//load an article and put into the DOM ready to be edited - attr id of article
+function loadEditUser(userId) {
+    loaderShow();
+    var formData = new FormData;
+    formData.append('id', userId);
+    formData.append('loadOrEdit', 0);
+
+    $.ajax({
+        type: "POST",
+        url : 'ajax/edit_user.php',
+        processData : false,
+        contentType : false,
+        data : formData,
+        success : function (data) {
+            data = $.parseJSON(data);
+            loaderHide();
+
+            $('#inputEditFirstname').val(data['firstname']);
+            $('#inputEditLastname').val(data['lastname']);
+            $('#inputEditEmail').val(data['email']);
+            $('#inputEditChannel').val(data['channel']);
+            $('#editUserSubmit').attr('data-userId', userId);
+            $('#editUser').modal('show');
+        },
+        error : function (data) {
+            alert("There has been an error fetching the data for this article");
+        }
+    });
+}
+
+function editUser(userId, firstname, lastname, email, channel) {
+    loaderShow();
+    var formData = new FormData;
+    formData.append('id', userId);
+    formData.append('loadOrEdit', 1);
+    formData.append('firstname', firstname);
+    formData.append('lastname', lastname);
+    formData.append('email', email);
+    formData.append('channel', channel);
+
+    $.ajax({
+        type: "POST",
+        url : 'ajax/edit_user.php',
+        processData : false,
+        contentType : false,
+        data : formData,
+        success : function (data) {
+            location.reload();
+        },
+        error : function (data) {
+            alert("There has been an error editing this user");
+        }
+    });
+}
+
 //Add a new article into the system - attr = id of selected channel, title, alertable, content
 function addArticle(channel, title, alert, content) {
 	loaderShow();
@@ -489,6 +544,18 @@ $(function () {
             alert("There are errors. Please correct");
         }
 	});
+
+    //Edit a user fetch data GETTER
+    $('.table').on('click', '.editUserBtn', function () {
+        var userId = $(this).closest('tr').attr('data-userId');
+        loadEditUser(userId);
+    });
+
+    //Edit a user SETTER
+    $('#editUserSubmit').click(function () {
+        var userId = $(this).attr('data-userId');
+        editUser(userId, $('#inputEditFirstname').val(), $('#inputEditLastname').val(), $('#inputEditEmail').val(), $('#inputEditChannel').val());
+    });
 	
 	//Clear on hide
 	$('#addUser').on('hidden', function () {

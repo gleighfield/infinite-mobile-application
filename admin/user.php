@@ -37,7 +37,7 @@
 
 	while($user = $query->fetch(PDO::FETCH_ASSOC)) {
 ?>
-                    <tr>
+                    <tr data-userId="<?= $user['id'] ?>">
                         <td><?= $user['id'] ?></td>
                         <td><?= $user['firstname'] ?></td>
                         <td><?= $user['lastname'] ?></td>
@@ -45,9 +45,7 @@
                         <td><?= $user['name'] ?></td>
                         <td><?= date('d/m/y h:i A', strtotime($user['created'])) ?></td>
                         <td>
-                            <!--<a href="questionnaire.php?qid=<?= $article['id'] ?>" title="Edit this questionnaire" class="btn btn-success editQuestionsBtn">
-                                Edit
-                            </a>//-->
+                            <button title="Edit this user" class="btn btn-success editUserBtn editQuestionsBtn">Edit</button>
                         </td>
                     </tr>
 <?
@@ -126,6 +124,70 @@
 				<a href="#" id="addUserSubmit" class="btn btn-success">Add user</a>
 			</div>
 		</div>
+
+
+        <div id="editUser" class="modal hide fade">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3>Edit a user</h3><br>
+                <p>Any changes that you make to a user, will require a reset of the application.</p>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="control-group">
+                        <label class="control-label" for="inputFirstname">Firstname</label>
+                        <div class="controls">
+                            <div class="input-prepend">
+                                <span class="add-on"><i class="icon-user"></i></span>
+                                <input type="text" id="inputEditFirstname" placeholder="Firstname" class="required">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="inputLastname">Lastname</label>
+                        <div class="controls">
+                            <div class="input-prepend">
+                                <span class="add-on"><i class="icon-user"></i></span>
+                                <input type="text" id="inputEditLastname" placeholder="Lastname" class="required">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="inputEmail">Email</label>
+                        <div class="controls">
+                            <div class="input-prepend">
+                                <span class="add-on"><i class="icon-envelope"></i></span>
+                                <input type="text" id="inputEditEmail" placeholder="Email" class="required">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="inputChannel">Channel</label>
+                        <div class="controls">
+                            <div class="input-prepend">
+                                <span class="add-on"><i class="icon-eye-open"></i></span>
+                                <select id="inputEditChannel" class="required">
+                                    <option>Select Channel...</option>
+
+                                    <?
+                                    $query = $db->query("SELECT * FROM channels ORDER BY name");
+                                    while($data = $query->fetch(PDO::FETCH_ASSOC)) {
+                                        ?>
+                                        <option value="<?= $data['id'] ?>"><?= $data['name'] ?></option>
+                                    <?
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                    <a href="#" id="editUserSubmit" class="btn btn-success">Update user</a>
+            </div>
+        </div>
 <?php
 	require_once('includes/footer.php');
 ?>
