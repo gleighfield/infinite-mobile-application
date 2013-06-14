@@ -139,7 +139,7 @@
                         <div class="controls">
                             <div class="input-prepend">
                                 <span class="add-on"><i class="icon-user"></i></span>
-                                <input type="text" id="inputEditFirstname" placeholder="Firstname" class="required">
+                                <input type="text" id="inputEditFirstname" placeholder="Firstname">
                             </div>
                         </div>
                     </div>
@@ -148,7 +148,7 @@
                         <div class="controls">
                             <div class="input-prepend">
                                 <span class="add-on"><i class="icon-user"></i></span>
-                                <input type="text" id="inputEditLastname" placeholder="Lastname" class="required">
+                                <input type="text" id="inputEditLastname" placeholder="Lastname">
                             </div>
                         </div>
                     </div>
@@ -157,7 +157,7 @@
                         <div class="controls">
                             <div class="input-prepend">
                                 <span class="add-on"><i class="icon-envelope"></i></span>
-                                <input type="text" id="inputEditEmail" placeholder="Email" class="required">
+                                <input type="text" id="inputEditEmail" placeholder="Email">
                             </div>
                         </div>
                     </div>
@@ -166,7 +166,7 @@
                         <div class="controls">
                             <div class="input-prepend">
                                 <span class="add-on"><i class="icon-eye-open"></i></span>
-                                <select id="inputEditChannel" class="required">
+                                <select id="inputEditChannel">
                                     <option>Select Channel...</option>
 
                                     <?
@@ -185,7 +185,7 @@
             </div>
             <div class="modal-footer">
                 <a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
-                    <a href="#" id="editUserSubmit" class="btn btn-success">Update user</a>
+                    <a href="#" id="editUserSubmit" class="btn btn-success">Edit user</a>
             </div>
         </div>
 <?php

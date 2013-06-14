@@ -53,7 +53,7 @@ function addUser(firstname, lastname, email, channel, admin) {
 			loaderHide();
 			$('#addUser').modal('hide');
 			showNotice('<strong>Success!</strong> "' + firstname + ' ' + lastname + '" was added!');
-            addTableRow('<tr><td>' + data['user_id'] +'</td><td>' + firstname + '</td><td>' + lastname + '</td><td>' + email + '</td><td>' + data['channel'] + '</td><td>' + data['time_stamp'] + '</td><td><button title="Edit this user" class="btn btn-success editUserBtn editQuestionsBtn">Edit</button></td></tr>');
+            addTableRow('<tr data-userId="' + data['user_id'] + '"><td>' + data['user_id'] +'</td><td>' + firstname + '</td><td>' + lastname + '</td><td>' + email + '</td><td>' + data['channel'] + '</td><td>' + data['time_stamp'] + '</td><td><button title="Edit this user" class="btn btn-success editUserBtn editQuestionsBtn">Edit</button></td></tr>');
 		},
 		error : function (data) {
 			alert("There has been an error adding this user");
