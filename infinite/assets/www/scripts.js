@@ -54,7 +54,7 @@ function initApplication (user, email) {
 	window.localStorage.setItem("firstname", user['firstname']);
 	window.localStorage.setItem("lastname", user['lastname']);
 	window.localStorage.setItem("channel", user['channel']);
-	window.localStorage.setItem("email", email);
+	window.localStorage.setItem("email", user['email']);
 	window.localStorage.setItem("settings_version", applicationVersion);
 	window.localStorage.setItem("settings_channelName", user['channel_name']);
 	window.localStorage.setItem("settings_emailTotal", 0);
@@ -86,6 +86,33 @@ function initApplication (user, email) {
 	})
 	
 	$.mobile.changePage("home.html", {transition:"slidedown"});
+}
+
+//Validate a users details are still correct
+function validateUser() {
+	$.ajax({
+		type: "POST",
+		url : site_url + 'validate.php',
+		dataType : 'json',
+		data : {
+			'id' : window.localStorage.getItem("userid")
+		},			
+		success : function (data) {			
+			//Hard reset due to channel change
+			if (window.localStorage.getItem("channel") != data['channel'] || window.localStorage.getItem("email") != data['email']) {
+				alert('Change detected in channel or registered email. Resetting');
+				//Reset and close
+				window.localStorage.clear();
+				navigator.app.exitApp(); //Andriod only
+			}
+			
+			//Soft update
+			if (window.localStorage.getItem("firstname") != data['firstname'] || window.localStorage.getItem("lastname") != data['lastname']) {
+				window.localStorage.setItem("firstname", data['firstname']);
+				window.localStorage.setItem("lastname", data['lastname']);
+			}
+		}
+	});
 }
 
 //Fetch articles that are relavent to this user and channel
@@ -563,6 +590,7 @@ $(function () {
 	//Home Page Functions
 	$('#home').live('pagecreate', function (e) {
 		console.log("HOME PAGE SHOWN");
+		validateUser();
 		fetchArticles();
 		fetchQuestionnaires();
 	});

@@ -6,12 +6,12 @@
 	//Check the user is allowed to log into the system
 	$data = array (
 		'user_email'		=> $_POST['user_email'],
-        'device_id'           => $_POST['push_id'],
+        'device_id'         => $_POST['push_id'],
 		'time_stamp'		=> date('Y-m-d H:i:s'),
 	);
 	
 	//Return user information
-	$sql = "SELECT id, firstname, lastname, channel FROM users WHERE email = :email";
+	$sql = "SELECT id, firstname, lastname, email, channel FROM users WHERE email = :email";
 	$userQuery = $db->prepare($sql);
 	$userQuery->execute(array(
 		':email'	=> $data['user_email']
