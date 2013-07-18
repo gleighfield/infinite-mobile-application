@@ -497,14 +497,14 @@ $(function () {
 	
 	//Init CKE (if any)
 	if ($('#textarea').length != 0) {
-		CKEDITOR.config.toolbar_Custom=[ ['Format','Templates','Bold','Italic','Underline','-','Superscript','-',['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],'-','NumberedList','BulletedList'], ['Undo','Redo','Link','Unlink'], ['Image'], ['Source']];
+		CKEDITOR.config.toolbar_Custom=[ ['Format','Templates','Bold','Italic','Underline','-','Superscript','-',['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],'-','NumberedList','BulletedList'], ['Undo','Redo','Link','Unlink'], ['Image'], ['TextColor'], ['Source']];
 		CKEDITOR.replace('textarea', {
 			toolbar : 'Custom'
 		});
 	}
 	
 	if ($('#edittextarea').length != 0) {
-		CKEDITOR.config.toolbar_Custom=[ ['Format','Templates','Bold','Italic','Underline','-','Superscript','-',['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],'-','NumberedList','BulletedList'], ['Undo','Redo','Link','Unlink'], ['Image'], ['Source']];
+		CKEDITOR.config.toolbar_Custom=[ ['Format','Templates','Bold','Italic','Underline','-','Superscript','-',['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],'-','NumberedList','BulletedList'], ['Undo','Redo','Link','Unlink'], ['Image'], ['TextColor'], ['Source']];
 		CKEDITOR.replace('edittextarea', {
 			toolbar : 'Custom'
 		});
